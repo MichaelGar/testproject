@@ -12,6 +12,43 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Test test = new Test();
+        test.newTest("Test");
+        String testJSONQuest =
+                "{" +
+                    "\"number\":2," +
+                    "\"TextQuestion\":[" +
+                        "{" +
+                            "\"id\":0," +
+                            "\"name\":\"Test1\"," +
+                            "\"textQuestion\":\"Textвопроса\"," +
+                            "\"image\":\"Link\"," +
+                            "\"answers\":" +
+                                "{" +
+                                    "\"number\":2," +
+                                    "\"answers\":" +
+                                    "[" +
+                                        "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
+                                    "]" +
+                                "}" +
+                        "},"+
+                        "{" +
+                            "\"id\":0," +
+                            "\"name\":\"Test1\"," +
+                            "\"textQuestion\":\"Textвопроса2\"," +
+                            "\"image\":\"Ссылка2\"," +
+                            "\"answers\":" +
+                                "{" +
+                                    "\"number\":2," +
+                                    "\"answers\":" +
+                                    "[" +
+                                        "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
+                                    "]" +
+                                "}" +
+                        "}" +
+                    "]" +
+                "}";
+       test.CreateListQuestions(testJSONQuest);
     }
 
 
