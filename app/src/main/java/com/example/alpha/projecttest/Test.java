@@ -11,11 +11,16 @@ import java.util.ArrayList;
  */
 public class Test {
     private int id;
-    private String name;
+    public String name;
     private ArrayList questions;
     void newTest (String nameX){
         id = 0;
         name = nameX;
+    }
+
+    Test(String _describe) {
+        name = _describe;
+
     }
 
     void newTestWithID (int idX, String nameX){

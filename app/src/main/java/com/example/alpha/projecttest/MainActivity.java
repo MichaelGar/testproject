@@ -1,9 +1,12 @@
 package com.example.alpha.projecttest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends Activity {
@@ -11,8 +14,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Test test = new Test();
+        setContentView(R.layout.login_page);
+        Test test = new Test("test");
         test.newTest("Test");
         String testJSONQuest =
                 "{" +
@@ -49,6 +52,22 @@ public class MainActivity extends Activity {
                     "]" +
                 "}";
        test.CreateListQuestions(testJSONQuest);
+        Button btnLogin = (Button) findViewById(R.id.buttonLogin);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLogintap();
+
+            }
+        });
+
+
+    }
+
+    void onLogintap() {
+
+        Intent intent = new Intent(this, TestList.class);
+        startActivity(intent);
     }
 
 
