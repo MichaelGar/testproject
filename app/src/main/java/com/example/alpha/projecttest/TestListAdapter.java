@@ -48,7 +48,7 @@ public class TestListAdapter extends BaseAdapter {
 
         Test p = getTest(position);
 
-        ((TextView) view.findViewById(R.id.info_text)).setText(p.name);
+        ((TextView) view.findViewById(R.id.test_name)).setText(p.name);
 
         return view;
     }

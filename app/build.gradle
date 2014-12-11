@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion '19.1.0'
+    buildToolsVersion '21.0.0'
 
     defaultConfig {
         applicationId "com.example.alpha.projecttest"
-        minSdkVersion 15
-        targetSdkVersion 19
+        minSdkVersion 17
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }

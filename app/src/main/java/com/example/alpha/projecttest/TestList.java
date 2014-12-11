@@ -2,8 +2,11 @@ package com.example.alpha.projecttest;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -25,6 +28,12 @@ public class TestList extends Activity {
 
         ListView lv = (ListView) findViewById(R.id.lvMain);
         lv.setAdapter(testListAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("MyLogs", ""+position);
+            }
+        });
     }
 
     void fillData() {
