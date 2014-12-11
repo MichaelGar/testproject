@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import org.json.JSONArray;
+
 
 public class MainActivity extends Activity {
 
@@ -15,8 +17,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
+
+
+        // TODO: Replace to fake loader
         Test test = new Test("test");
         test.newTest("Test");
+
+        // TODO: Replace to fake loader
         String testJSONQuest =
                 "{" +
                     "\"number\":2," +
@@ -61,7 +68,13 @@ public class MainActivity extends Activity {
             }
         });
 
-
+        FakeDataLoaderLoader l = new FakeDataLoaderLoader() {
+          @Override
+          void onLoad(JSONArray data){
+              
+          }
+        };
+        l.loadData();
     }
 
     void onLogintap() {

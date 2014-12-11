@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * Created by user on 11.12.14.
  */
 public class TestListAdapter extends BaseAdapter {
+    // TODO: private
     Context ctx;
     LayoutInflater lInflater;
     ArrayList <Test> objects;

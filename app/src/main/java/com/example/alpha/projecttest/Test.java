@@ -10,9 +10,12 @@ import java.util.ArrayList;
  * Created by 1 on 07.12.2014.
  */
 public class Test {
+    // TODO: Public
     private int id;
     public String name;
     private ArrayList questions;
+
+    // TODO: remove
     void newTest (String nameX){
         id = 0;
         name = nameX;
@@ -35,6 +38,8 @@ public class Test {
     String getName(){
         return name;
     }
+
+    // TODO: Replcae to loader
     void CreateListQuestions(String questionJSON){
         try {
             questions = new ArrayList();

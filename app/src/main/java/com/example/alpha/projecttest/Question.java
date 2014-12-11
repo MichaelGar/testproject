@@ -12,12 +12,14 @@ import java.util.ArrayList;
  * Created by 1 on 07.12.2014.
  */
 public class Question {
+    // TODO: Public
     private int id;
     private String name;
     private String textQuestion;
     private String image;
-    private ArrayList answers;
+    private ArrayList<Answer> answers;
 
+    // TODO: Remove all
     void newQuestion (int idX, String nameX, String textQuestionX, String imageX){
         id = idX;
         name = nameX;
@@ -41,6 +43,7 @@ public class Question {
         return image;
     }
 
+    // TODO: Replace to data loader
     void CreateListAnswers(String answerJSON){
         answers = new ArrayList();
         try {
