@@ -10,10 +10,9 @@ import java.util.ArrayList;
  * Created by 1 on 07.12.2014.
  */
 public class Test {
-    // TODO: Public
-    private int id;
+    public int id;
     public String name;
-    private ArrayList questions;
+    public ArrayList questions;
 
     // TODO: remove
     void newTest (String nameX){
@@ -21,8 +20,8 @@ public class Test {
         name = nameX;
     }
 
-    Test(String _describe) {
-        name = _describe;
+    Test(String _name) {
+        name = _name;
 
     }
 

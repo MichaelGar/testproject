@@ -13,9 +13,8 @@ import java.util.ArrayList;
 
 
 public class TestList extends Activity {
-    // TODO: private
-    ArrayList<Test> tests = new ArrayList<>();
-    TestListAdapter testListAdapter;
+    private ArrayList<Test> tests = new ArrayList<>();
+    private TestListAdapter testListAdapter;
 
 
     @Override

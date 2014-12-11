@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
         FakeDataLoaderLoader l = new FakeDataLoaderLoader() {
           @Override
           void onLoad(JSONArray data){
-              
+
           }
         };
         l.loadData();
