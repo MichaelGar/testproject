@@ -6,8 +6,4 @@ package com.example.alpha.projecttest;
 public class Answer {
     public String text;
 
-    // TODO: Убрать
-    void newAnswer(String textX){
-        text = textX;
-    }
 }

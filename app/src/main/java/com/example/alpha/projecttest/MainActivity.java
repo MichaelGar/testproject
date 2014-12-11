@@ -3,6 +3,7 @@ package com.example.alpha.projecttest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,11 +21,11 @@ public class MainActivity extends Activity {
 
 
         // TODO: Replace to fake loader
-        Test test = new Test("test");
-        test.newTest("Test");
+       // Test test = new Test("test");
+       // test.newTest("Test");
 
         // TODO: Replace to fake loader
-        String testJSONQuest =
+       /* String testJSONQuest =
                 "{" +
                     "\"number\":2," +
                     "\"TextQuestion\":[" +
@@ -57,8 +58,8 @@ public class MainActivity extends Activity {
                                 "}" +
                         "}" +
                     "]" +
-                "}";
-       test.CreateListQuestions(testJSONQuest);
+                "}";*/
+     //  test.CreateListQuestions(testJSONQuest);
         Button btnLogin = (Button) findViewById(R.id.buttonLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,12 +70,12 @@ public class MainActivity extends Activity {
         });
 
         FakeDataLoaderLoader l = new FakeDataLoaderLoader() {
-          @Override
-          void onLoad(JSONArray data){
-
+            @Override
+            void onLoad(Test test){
+               Log.d("MyLogs", "123");
           }
         };
-        l.loadData();
+        l.loadTest(1);
     }
 
     void onLogintap() {

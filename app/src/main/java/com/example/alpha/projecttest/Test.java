@@ -12,31 +12,9 @@ import java.util.ArrayList;
 public class Test {
     public int id;
     public String name;
-    public ArrayList questions;
+    public ArrayList<Question> questions;
 
-    // TODO: remove
-    void newTest (String nameX){
-        id = 0;
-        name = nameX;
-    }
 
-    Test(String _name) {
-        name = _name;
-
-    }
-
-    void newTestWithID (int idX, String nameX){
-        id = idX;
-        name = nameX;
-    }
-
-    int getId(){
-        return id;
-    }
-
-    String getName(){
-        return name;
-    }
 
     // TODO: Replcae to loader
     void CreateListQuestions(String questionJSON){
@@ -53,7 +31,11 @@ public class Test {
                 String textQuestionQ = oneQuestion.getString("textQuestion");
                 String imageQ = oneQuestion.getString("image");
                 String answersQ = oneQuestion.getString("answers");
-                question.newQuestion(idQ,nameQ,textQuestionQ,imageQ);
+               // question.newQuestion(idQ,nameQ,textQuestionQ,imageQ);
+                question.id = idQ;
+                question.name = nameQ;
+                question.textQuestion = textQuestionQ;
+                question.image = imageQ;
                 question.CreateListAnswers(answersQ);
                 questions.add(question);
             }

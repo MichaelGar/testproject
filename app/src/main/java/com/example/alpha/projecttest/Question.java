@@ -18,30 +18,6 @@ public class Question {
     public String image;
     public ArrayList<Answer> answers;
 
-    // TODO: Remove all
-    void newQuestion (int idX, String nameX, String textQuestionX, String imageX){
-        id = idX;
-        name = nameX;
-        textQuestion = textQuestionX;
-        image = imageX;
-    }
-
-    int getId(){
-        return id;
-    }
-
-    String getName(){
-        return name;
-    }
-
-    String getTextQuestion(){
-        return textQuestion;
-    }
-
-    String getImage(){
-        return image;
-    }
-
     // TODO: Replace to data loader
     void CreateListAnswers(String answerJSON){
         answers = new ArrayList();
@@ -53,7 +29,7 @@ public class Question {
                 JSONObject oneAnswer = jsonTextAnswer.getJSONObject(i);
                 String textA = oneAnswer.getString("text");
                 Answer answer = new Answer();
-                answer.newAnswer(textA);
+                answer.text = textA;
                 answers.add(answer);
             }
         } catch (JSONException e) {
