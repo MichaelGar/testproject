@@ -45,7 +45,14 @@ public class FakeDataLoaderLoader implements DataLoaderInterface {
                       "}" +
                       "]" +
                       "}";
-        createTest(questionJSON);
+        try { //типа грузит 10 секунд
+            Thread.sleep(10000,1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Test test = createTest(questionJSON);
+
+        onLoad(test);
     }
 
     private Test createTest(String questionJSON){

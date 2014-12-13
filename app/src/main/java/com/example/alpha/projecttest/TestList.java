@@ -21,7 +21,16 @@ public class TestList extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list);
-
+        //--------------------------------1 переместиться в класс отображающий тест
+        FakeDataLoaderLoader l = new FakeDataLoaderLoader() {
+            @Override
+            void onLoad(Test test){
+                Log.d("MyLogs", test.name);
+                Log.d("MyLogs","123");
+            }
+        };
+        l.loadTest(1);
+        //------------------------11111
 
         fillData();
         testListAdapter = new TestListAdapter(this, tests);
