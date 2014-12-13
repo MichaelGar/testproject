@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
 
             }
         });
-
+/*
         FakeDataLoaderLoader l = new FakeDataLoaderLoader() {
           @Override
           void onLoad(JSONArray data){
@@ -75,6 +75,7 @@ public class MainActivity extends Activity {
           }
         };
         l.loadData();
+        */
     }
 
     void onLogintap() {

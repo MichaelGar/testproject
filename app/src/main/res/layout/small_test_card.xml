@@ -19,8 +19,9 @@
         card_view:cardCornerRadius="15dp"
         card_view:cardBackgroundColor="#99a6aa"
         android:layout_gravity="center_horizontal"
-        android:elevation="100dp"
-        android:layout_weight="1">
+        android:elevation="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/myrect">
 
         <RelativeLayout
             android:layout_width="match_parent"
