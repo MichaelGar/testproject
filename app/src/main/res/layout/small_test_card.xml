@@ -37,7 +37,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:background="#ffffffff">
 
                     <TextView
                         android:id="@+id/test_name"
@@ -48,14 +49,15 @@
                         android:textColor="#ff42433e"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_vertical" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3">
+                    android:layout_weight="0.3"
+                    android:background="#42A5F5">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -64,8 +66,15 @@
                         android:text="Medium Text"
                         android:id="@+id/test_descr"
                         android:layout_weight="1"
-                        android:textColor="#ff7d7d7d"
+                        android:textColor="#616161"
                         android:textSize="16dp" />
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:id="@+id/imageView"
+                        android:background="@drawable/brstar"
+                        android:layout_gravity="bottom|right" />
                 </LinearLayout>
             </LinearLayout>
 
