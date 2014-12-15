@@ -6,26 +6,21 @@
     android:layout_height="match_parent"
     android:background="#ffffffff">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="20"></LinearLayout>
-
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardView"
         card_view:cardCornerRadius="2dp"
-        card_view:cardBackgroundColor="#42A5F5"
+        card_view:cardBackgroundColor="#ffffffff"
         card_view:cardElevation="6dp"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
-        android:background="#42A5F5">
+        android:layout_margin="15dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
             <LinearLayout
@@ -34,13 +29,11 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:animationCache="false"
-                    android:alwaysDrawnWithCache="true">
+                    android:layout_weight="0.3"
+                    android:background="@android:color/transparent">
 
                     <TextView
                         android:id="@+id/test_name"
@@ -51,27 +44,25 @@
                         android:textColor="#de000000"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_gravity="center_vertical" />
-                </LinearLayout>
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="8dp" />
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
-                    android:background="@android:color/transparent">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="5dp"
+                        android:background="#C51162"></LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="jhyfgkjhgjh kjhgkjhg kjhgkjh kjhgk kjhg kjhg kjhgkjhgkjhg kjhg kjhgkjh kjhg kjhg kjh kjhg kjhg kjhg kkjhg "
+                        android:text="щрмщораолр дваопзщо здлыаовпзды зыапозыдлваоп завдлпо ыздлпоыдзлапо зщфваровыларолыварфлоывардлфоыар вылаофздвлыаофхлао"
                         android:id="@+id/test_descr"
-                        android:layout_weight="0.32"
-                        android:textColor="#89000000"
+                        android:textColor="#ffffffff"
                         android:textSize="20dp"
-                        android:background="@android:color/transparent"
-                         />
+                        android:padding="8dp"
+                        android:background="@color/descrback" />
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -79,56 +70,32 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2">
 
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="100">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:text="Small Text"
-                                android:id="@+id/timetextView"
-                                android:layout_weight="0.2"
-                                android:textColor="#43000000"
-                                android:layout_gravity="center_vertical|left"
-                                android:textSize="16dp" />
-                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Small Text"
+                            android:id="@+id/timetextView"
+                            android:layout_weight="0.2"
+                            android:textColor="#a7000000"
+                            android:layout_gravity="center_vertical|left"
+                            android:textSize="16dp"
+                            android:layout_margin="8dp" />
 
                         <ImageView
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:id="@+id/imageView"
-                            android:background="@drawable/yelstar"
+                            android:background="@drawable/silver"
                             android:layout_gravity="bottom|right"
-                            android:layout_weight="1" />
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="5dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"></LinearLayout>
-
+                            android:layout_margin="8dp" />
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:layout_weight="1"></LinearLayout>
             </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="20"></LinearLayout>
 
 </LinearLayout>
