@@ -67,7 +67,11 @@ public class MainActivity extends Activity {
 
             }
         });
+<<<<<<< HEAD
         /*
+=======
+/*
+>>>>>>> ec4cbe7a022e75323fc6e25e7c80c64827eba254
         FakeDataLoaderLoader l = new FakeDataLoaderLoader() {
             @Override
             void onLoad(Test test){
@@ -75,7 +79,11 @@ public class MainActivity extends Activity {
                 Log.d("MyLogs","123");
           }
         };
+<<<<<<< HEAD
         l.loadTest(1);
+=======
+        l.loadData();
+>>>>>>> ec4cbe7a022e75323fc6e25e7c80c64827eba254
         */
     }
 

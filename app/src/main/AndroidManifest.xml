@@ -20,6 +20,10 @@
             android:name=".TestList"
             android:label="@string/title_activity_test_list" >
         </activity>
+        <activity
+            android:name=".QuestionActivity"
+            android:label="@string/title_activity_question" >
+        </activity>
     </application>
 
 </manifest>
