@@ -3,6 +3,7 @@ package com.example.alpha.projecttest;
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
+import com.example.alpha.projecttest.models.TestDescription;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,11 +14,11 @@ import java.util.ArrayList;
 /**
  * Created by 1 on 07.12.2014.
  */
-public class FakeDataLoaderLoader implements DataLoaderInterface {
-
-    public void loadTest(int id){
+public class FakeDataLoader implements DataLoaderInterface {
+    public Test loadTest(int id){
         String questionJSON = "{" +
-                      "\"number\":2," +
+                      "\"name\":\"Название теста\"," +
+                      "\"id\":121," +
                       "\"TextQuestion\":[" +
                       "{" +
                       "\"id\":0," +
@@ -26,7 +27,6 @@ public class FakeDataLoaderLoader implements DataLoaderInterface {
                       "\"image\":\"Link\"," +
                       "\"answers\":" +
                       "{" +
-                      "\"number\":2," +
                       "\"answers\":" +
                       "[" +
                       "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
@@ -40,7 +40,6 @@ public class FakeDataLoaderLoader implements DataLoaderInterface {
                       "\"image\":\"Ссылка2\"," +
                       "\"answers\":" +
                       "{" +
-                      "\"number\":2," +
                       "\"answers\":" +
                       "[" +
                       "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
@@ -54,31 +53,44 @@ public class FakeDataLoaderLoader implements DataLoaderInterface {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //Test test = createTest(questionJSON);
-
-        //onLoad(test);
+      return CreateTest(questionJSON);
     }
 
-   /*
-    private Test createTest(String questionJSON){
-        Test test = new Test();
-        test.name = "Test";
-        test.id = 0;
-        this.CreateListQuestions(test,questionJSON);
-        return test;
-    }*/
-
-    public String loadListTests(String user, String password){
-        return "";
-    }
-
-    private void CreateListQuestions(Test test,String questionJSON){
+    public ArrayList<TestDescription> loadListTests(String user, String password){
+        String JSONListTests = "{list:[{name:\"Test1\",id:\"122\",description:\"Описание\"},{name:\"Test2\",id:\"121\",description:\"Описани2е\"}]}";
+        ArrayList<TestDescription> listTests = new ArrayList<>();
         try {
-            test.questions = new ArrayList();
+            JSONObject json = new JSONObject(JSONListTests);
+            JSONArray jsonList = json.getJSONArray("list");
+            for (int i = 0; i < jsonList.length(); i++){
+                JSONObject oneTest = jsonList.getJSONObject(i);
+                String nameX = oneTest.getString("name");
+                String descriptionX = oneTest.getString("description");
+                int idX = oneTest.getInt("id");
+                TestDescription testDescription = new TestDescription();
+                testDescription.name = nameX;
+                testDescription.id = idX;
+                testDescription.description = descriptionX;
+                listTests.add(testDescription);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return listTests;
+    }
+
+    private Test CreateTest(String questionJSON){
+        Test test = new Test();
+        test.questions = new ArrayList();
+        try {
             JSONObject json = new JSONObject(questionJSON);
-            int number = json.getInt("number"); //узнаем сколько всего вопросов
+            String nameX = json.getString("name");
+            int idX = json.getInt("id");
+            test.name = nameX;
+            test.id = idX;
             JSONArray jsonTextQuestion = json.getJSONArray("TextQuestion");
-            for (int i = 0; i < number; i++){
+            for (int i = 0; i < jsonTextQuestion.length(); i++){
                 JSONObject oneQuestion = jsonTextQuestion.getJSONObject(i);
                 Question question = new Question();
                 int idQ = oneQuestion.getInt("id");
@@ -86,7 +98,6 @@ public class FakeDataLoaderLoader implements DataLoaderInterface {
                 String textQuestionQ = oneQuestion.getString("textQuestion");
                 String imageQ = oneQuestion.getString("image");
                 String answersQ = oneQuestion.getString("answers");
-                // question.newQuestion(idQ,nameQ,textQuestionQ,imageQ);
                 question.id = idQ;
                 question.name = nameQ;
                 question.textQuestion = textQuestionQ;
@@ -97,15 +108,15 @@ public class FakeDataLoaderLoader implements DataLoaderInterface {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return test;
     }
 
     private void CreateListAnswers(Question question, String answerJSON){
        question.answers = new ArrayList();
         try {
             JSONObject json = new JSONObject(answerJSON);
-            int number = json.getInt("number"); //узнаем сколько всего ответов
             JSONArray jsonTextAnswer = json.getJSONArray("answers");
-            for (int i = 0; i < number; i++){
+            for (int i = 0; i < jsonTextAnswer.length(); i++){
                 JSONObject oneAnswer = jsonTextAnswer.getJSONObject(i);
                 String textA = oneAnswer.getString("text");
                 Answer answer = new Answer();

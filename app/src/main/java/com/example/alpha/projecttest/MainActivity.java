@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 
@@ -18,78 +19,20 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
 
-
-        // TODO: Replace to fake loader
-       // Test test = new Test("test");
-       // test.newTest("Test");
-
-        // TODO: Replace to fake loader
-       /* String testJSONQuest =
-                "{" +
-                    "\"number\":2," +
-                    "\"TextQuestion\":[" +
-                        "{" +
-                            "\"id\":0," +
-                            "\"name\":\"Test1\"," +
-                            "\"textQuestion\":\"Textвопроса\"," +
-                            "\"image\":\"Link\"," +
-                            "\"answers\":" +
-                                "{" +
-                                    "\"number\":2," +
-                                    "\"answers\":" +
-                                    "[" +
-                                        "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
-                                    "]" +
-                                "}" +
-                        "},"+
-                        "{" +
-                            "\"id\":0," +
-                            "\"name\":\"Test1\"," +
-                            "\"textQuestion\":\"Textвопроса2\"," +
-                            "\"image\":\"Ссылка2\"," +
-                            "\"answers\":" +
-                                "{" +
-                                    "\"number\":2," +
-                                    "\"answers\":" +
-                                    "[" +
-                                        "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
-                                    "]" +
-                                "}" +
-                        "}" +
-                    "]" +
-                "}";*/
-     //  test.CreateListQuestions(testJSONQuest);
         Button btnLogin = (Button) findViewById(R.id.buttonLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onLogintap();
-
             }
         });
-//<<<<<<< HEAD
-        /*
-=======
-/*
->>>>>>> ec4cbe7a022e75323fc6e25e7c80c64827eba254
-        FakeDataLoaderLoader l = new FakeDataLoaderLoader() {
-            @Override
-            void onLoad(Test test){
-               Log.d("MyLogs", test.name);
-                Log.d("MyLogs","123");
-          }
-        };
-<<<<<<< HEAD
-        l.loadTest(1);
-=======
-        l.loadData();
->>>>>>> ec4cbe7a022e75323fc6e25e7c80c64827eba254
-        */
     }
 
     void onLogintap() {
 
         Intent intent = new Intent(this, TestList.class);
+        intent.putExtra("login",((EditText) findViewById(R.id.editTextName)).getText().toString());
+        intent.putExtra("password",((EditText) findViewById(R.id.editTextPswd)).getText().toString());
         startActivity(intent);
     }
 

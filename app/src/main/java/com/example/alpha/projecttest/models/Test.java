@@ -12,38 +12,5 @@ import java.util.ArrayList;
 public class Test {
     public int id;
     public String name;
-    public ArrayList<Question> questions;
-
-   public Test (String _name) {
-        name = _name;
-
-    }
-
-    // TODO: Replcae to loader
-    void CreateListQuestions(String questionJSON){
-        try {
-            questions = new ArrayList();
-            JSONObject json = new JSONObject(questionJSON);
-            int number = json.getInt("number"); //узнаем сколько всего вопросов
-            JSONArray jsonTextQuestion = json.getJSONArray("TextQuestion");
-            for (int i = 0; i < number; i++){
-                JSONObject oneQuestion = jsonTextQuestion.getJSONObject(i);
-                Question question = new Question();
-                int idQ = oneQuestion.getInt("id");
-                String nameQ = oneQuestion.getString("name");
-                String textQuestionQ = oneQuestion.getString("textQuestion");
-                String imageQ = oneQuestion.getString("image");
-                String answersQ = oneQuestion.getString("answers");
-               // question.newQuestion(idQ,nameQ,textQuestionQ,imageQ);
-                question.id = idQ;
-                question.name = nameQ;
-                question.textQuestion = textQuestionQ;
-                question.image = imageQ;
-                question.CreateListAnswers(answersQ);
-                questions.add(question);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+    public ArrayList<Question> questions = null;
 }

@@ -6,22 +6,4 @@ package com.example.alpha.projecttest.models;
 public class User {
     public int id;
     public String name;
-
-    void newUser (String nameX){
-        id = 0;
-        name = nameX;
-    }
-
-    void newUserWithID (int idX, String nameX){
-        id = idX;
-        name = nameX;
-    }
-
-    int getId(){
-        return id;
-    }
-
-    String getName(){
-        return name;
-    }
 }

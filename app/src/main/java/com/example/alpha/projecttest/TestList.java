@@ -1,6 +1,7 @@
 package com.example.alpha.projecttest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -8,52 +9,47 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.example.alpha.projecttest.models.Test;
-
+import com.example.alpha.projecttest.models.TestDescription;
 import java.util.ArrayList;
 
 
 public class TestList extends Activity {
-    private ArrayList<Test> tests = new ArrayList<>();
+    private ArrayList<TestDescription> tests;
     private TestListAdapter testListAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list);
-        //--------------------------------1 переместиться в класс отображающий тест
-        /* FakeDataLoaderLoader l = new FakeDataLoaderLoader() {
+         /*FakeDataLoader l = new FakeDataLoader() {
             @Override
             void onLoad(Test test){
                 Log.d("MyLogs", test.name);
                 Log.d("MyLogs","123");
             }
-        };
-        l.loadTest(1);
-        //------------------------11111
-*/
-        fillData();
-        testListAdapter = new TestListAdapter(this, tests);
+        };*/
+        Intent intent = getIntent();
+        String login = intent.getStringExtra("login");
+        String password = intent.getStringExtra("password");
 
+        FakeDataLoader l = new FakeDataLoader();
+        tests = l.loadListTests(login, password);
+
+        testListAdapter = new TestListAdapter(this, tests);
         ListView lv = (ListView) findViewById(R.id.lvMain);
         lv.setAdapter(testListAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("MyLogs", ""+position);
+                TestDescription obj = tests.get(position);
+                Log.d("MyLogs", "idTest"+obj.id);
+              //  FakeDataLoader f = new FakeDataLoader();
+              //  Test test = f.loadTest(121);
+              //  Log.d("MyLogs",test.name);
             }
         });
     }
-
-    void fillData() {
-        for (int i = 1; i <= 20; i++) {
-            tests.add(new Test("Test " + i));
-        }
-    }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

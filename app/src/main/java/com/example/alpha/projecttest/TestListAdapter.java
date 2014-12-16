@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.alpha.projecttest.models.Test;
+import com.example.alpha.projecttest.models.TestDescription;
 
 import java.util.ArrayList;
 
@@ -17,9 +18,9 @@ import java.util.ArrayList;
 public class TestListAdapter extends BaseAdapter {
     private Context ctx;
     private LayoutInflater lInflater;
-    private ArrayList <Test> objects;
+    private ArrayList <TestDescription> objects;
 
-    TestListAdapter(Context context, ArrayList<Test> tests){
+    TestListAdapter(Context context, ArrayList<TestDescription> tests){
         ctx = context;
         objects = tests;
         lInflater = (LayoutInflater) ctx
@@ -48,14 +49,10 @@ public class TestListAdapter extends BaseAdapter {
             view = lInflater.inflate(R.layout.small_test_card, parent, false);
         }
 
-      //  Test p = getTest(position);
+        TestDescription p = objects.get(position);
 
-        ((TextView) view.findViewById(R.id.test_name)).setText("kjmn");
-
+        ((TextView) view.findViewById(R.id.test_name)).setText(p.name);
+        ((TextView) view.findViewById(R.id.test_descr)).setText(p.description);
         return view;
     }
-
-   // Test getTest (int position){
- //       return ((Test) getItem(position));
-   // }
 }
