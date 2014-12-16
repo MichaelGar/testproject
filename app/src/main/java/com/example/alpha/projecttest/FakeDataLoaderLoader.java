@@ -54,18 +54,19 @@ public class FakeDataLoaderLoader implements DataLoaderInterface {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Test test = createTest(questionJSON);
+        //Test test = createTest(questionJSON);
 
-        onLoad(test);
+        //onLoad(test);
     }
 
+   /*
     private Test createTest(String questionJSON){
         Test test = new Test();
         test.name = "Test";
         test.id = 0;
         this.CreateListQuestions(test,questionJSON);
         return test;
-    }
+    }*/
 
     public String loadListTests(String user, String password){
         return "";

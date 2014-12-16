@@ -49,7 +49,7 @@ public class TestList extends Activity {
 
     void fillData() {
         for (int i = 1; i <= 20; i++) {
-         //   tests.add(new Test("Test " + i));
+            tests.add(new Test("Test " + i));
         }
     }
 

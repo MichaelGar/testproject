@@ -14,7 +14,10 @@ public class Test {
     public String name;
     public ArrayList<Question> questions;
 
+   public Test (String _name) {
+        name = _name;
 
+    }
 
     // TODO: Replcae to loader
     void CreateListQuestions(String questionJSON){
