@@ -2,11 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-<<<<<<< HEAD
     buildToolsVersion '21.1.2'
-=======
-    buildToolsVersion '21.0.2'
->>>>>>> ec4cbe7a022e75323fc6e25e7c80c64827eba254
+
 
     defaultConfig {
         applicationId "com.example.alpha.projecttest"

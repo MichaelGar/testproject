@@ -1,4 +1,4 @@
-package com.example.alpha.projecttest;
+package com.example.alpha.projecttest.models;
 
 
 

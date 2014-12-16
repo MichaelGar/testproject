@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
 
             }
         });
-<<<<<<< HEAD
+//<<<<<<< HEAD
         /*
 =======
 /*

@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.alpha.projecttest.models.Test;
+
 import java.util.ArrayList;
 
 /**
@@ -46,14 +48,14 @@ public class TestListAdapter extends BaseAdapter {
             view = lInflater.inflate(R.layout.small_test_card, parent, false);
         }
 
-        Test p = getTest(position);
+      //  Test p = getTest(position);
 
-        ((TextView) view.findViewById(R.id.test_name)).setText(p.name);
+        ((TextView) view.findViewById(R.id.test_name)).setText("kjmn");
 
         return view;
     }
 
-    Test getTest (int position){
-        return ((Test) getItem(position));
-    }
+   // Test getTest (int position){
+ //       return ((Test) getItem(position));
+   // }
 }

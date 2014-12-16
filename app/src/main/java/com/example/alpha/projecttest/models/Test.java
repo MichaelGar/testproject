@@ -1,4 +1,4 @@
-package com.example.alpha.projecttest;
+package com.example.alpha.projecttest.models;
 
 import org.json.JSONArray;
 import org.json.JSONException;

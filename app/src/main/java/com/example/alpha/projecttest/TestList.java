@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.alpha.projecttest.models.Test;
+
 import java.util.ArrayList;
 
 
@@ -22,7 +24,7 @@ public class TestList extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list);
         //--------------------------------1 переместиться в класс отображающий тест
-        FakeDataLoaderLoader l = new FakeDataLoaderLoader() {
+        /* FakeDataLoaderLoader l = new FakeDataLoaderLoader() {
             @Override
             void onLoad(Test test){
                 Log.d("MyLogs", test.name);
@@ -31,7 +33,7 @@ public class TestList extends Activity {
         };
         l.loadTest(1);
         //------------------------11111
-
+*/
         fillData();
         testListAdapter = new TestListAdapter(this, tests);
 

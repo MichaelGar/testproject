@@ -1,5 +1,9 @@
 package com.example.alpha.projecttest;
 
+import com.example.alpha.projecttest.models.Answer;
+import com.example.alpha.projecttest.models.Question;
+import com.example.alpha.projecttest.models.Test;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
