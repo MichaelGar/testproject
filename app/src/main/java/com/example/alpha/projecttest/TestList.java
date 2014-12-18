@@ -2,25 +2,31 @@ package com.example.alpha.projecttest;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import com.example.alpha.projecttest.models.TestDescription;
 import java.util.ArrayList;
-
 
 public class TestList extends Activity {
     private ArrayList<TestDescription> tests;
     private TestListAdapter testListAdapter;
-
-    @Override
+    public Handler h;
+    public AsyncTask thread;
+    ListView lv;
+    ProgressBar progressBar;
+       @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list);
+           progressBar = (ProgressBar) findViewById(R.id.progressBar);
          /*FakeDataLoader l = new FakeDataLoader() {
             @Override
             void onLoad(Test test){
@@ -28,16 +34,9 @@ public class TestList extends Activity {
                 Log.d("MyLogs","123");
             }
         };*/
-        Intent intent = getIntent();
-        String login = intent.getStringExtra("login");
-        String password = intent.getStringExtra("password");
-
-        FakeDataLoader l = new FakeDataLoader();
-        tests = l.loadListTests(login, password);
-
-        testListAdapter = new TestListAdapter(this, tests);
-        ListView lv = (ListView) findViewById(R.id.lvMain);
-        lv.setAdapter(testListAdapter);
+        createHandler();
+        createRequest();
+        lv = (ListView) findViewById(R.id.lvMain);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -49,6 +48,41 @@ public class TestList extends Activity {
               //  Log.d("MyLogs",test.name);
             }
         });
+    }
+
+    void createRequest(){
+        progressBar.setVisibility(View.VISIBLE);
+        Intent intent = getIntent();
+        final String login = intent.getStringExtra("login");
+        final String password = intent.getStringExtra("password");
+        thread = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] params) {
+                FakeDataLoader l = new FakeDataLoader();
+                tests = l.loadListTests(login, password);
+                h.sendEmptyMessage(0);
+                return null;
+            }
+        };
+        thread.execute();
+    }
+
+    void readyList(){
+        testListAdapter = new TestListAdapter(this, tests);
+        lv.setAdapter(testListAdapter);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    void createHandler() {
+        h = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                super.handleMessage(msg);
+                    // обновляем TextView
+                    //tvInfo.setText("Закачано файлов: " + msg.what);
+                    //  if (msg.what == 10) btnStart.setEnabled(true);
+                readyList();
+            }
+        };
     }
 
     @Override
@@ -69,7 +103,6 @@ public class TestList extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

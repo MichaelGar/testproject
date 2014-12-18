@@ -57,6 +57,11 @@ public class FakeDataLoader implements DataLoaderInterface {
     }
 
     public ArrayList<TestDescription> loadListTests(String user, String password){
+        try { //типа грузит 10 секунд
+            Thread.sleep(10000,1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String JSONListTests = "{list:[{name:\"Test1\",id:\"122\",description:\"Описание\"},{name:\"Test2\",id:\"121\",description:\"Описани2е\"}]}";
         ArrayList<TestDescription> listTests = new ArrayList<>();
         try {
