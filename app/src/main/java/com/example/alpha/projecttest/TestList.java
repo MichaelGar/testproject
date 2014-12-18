@@ -29,7 +29,6 @@ public class TestList extends Activity {
     ProgressBar progressBar;
     AlertDialog.Builder ad;
     Context context;
-    Button bt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,18 +58,11 @@ public class TestList extends Activity {
         });
 
 
-        bt = (Button) findViewById(R.id.start_test_button);
         context = TestList.this;
-        String title = "Тестирование:";
+        String title = "Тест:";
         String message = "Желаете начать тест?";
         String button1String = "Да, начать";
         String button2String = "Нет, вернуться";
-        /*bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ad.show();
-            }
-        });*/
         ad = new AlertDialog.Builder(context);
         ad.setTitle(title);  // заголовок
         ad.setMessage(message); // сообщение
