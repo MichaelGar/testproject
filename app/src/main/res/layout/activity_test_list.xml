@@ -14,7 +14,8 @@
         android:cacheColorHint="@android:color/transparent"
         android:headerDividersEnabled="false"
         android:footerDividersEnabled="false"
-        android:clickable="false">
+        android:clickable="false"
+        android:background="#F5F5F5">
     </ListView>
 
     <ProgressBar

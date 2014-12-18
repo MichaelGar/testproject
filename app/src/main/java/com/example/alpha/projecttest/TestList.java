@@ -1,6 +1,9 @@
 package com.example.alpha.projecttest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,19 +13,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+<<<<<<< HEAD
 import android.widget.ProgressBar;
+=======
+import android.widget.Toast;
+
+>>>>>>> 974ef109bda1208ca558d4438d166bfc264e3e3e
 import com.example.alpha.projecttest.models.TestDescription;
 import java.util.ArrayList;
 
 public class TestList extends Activity {
     private ArrayList<TestDescription> tests;
     private TestListAdapter testListAdapter;
+<<<<<<< HEAD
     public Handler h;
     public AsyncTask thread;
     ListView lv;
     ProgressBar progressBar;
        @Override
+=======
+    AlertDialog.Builder ad;
+    Context context;
+
+    Button bt;
+
+    @Override
+>>>>>>> 974ef109bda1208ca558d4438d166bfc264e3e3e
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list);
@@ -46,6 +64,42 @@ public class TestList extends Activity {
               //  FakeDataLoader f = new FakeDataLoader();
               //  Test test = f.loadTest(121);
               //  Log.d("MyLogs",test.name);
+            }
+        });
+
+
+        bt = (Button) findViewById(R.id.start_test_button);
+        context = TestList.this;
+        String title = "Тестирование:";
+        String message = "Желаете начать тест?";
+        String button1String = "Да, начать";
+        String button2String = "Нет, вернуться";
+        /*bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.show();
+            }
+        });*/
+        ad = new AlertDialog.Builder(context);
+        ad.setTitle(title);  // заголовок
+        ad.setMessage(message); // сообщение
+        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                Toast.makeText(context, "Начало теста",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                Toast.makeText(context, "Возврат", Toast.LENGTH_LONG)
+                        .show();
+            }
+        });
+        ad.setCancelable(true);
+        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {
+                Toast.makeText(context, "Мимо",
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
