@@ -4,32 +4,100 @@
     tools:context="com.example.alpha.projecttest.QuestionActivity">
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollView" >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Text voprosa"
-                android:id="@+id/questiontextView"
-                android:layout_margin="8dp"
-                android:layout_gravity="start|top"
-                android:textSize="28dp" />
-
-            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ответить"
-                android:id="@+id/otvet_button"
-                android:layout_gravity="center_horizontal|bottom" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Пройдено вопросов:"
+                android:id="@+id/textView"
+                android:layout_margin="6dp"
+                android:textColor="#a7000000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="1/15"
+                android:id="@+id/quescounttext"
+                android:layout_margin="6dp"
+                android:textColor="#a7000000" />
         </LinearLayout>
-    </ScrollView>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Осталось времени:"
+                android:id="@+id/textView3"
+                android:layout_margin="6dp"
+                android:textColor="#a7000000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="6:22"
+                android:id="@+id/timecounttext"
+                android:layout_margin="6dp"
+                android:textColor="#a7000000" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="5dp"
+            android:background="@color/razdelitel"></LinearLayout>
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/scrollView" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Text voprosa"
+                    android:id="@+id/questiontextView"
+                    android:layout_margin="8dp"
+                    android:layout_gravity="start|top"
+                    android:textSize="28dp" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/razdelitel"></LinearLayout>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ответить"
+                    android:id="@+id/otvet_button"
+                    android:layout_gravity="center_horizontal|bottom" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
 </RelativeLayout>
