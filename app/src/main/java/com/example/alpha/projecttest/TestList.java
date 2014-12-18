@@ -14,8 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.alpha.projecttest.models.TestDescription;
 import java.util.ArrayList;
@@ -27,14 +29,15 @@ public class TestList extends Activity {
     public AsyncTask thread;
     ListView lv;
     ProgressBar progressBar;
+
     AlertDialog.Builder ad;
     Context context;
-    Button bt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list);
+
            progressBar = (ProgressBar) findViewById(R.id.progressBar);
          /*FakeDataLoader l = new FakeDataLoader() {
             @Override
@@ -49,6 +52,7 @@ public class TestList extends Activity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ad.show();
                 Log.d("MyLogs", ""+position);
                 TestDescription obj = tests.get(position);
                 Log.d("MyLogs", "idTest"+obj.id);
@@ -58,43 +62,39 @@ public class TestList extends Activity {
             }
         });
 
-
-        bt = (Button) findViewById(R.id.start_test_button);
         context = TestList.this;
-        String title = "Тестирование:";
+        String title = "Тест:";
         String message = "Желаете начать тест?";
         String button1String = "Да, начать";
         String button2String = "Нет, вернуться";
-        /*bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ad.show();
-            }
-        });*/
         ad = new AlertDialog.Builder(context);
         ad.setTitle(title);  // заголовок
         ad.setMessage(message); // сообщение
         ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                Toast.makeText(context, "Начало теста",
-                        Toast.LENGTH_LONG).show();
+                goAnswer();
             }
         });
         ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                Toast.makeText(context, "Возврат", Toast.LENGTH_LONG)
-                        .show();
+                //
             }
         });
         ad.setCancelable(true);
         ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
             public void onCancel(DialogInterface dialog) {
-                Toast.makeText(context, "Мимо",
-                        Toast.LENGTH_LONG).show();
+                //
             }
         });
+
     }
 
+
+    void goAnswer(){
+        Intent intent = new Intent(this, QuestionActivity.class);
+        //intent.putExtra("key","Привет");
+        startActivity(intent);
+    }
     void createRequest(){
         progressBar.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
