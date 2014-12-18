@@ -15,32 +15,23 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-<<<<<<< HEAD
 import android.widget.ProgressBar;
-=======
 import android.widget.Toast;
-
->>>>>>> 974ef109bda1208ca558d4438d166bfc264e3e3e
 import com.example.alpha.projecttest.models.TestDescription;
 import java.util.ArrayList;
 
 public class TestList extends Activity {
     private ArrayList<TestDescription> tests;
     private TestListAdapter testListAdapter;
-<<<<<<< HEAD
     public Handler h;
     public AsyncTask thread;
     ListView lv;
     ProgressBar progressBar;
-       @Override
-=======
     AlertDialog.Builder ad;
     Context context;
-
     Button bt;
 
     @Override
->>>>>>> 974ef109bda1208ca558d4438d166bfc264e3e3e
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list);
