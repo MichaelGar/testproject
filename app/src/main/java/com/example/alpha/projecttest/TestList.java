@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class TestList extends Activity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ad.show();
                 Log.d("MyLogs", ""+position);
                 TestDescription obj = tests.get(position);
                 Log.d("MyLogs", "idTest"+obj.id);
@@ -68,23 +70,24 @@ public class TestList extends Activity {
         ad.setMessage(message); // сообщение
         ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                Toast.makeText(context, "Начало теста",
-                        Toast.LENGTH_LONG).show();
+                goAnswer();
             }
         });
         ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                Toast.makeText(context, "Возврат", Toast.LENGTH_LONG)
-                        .show();
             }
         });
         ad.setCancelable(true);
         ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
             public void onCancel(DialogInterface dialog) {
-                Toast.makeText(context, "Мимо",
-                        Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    void goAnswer(){
+        Intent intent = new Intent(this, QuestionActivity.class);
+        //intent.putExtra();
+        startActivity(intent);
     }
 
     void createRequest(){
