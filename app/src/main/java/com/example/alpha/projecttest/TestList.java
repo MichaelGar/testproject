@@ -19,12 +19,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.example.alpha.projecttest.models.TestDescription;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TestList extends Activity {
     private ArrayList<TestDescription> tests;
     private TestListAdapter testListAdapter;
     public Handler h;
-    public AsyncTask thread;
+    public MyTask thread;
     ListView lv;
     ProgressBar progressBar;
     AlertDialog.Builder ad;
@@ -43,7 +44,6 @@ public class TestList extends Activity {
                 Log.d("MyLogs","123");
             }
         };*/
-        createHandler();
         createRequest();
         lv = (ListView) findViewById(R.id.lvMain);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,39 +95,24 @@ public class TestList extends Activity {
         });
     }
 
-    void createRequest(){
+    void createRequest() {
         progressBar.setVisibility(View.VISIBLE);
-        Intent intent = getIntent();
-        final String login = intent.getStringExtra("login");
-        final String password = intent.getStringExtra("password");
-        thread = new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] params) {
-                FakeDataLoader l = new FakeDataLoader();
-                tests = l.loadListTests(login, password);
-                h.sendEmptyMessage(0);
-                return null;
-            }
-        };
-        thread.execute();
+        thread = (MyTask) getLastNonConfigurationInstance();
+        if (thread == null) {
+            Intent intent = getIntent();
+            String login = intent.getStringExtra("login");
+            String password = intent.getStringExtra("password");
+            thread = new MyTask();
+            thread.execute();
+            thread.setLoginPassword(login,password);
+        }
+        thread.link(this);
     }
 
-    void readyList(){
-        testListAdapter = new TestListAdapter(this, tests);
+    public void readyList(ArrayList<TestDescription> testsAsync){
+        testListAdapter = new TestListAdapter(this, testsAsync);
         lv.setAdapter(testListAdapter);
         progressBar.setVisibility(View.INVISIBLE);
-    }
-
-    void createHandler() {
-        h = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                super.handleMessage(msg);
-                    // обновляем TextView
-                    //tvInfo.setText("Закачано файлов: " + msg.what);
-                    //  if (msg.what == 10) btnStart.setEnabled(true);
-                readyList();
-            }
-        };
     }
 
     @Override
@@ -150,4 +135,38 @@ public class TestList extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+    public Object onRetainNonConfigurationInstance() {
+        thread.unLink();
+        return thread;
+    }
+
+    class MyTask extends AsyncTask<Void, Void, Integer> {
+        TestList activity;
+        String login, password;
+        ArrayList<TestDescription> testAsync;
+        void unLink() {
+            activity = null;
+        }
+
+        void link(TestList act){
+            activity = act;
+        }
+        void setLoginPassword(String log, String pas){
+            login = log;
+            password = pas;
+        }
+        @Override
+        protected Integer doInBackground(Void... params) {
+            FakeDataLoader l = new FakeDataLoader();
+            testAsync = l.loadListTests(login,password);
+            return 100500;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            activity.readyList(testAsync);
+        }
+    }
+
 }
