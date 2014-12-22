@@ -81,9 +81,9 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Text voprosa"
                     android:id="@+id/questiontextView"
-                    android:layout_margin="8dp"
                     android:layout_gravity="start|top"
-                    android:textSize="28dp" />
+                    android:textSize="28dp"
+                    android:layout_margin="12dp" />
 
                 <FrameLayout
                     android:orientation="vertical"

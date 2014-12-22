@@ -49,7 +49,7 @@ public class FakeDataLoader implements DataLoaderInterface {
                       "]" +
                       "}";
         try { //типа грузит 10 секунд
-            Thread.sleep(5000,1);
+            Thread.sleep(3000,1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -58,7 +58,7 @@ public class FakeDataLoader implements DataLoaderInterface {
 
     public ArrayList<TestDescription> loadListTests(String user, String password){
         try { //типа грузит 10 секунд
-            Thread.sleep(5000,1);
+            Thread.sleep(3000,1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

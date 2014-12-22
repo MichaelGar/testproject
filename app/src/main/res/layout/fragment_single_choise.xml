@@ -16,7 +16,8 @@
             android:text="VariantOtveta"
             android:id="@+id/answ1radioButton"
             android:checked="false"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:textSize="20dp" />
 
         <RadioButton
             android:layout_width="match_parent"
@@ -24,7 +25,8 @@
             android:text="VariantOtveta2"
             android:id="@+id/answ2radioButton"
             android:checked="false"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:textSize="20dp" />
 
         <RadioButton
             android:layout_width="match_parent"
@@ -32,7 +34,8 @@
             android:text="VariantOtveta3"
             android:id="@+id/answ3radioButton"
             android:checked="false"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:textSize="20dp" />
 
         <RadioButton
             android:layout_width="match_parent"
@@ -40,7 +43,8 @@
             android:text="VariantOtveta4"
             android:id="@+id/answ4radioButton"
             android:checked="false"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:textSize="20dp" />
     </LinearLayout>
 
 </FrameLayout>
