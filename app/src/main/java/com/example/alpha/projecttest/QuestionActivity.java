@@ -5,20 +5,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 
 public class QuestionActivity extends Activity {
     TextView QuView;
+    Button answer;
     Integer ID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+        answer=(Button) findViewById(R.id.otvet_button);
         Intent intent2 = getIntent();
         ID = intent2.getIntExtra("ID",0);
         QuView = (TextView) findViewById(R.id.questiontextView);
         QuView.setText(ID.toString());
+        answer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (1==1){//здесь будет проверка выбран ли вариант ответа
+                    //запись в базу результатов
+                    if (2==2){//Здесь проверка последний ли это вопрос
+                        //вызов активити с результатами, intent
+                    }
+                    else{
+                        //обновление данного активити,загрузка нового вопроса
+                    }
+                }
+            }
+        });
     }
 
 
