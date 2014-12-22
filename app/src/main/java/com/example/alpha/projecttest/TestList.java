@@ -69,7 +69,7 @@ public class TestList extends Activity {
         ad.setMessage(message); // сообщение
         ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                Intent intent2 = new Intent(TestList.this, MainActivity.class);
+                Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
                 intent2.putExtra("ID",1);
                 startActivity(intent2);
             }
