@@ -1,16 +1,22 @@
 package com.example.alpha.projecttest;
 
 import android.app.Activity;
+
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.alpha.projecttest.fragments.MultipleChoiseFragment;
+
 
 public class QuestionActivity extends Activity {
     TextView QuView;
     Integer ID;
+    FragmentTransaction Fragrazm;
+    MultipleChoiseFragment multiChoiseFr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +25,11 @@ public class QuestionActivity extends Activity {
         ID = intent2.getIntExtra("ID",0);
         QuView = (TextView) findViewById(R.id.questiontextView);
         QuView.setText(ID.toString());
+
+        multiChoiseFr = new MultipleChoiseFragment();
+        Fragrazm = getFragmentManager().beginTransaction();
+        Fragrazm.add(R.id.fragotv, multiChoiseFr);
+
     }
 
 
