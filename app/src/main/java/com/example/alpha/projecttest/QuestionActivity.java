@@ -47,6 +47,7 @@ public class QuestionActivity extends Activity {
         multiChoiseFr = new MultipleChoiseFragment();
         Fragrazm = getFragmentManager().beginTransaction();
         Fragrazm.add(R.id.fragotv, multiChoiseFr);
+        Fragrazm.commit();
 
     }
 
