@@ -59,7 +59,6 @@ public class TestList extends Activity {
             }
         });
 
-
         context = TestList.this;
         String title = "Тест:";
         String message = "Желаете начать тест?";
@@ -70,7 +69,9 @@ public class TestList extends Activity {
         ad.setMessage(message); // сообщение
         ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                goAnswer();
+                Intent intent2 = new Intent(TestList.this, MainActivity.class);
+                intent2.putExtra("ID",1);
+                startActivity(intent2);
             }
         });
         ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
@@ -82,12 +83,7 @@ public class TestList extends Activity {
             public void onCancel(DialogInterface dialog) {
             }
         });
-    }
 
-    void goAnswer(){
-        Intent intent = new Intent(this, QuestionActivity.class);
-        //intent.putExtra();
-        startActivity(intent);
     }
 
     void createRequest(){

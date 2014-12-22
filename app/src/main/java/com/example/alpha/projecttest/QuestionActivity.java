@@ -1,17 +1,24 @@
 package com.example.alpha.projecttest;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class QuestionActivity extends ActionBarActivity {
-
+    TextView QuView;
+    Integer ID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+        Intent intent2 = getIntent();
+        intent2.getIntExtra("ID",ID);
+        QuView=(TextView)findViewById(R.id.questiontextView);
+        QuView.setText(ID);
     }
 
 
