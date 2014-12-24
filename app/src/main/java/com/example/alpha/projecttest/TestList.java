@@ -46,8 +46,15 @@ public class TestList extends Activity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ad.show();
-                Log.d("MyLogs", ""+position);
+                Long lng;
+                lng=testListAdapter.getItemId(position);
+                //Времянка--->
+                Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
+                intent2.putExtra("ID", lng);
+                startActivity(intent2);
+                //<---Времянка
+                //ad.show();  //ЭТО ВРЕМЕННО потому что я не знаю как передать лонг в кликлиснер кнопки "Да, начать"
+                Log.d("MyLogs", ""+lng);
                 //TestDescription obj = tests.get(position);
                 //Log.d("MyLogs", "idTest"+obj.id);
               //  FakeDataLoader f = new FakeDataLoader();

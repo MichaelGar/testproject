@@ -17,18 +17,22 @@ import com.example.alpha.projecttest.fragments.MultipleChoiseFragment;
 public class QuestionActivity extends Activity {
     TextView QuView;
     Button answer;
-    Integer ID;
+    Long ID;
     FragmentTransaction Fragrazm;
     MultipleChoiseFragment multiChoiseFr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null) {
+            QuView = (TextView) findViewById(R.id.questiontextView);
+            QuView.setText(b.get("ID").toString());
+        }
         answer=(Button) findViewById(R.id.otvet_button);
-        Intent intent2 = getIntent();
-        ID = intent2.getIntExtra("ID",0);
-        QuView = (TextView) findViewById(R.id.questiontextView);
-        QuView.setText(ID.toString());
         answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
