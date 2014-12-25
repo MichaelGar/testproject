@@ -23,14 +23,39 @@
                 android:layout_margin="6dp"
                 android:textColor="#a7000000" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="1/15"
-                android:id="@+id/quescounttext"
-                android:layout_margin="6dp"
-                android:textColor="#a7000000" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="0dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="1"
+                    android:id="@+id/idnView"
+                    android:layout_margin="6dp"
+                    android:textColor="#a7000000" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="/"
+                    android:id="@+id/textView2"
+                    android:layout_margin="6dp"
+                    android:textColor="#a7000000" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/maxView"
+                    android:layout_margin="6dp"
+                    android:textColor="#a7000000" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -85,12 +110,17 @@
                     android:textSize="28dp"
                     android:layout_margin="12dp" />
 
-                <FrameLayout
-                    android:orientation="vertical"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView2"
+                    android:layout_gravity="center" />
+
+                <ListView
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/fragotv"
-                    android:layout_weight="4.97"></FrameLayout>
+                    android:layout_height="268dp"
+                    android:id="@+id/lvAnswer"
+                    android:padding="8dp" />
 
                 <LinearLayout
                     android:orientation="horizontal"

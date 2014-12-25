@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class TestListAdapter extends BaseAdapter {
     private Context ctx;
     private LayoutInflater lInflater;
-    private ArrayList <TestDescription> objects;
+    public ArrayList <TestDescription> objects;
 
     TestListAdapter(Context context, ArrayList<TestDescription> tests){
         ctx = context;
@@ -39,7 +39,9 @@ public class TestListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        TestDescription TestD;
+        TestD = objects.get (position);
+        return TestD.id;
     }
 
     @Override

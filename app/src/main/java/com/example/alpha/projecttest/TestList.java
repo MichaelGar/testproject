@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
+import com.example.alpha.projecttest.models.Test;
 import com.example.alpha.projecttest.models.TestDescription;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -46,43 +48,39 @@ public class TestList extends Activity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ad.show();
-                Log.d("MyLogs", ""+position);
+                lng=testListAdapter.getItemId(position);
+                //Формируем диалог(начало)
+                context = TestList.this;
+                String title = lng.toString();
+                String message = "Желаете начать тест?";
+                String button1String = "Да, начать";
+                String button2String = "Нет, вернуться";
+                ad = new AlertDialog.Builder(context);
+                ad.setTitle(title);  // заголовок
+                ad.setMessage(message); // сообщение
+                ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
+                        intent2.putExtra("ID",lng);
+                        startActivity(intent2);
+                    }
+                });
+                ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                    }
+                });
+                ad.setCancelable(true);
+                ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    public void onCancel(DialogInterface dialog) {
+                    }
+                });
+                //(конец)
 
-                TestDescription obj = tests.get(position);
-                Log.d("MyLogs", "idTest" + obj.id);
-                intent2 = new Intent(TestList.this, QuestionActivity.class);
-                intent2.putExtra("ID",obj.id);
-                intent2.putExtra("date","2014.12.24");
-              //  FakeDataLoader f = new FakeDataLoader();
-              //  Test test = f.loadTest(121);
-              //  Log.d("MyLogs",test.name);
+                ad.show();//Вызов диалога
             }
         });
 
-        context = TestList.this;
-        String title = "Тест:";
-        String message = "Желаете начать тест?";
-        String button1String = "Да, начать";
-        String button2String = "Нет, вернуться";
-        ad = new AlertDialog.Builder(context);
-        ad.setTitle(title);  // заголовок
-        ad.setMessage(message); // сообщение
-        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-
-                startActivity(intent2);
-            }
-        });
-        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-            }
-        });
-        ad.setCancelable(true);
-        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(DialogInterface dialog) {
-            }
-        });
+        
 
     }
 

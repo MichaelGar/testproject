@@ -8,11 +8,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.alpha.projecttest.fragments.MultipleChoiseFragment;
 import com.example.alpha.projecttest.models.Test;
+import com.example.alpha.projecttest.models.Answer;
+
+import java.util.ArrayList;
 
 
 public class QuestionActivity extends Activity {
@@ -22,10 +27,55 @@ public class QuestionActivity extends Activity {
     FragmentTransaction Fragrazm;
     MultipleChoiseFragment multiChoiseFr;
     Test test;
+    Integer max;//Будет отвечать за количество вопросов в тесте
+    TextView maxView;//поле для вывода
+    Integer idn;//Текущий вопрос
+    TextView idnView;//поле для вывода
+    ListView lvAnswer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
+        //-->Sozdaem massiv
+        ArrayList<Answer> Answerlist = new ArrayList<Answer>();
+        ArrayList<String> questtext = new ArrayList<String>();
+        Answer answertest = new Answer();
+        int i;
+        for (i = 1; i<=4; i++){
+
+            answertest.ID = i;
+            answertest.IdQuestion = 122;
+            answertest.text = "blablabla" + i;
+            answertest.IsRight = true;
+            Answerlist.add(answertest);
+            questtext.add(answertest.text);
+        }
+
+
+
+        lvAnswer = (ListView) findViewById(R.id.lvAnswer);
+        // устанавливаем режим выбора пунктов списка
+        if (1==1) {
+            lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        }
+        // Создаем адаптер, используя массив из файла ресурсов
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,questtext);
+        lvAnswer.setAdapter(adapter);
+
+        maxView=(TextView)findViewById(R.id.maxView);
+        idnView=(TextView)findViewById(R.id.idnView);
+        max=5;//при переходе мы будем знать сколько ему присвоить;
+        idn=Integer.valueOf(idnView.getText().toString());
+        maxView.setText(""+max);
+
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null) {
+            QuView = (TextView) findViewById(R.id.questiontextView);
+            QuView.setText(b.get("ID").toString());
+        }
         answer=(Button) findViewById(R.id.otvet_button);
         Intent intent2 = getIntent();
         ID = intent2.getIntExtra("ID",0);
@@ -40,20 +90,21 @@ public class QuestionActivity extends Activity {
             public void onClick(View v) {
                 if (1==1){//здесь будет проверка выбран ли вариант ответа
                     //запись в базу результатов
-                    if (2==2){//Здесь проверка последний ли это вопрос
-                        //вызов активити с результатами, intent
+                    if (idn==max){//Здесь проверка последний ли это вопрос
+                        Intent intent3 = new Intent(QuestionActivity.this, ResultActivity.class);
+                        //intent3.putExtra("key",values);
+                        startActivity(intent3);
                     }
                     else{
+                        idn=idn+1;
+                        idnView.setText(""+idn);
                         //обновление данного активити,загрузка нового вопроса
                     }
                 }
             }
         });
 
-        multiChoiseFr = new MultipleChoiseFragment();
-        Fragrazm = getFragmentManager().beginTransaction();
-        Fragrazm.add(R.id.fragotv, multiChoiseFr);
-        Fragrazm.commit();
+
 
     }
 
@@ -79,6 +130,4 @@ public class QuestionActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }
