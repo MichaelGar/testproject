@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
+import com.example.alpha.projecttest.models.Test;
 import com.example.alpha.projecttest.models.TestDescription;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -29,6 +31,7 @@ public class TestList extends Activity {
     AlertDialog.Builder ad;
     Context context;
     Long lng;
+    Integer ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,6 @@ public class TestList extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 lng=testListAdapter.getItemId(position);
-
                 //Формируем диалог(начало)
                 context = TestList.this;
                 String title = lng.toString();
