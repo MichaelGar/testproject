@@ -28,7 +28,7 @@ public class TestList extends Activity {
     ProgressBar progressBar;
     AlertDialog.Builder ad;
     Context context;
-
+    Intent intent2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +48,12 @@ public class TestList extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ad.show();
                 Log.d("MyLogs", ""+position);
-                //TestDescription obj = tests.get(position);
-                //Log.d("MyLogs", "idTest"+obj.id);
+
+                TestDescription obj = tests.get(position);
+                Log.d("MyLogs", "idTest" + obj.id);
+                intent2 = new Intent(TestList.this, QuestionActivity.class);
+                intent2.putExtra("ID",obj.id);
+                intent2.putExtra("date","2014.12.24");
               //  FakeDataLoader f = new FakeDataLoader();
               //  Test test = f.loadTest(121);
               //  Log.d("MyLogs",test.name);
@@ -66,8 +70,7 @@ public class TestList extends Activity {
         ad.setMessage(message); // сообщение
         ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
-                intent2.putExtra("ID",1);
+
                 startActivity(intent2);
             }
         });
@@ -98,7 +101,8 @@ public class TestList extends Activity {
     }
 
     public void readyList(ArrayList<TestDescription> testsAsync){
-        testListAdapter = new TestListAdapter(this, testsAsync);
+        tests = testsAsync;
+        testListAdapter = new TestListAdapter(this, tests);
         lv.setAdapter(testListAdapter);
         progressBar.setVisibility(View.INVISIBLE);
     }

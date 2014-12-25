@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.alpha.projecttest.fragments.MultipleChoiseFragment;
+import com.example.alpha.projecttest.models.Test;
 
 
 public class QuestionActivity extends Activity {
@@ -20,6 +21,7 @@ public class QuestionActivity extends Activity {
     Integer ID;
     FragmentTransaction Fragrazm;
     MultipleChoiseFragment multiChoiseFr;
+    Test test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,10 @@ public class QuestionActivity extends Activity {
         answer=(Button) findViewById(R.id.otvet_button);
         Intent intent2 = getIntent();
         ID = intent2.getIntExtra("ID",0);
+        String date = intent2.getStringExtra("date");
+        FakeDataLoader f = new FakeDataLoader();
+        test = f.loadTest(ID,date,this);
+
         QuView = (TextView) findViewById(R.id.questiontextView);
         QuView.setText(ID.toString());
         answer.setOnClickListener(new View.OnClickListener() {
@@ -73,4 +79,6 @@ public class QuestionActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

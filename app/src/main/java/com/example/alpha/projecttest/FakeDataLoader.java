@@ -1,5 +1,7 @@
 package com.example.alpha.projecttest;
 
+import android.content.Context;
+
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
@@ -15,43 +17,50 @@ import java.util.ArrayList;
  * Created by 1 on 07.12.2014.
  */
 public class FakeDataLoader implements DataLoaderInterface {
-    public Test loadTest(int id){
-        String questionJSON = "{" +
-                      "\"name\":\"Название теста\"," +
-                      "\"id\":121," +
-                      "\"TextQuestion\":[" +
-                      "{" +
-                      "\"id\":0," +
-                      "\"name\":\"Test1\"," +
-                      "\"textQuestion\":\"Textвопроса\"," +
-                      "\"image\":\"Link\"," +
-                      "\"answers\":" +
-                      "{" +
-                      "\"answers\":" +
-                      "[" +
-                      "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
-                      "]" +
-                      "}" +
-                      "},"+
-                      "{" +
-                      "\"id\":0," +
-                      "\"name\":\"Test1\"," +
-                      "\"textQuestion\":\"Textвопроса2\"," +
-                      "\"image\":\"Ссылка2\"," +
-                      "\"answers\":" +
-                      "{" +
-                      "\"answers\":" +
-                      "[" +
-                      "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
-                      "]" +
-                      "}" +
-                      "}" +
-                      "]" +
-                      "}";
-        try { //типа грузит 10 секунд
-            Thread.sleep(3000,1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public Test loadTest(int id,String date, Context context){
+        DBHelper db = new DBHelper(context);
+        String questionJSON;
+        if (db.findTest(id,date)){
+            questionJSON = db.getTest(id);
+        }else {
+            questionJSON = "{" +
+                    "\"name\":\"Название теста\"," +
+                    "\"id\":121," +
+                    "\"TextQuestion\":[" +
+                    "{" +
+                    "\"id\":0," +
+                    "\"name\":\"Test1\"," +
+                    "\"textQuestion\":\"Textвопроса\"," +
+                    "\"image\":\"Link\"," +
+                    "\"answers\":" +
+                    "{" +
+                    "\"answers\":" +
+                    "[" +
+                    "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
+                    "]" +
+                    "}" +
+                    "}," +
+                    "{" +
+                    "\"id\":0," +
+                    "\"name\":\"Test1\"," +
+                    "\"textQuestion\":\"Textвопроса2\"," +
+                    "\"image\":\"Ссылка2\"," +
+                    "\"answers\":" +
+                    "{" +
+                    "\"answers\":" +
+                    "[" +
+                    "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
+                    "]" +
+                    "}" +
+                    "}" +
+                    "]" +
+                    "}";
+            db.setTest(id,date,questionJSON);
+            try { //типа грузит 10 секунд
+                Thread.sleep(3000, 1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
       return CreateTest(questionJSON);
     }
