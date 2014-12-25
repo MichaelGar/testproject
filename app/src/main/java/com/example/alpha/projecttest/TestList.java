@@ -31,7 +31,6 @@ public class TestList extends Activity {
     AlertDialog.Builder ad;
     Context context;
     Long lng;
-    Integer ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +105,7 @@ public class TestList extends Activity {
     }
 
     public void readyList(ArrayList<TestDescription> testsAsync){
+
         testListAdapter = new TestListAdapter(this, testsAsync);
         lv.setAdapter(testListAdapter);
         progressBar.setVisibility(View.INVISIBLE);
