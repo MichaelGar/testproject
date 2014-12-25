@@ -49,7 +49,9 @@ public class QuestionActivity extends Activity {
                 if (1==1){//здесь будет проверка выбран ли вариант ответа
                     //запись в базу результатов
                     if (idn==max){//Здесь проверка последний ли это вопрос
-                        //вызов активити с результатами, intent
+                        Intent intent3 = new Intent(QuestionActivity.this, ResultActivity.class);
+                        //intent3.putExtra("key",values);
+                        startActivity(intent3);
                     }
                     else{
                         idn=idn+1;

@@ -19,11 +19,14 @@
         <activity
             android:name=".TestList"
             android:label="@string/title_activity_test_list" >
-
         </activity>
         <activity
             android:name=".QuestionActivity"
             android:label="@string/title_activity_question" >
+        </activity>
+        <activity
+            android:name=".ResultActivity"
+            android:label="@string/title_activity_result" >
         </activity>
     </application>
 
