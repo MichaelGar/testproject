@@ -20,10 +20,20 @@ public class QuestionActivity extends Activity {
     Long ID;
     FragmentTransaction Fragrazm;
     MultipleChoiseFragment multiChoiseFr;
+    Integer max;//Будет отвечать за количество вопросов в тесте
+    TextView maxView;//поле для вывода
+    Integer idn;//Текущий вопрос
+    TextView idnView;//поле для вывода
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
+        maxView=(TextView)findViewById(R.id.maxView);
+        idnView=(TextView)findViewById(R.id.idnView);
+        max=5;//при переходе мы будем знать сколько ему присвоить;
+        idn=Integer.valueOf(idnView.getText().toString());
+        maxView.setText(""+max);
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
@@ -38,10 +48,12 @@ public class QuestionActivity extends Activity {
             public void onClick(View v) {
                 if (1==1){//здесь будет проверка выбран ли вариант ответа
                     //запись в базу результатов
-                    if (2==2){//Здесь проверка последний ли это вопрос
+                    if (idn==max){//Здесь проверка последний ли это вопрос
                         //вызов активити с результатами, intent
                     }
                     else{
+                        idn=idn+1;
+                        idnView.setText(""+idn);
                         //обновление данного активити,загрузка нового вопроса
                     }
                 }
