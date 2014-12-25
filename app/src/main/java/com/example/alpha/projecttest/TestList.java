@@ -28,6 +28,7 @@ public class TestList extends Activity {
     ProgressBar progressBar;
     AlertDialog.Builder ad;
     Context context;
+    Long lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +47,37 @@ public class TestList extends Activity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Long lng;
                 lng=testListAdapter.getItemId(position);
-                //Времянка--->
-                Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
-                intent2.putExtra("ID", lng);
-                startActivity(intent2);
-                //<---Времянка
-                //ad.show();  //ЭТО ВРЕМЕННО потому что я не знаю как передать лонг в кликлиснер кнопки "Да, начать"
-                Log.d("MyLogs", ""+lng);
+
+                //Формируем диалог(начало)
+                context = TestList.this;
+                String title = lng.toString();
+                String message = "Желаете начать тест?";
+                String button1String = "Да, начать";
+                String button2String = "Нет, вернуться";
+                ad = new AlertDialog.Builder(context);
+                ad.setTitle(title);  // заголовок
+                ad.setMessage(message); // сообщение
+                ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
+                        intent2.putExtra("ID",lng);
+                        startActivity(intent2);
+                    }
+                });
+                ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                    }
+                });
+                ad.setCancelable(true);
+                ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    public void onCancel(DialogInterface dialog) {
+                    }
+                });
+                //(конец)
+
+                ad.show();//Вызов диалога
+
                 //TestDescription obj = tests.get(position);
                 //Log.d("MyLogs", "idTest"+obj.id);
               //  FakeDataLoader f = new FakeDataLoader();
@@ -63,30 +86,6 @@ public class TestList extends Activity {
             }
         });
 
-        context = TestList.this;
-        String title = "Тест:";
-        String message = "Желаете начать тест?";
-        String button1String = "Да, начать";
-        String button2String = "Нет, вернуться";
-        ad = new AlertDialog.Builder(context);
-        ad.setTitle(title);  // заголовок
-        ad.setMessage(message); // сообщение
-        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-                Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
-                intent2.putExtra("ID",1);
-                startActivity(intent2);
-            }
-        });
-        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-            }
-        });
-        ad.setCancelable(true);
-        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(DialogInterface dialog) {
-            }
-        });
 
     }
 
