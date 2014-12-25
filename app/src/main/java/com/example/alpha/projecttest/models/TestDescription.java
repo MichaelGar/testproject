@@ -5,6 +5,6 @@ package com.example.alpha.projecttest.models;
  */
 public class TestDescription {
     public String name;
-    public long id;
+    public int id;
     public String description;
 }

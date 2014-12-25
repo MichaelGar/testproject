@@ -12,8 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.example.alpha.projecttest.fragments.MultipleChoiseFragment;
 import com.example.alpha.projecttest.models.Test;
 import com.example.alpha.projecttest.models.Answer;
 
@@ -24,8 +22,6 @@ public class QuestionActivity extends Activity {
     TextView QuView;
     Button answer;
     Integer ID;
-    FragmentTransaction Fragrazm;
-    MultipleChoiseFragment multiChoiseFr;
     Test test;
     Integer max;//Будет отвечать за количество вопросов в тесте
     TextView maxView;//поле для вывода

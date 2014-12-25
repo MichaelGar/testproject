@@ -48,10 +48,12 @@ public class TestList extends Activity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lng=testListAdapter.getItemId(position);
+                TestDescription obj;
+                obj = tests.get(position);
                 //Формируем диалог(начало)
                 context = TestList.this;
-                String title = lng.toString();
+                final int idX = obj.id;
+                String title = Integer.toString(idX);
                 String message = "Желаете начать тест?";
                 String button1String = "Да, начать";
                 String button2String = "Нет, вернуться";
@@ -61,7 +63,8 @@ public class TestList extends Activity {
                 ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int arg1) {
                         Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
-                        intent2.putExtra("ID",lng);
+                        intent2.putExtra("ID",idX);
+                        intent2.putExtra("date","21313123");
                         startActivity(intent2);
                     }
                 });
