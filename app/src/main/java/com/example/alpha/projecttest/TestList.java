@@ -55,7 +55,7 @@ public class TestList extends Activity {
                 final int idX = obj.id;
                 final String nameX = obj.name;
                 final String date = obj.last_modified;
-                String title = Integer.toString(idX);
+                String title = nameX;
                 String message = "Желаете начать тест?";
                 String button1String = "Да, начать";
                 String button2String = "Нет, вернуться";
