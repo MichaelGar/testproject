@@ -5,10 +5,15 @@ import android.content.Context;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
 import com.example.alpha.projecttest.models.TestDescription;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -158,12 +163,21 @@ public class RealDataLoader implements DataLoaderInterface {
          //   str = httpEntity.getContent().toString();
             str = httpClient.execute(httpGet).toString();
 */
-            DefaultHttpClient hc = new DefaultHttpClient();
+          /*  final HttpClient httpclient = new DefaultHttpClient();
+            final HttpGet httpget = new HttpGet();
+            HttpResponse response = httpclient.execute(httpget);
+            HttpEntity entity = response.getEntity();
+            String str = EntityUtils.toString(entity, "UTF-8");
+           */
+
+            HttpClient hc = new DefaultHttpClient();
             ResponseHandler<String> res = new BasicResponseHandler();
             HttpGet http = new HttpGet(par);
-
+            HttpResponse response = hc.execute(http);
+            HttpEntity entity = response.getEntity();
+            str = EntityUtils.toString(entity, "UTF-8");
 //получаем ответ от сервера
-            str = hc.execute(http, res);
+           // str = hc.execute(http, res);
 
         } catch (IOException e) {
             e.printStackTrace();
