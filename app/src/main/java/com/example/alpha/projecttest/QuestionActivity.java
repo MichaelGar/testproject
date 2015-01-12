@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,9 +40,9 @@ public class QuestionActivity extends Activity {
         setContentView(R.layout.activity_question);
 
         //-->Sozdaem massiv
-        ArrayList<Answer> Answerlist = new ArrayList<Answer>();
+        final ArrayList<Answer> Answerlist = new ArrayList<Answer>();
         ArrayList<String> questtext = new ArrayList<String>();
-        Answer answertest = new Answer();
+        final Answer answertest = new Answer();
         int i;
         for (i = 1; i<=4; i++){
 
@@ -86,9 +88,16 @@ public class QuestionActivity extends Activity {
         createRequest();
         QuView = (TextView) findViewById(R.id.questiontextView);
        // QuView.setText(ID.toString());
-      /*  answer.setOnClickListener(new View.OnClickListener() {
+        answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("MyLog", "checked: ");
+                SparseBooleanArray sbArray = lvAnswer.getCheckedItemPositions();
+                for (int i = 0; i < sbArray.size(); i++) {
+                    int key = sbArray.keyAt(i);
+                    if (sbArray.get(key))
+                        Log.d("MyLog",""+key);
+                }
                 if (1==1){//здесь будет проверка выбран ли вариант ответа
                     //запись в базу результатов
                     if (idn==max){//Здесь проверка последний ли это вопрос
@@ -104,8 +113,6 @@ public class QuestionActivity extends Activity {
                 }
             }
         });
-
-*/
 
     }
     void createRequest() {
