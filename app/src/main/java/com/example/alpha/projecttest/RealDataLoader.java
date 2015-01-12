@@ -2,6 +2,7 @@ package com.example.alpha.projecttest;
 
 import android.content.Context;
 
+import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
 import com.example.alpha.projecttest.models.TestDescription;
@@ -65,10 +66,12 @@ public class RealDataLoader implements DataLoaderInterface {
     }
 
     public Test loadTest(int id, String date, Context context, String name){
+        Boolean fromdb;
         DBHelper db = new DBHelper(context);
         String questionJSON;
         if (db.findTest(id,date)){
             questionJSON = db.getTest(id);
+            fromdb = true;
         }else {
 
             /*questionJSON = "{" +
@@ -105,21 +108,22 @@ public class RealDataLoader implements DataLoaderInterface {
                     "}";*/
             String par = "http://tester.handh.ru/api/v1/question/?format=json&test__id=" + String.valueOf(id);
             questionJSON = getdata(par);
+            fromdb = false;
 
 
-
-            db.setTest(id,date,questionJSON);
+             db.setTest(id,date,questionJSON);
            /* try { //типа грузит 10 секунд
                 Thread.sleep(3000, 1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }*/
         }
-        return CreateTest(id, name, questionJSON);
+        return CreateTest(id, name, questionJSON,fromdb,context);
         //return null;
 
     }
-    private Test CreateTest(int idX,String nameX,String questionJSON){
+    private Test CreateTest(int idX,String nameX,String questionJSON,boolean fromdb,Context context){
+        DBHelper db = new DBHelper(context);
         Test test = new Test();
         test.questions = new ArrayList();
         try {
@@ -128,20 +132,28 @@ public class RealDataLoader implements DataLoaderInterface {
             //int idX = json.getInt("id");
             test.name = nameX;
             test.id = idX;
+            String answersQ;
             JSONArray jsonTextQuestion = json.getJSONArray("objects");
             for (int i = 0; i < jsonTextQuestion.length(); i++){
                 JSONObject oneQuestion = jsonTextQuestion.getJSONObject(i);
                 Question question = new Question();
                 int idQ = oneQuestion.getInt("id");
-               // String nameQ = oneQuestion.getString("name");
+                // String nameQ = oneQuestion.getString("name");
                 String textQuestionQ = oneQuestion.getString("text");
                 String imageQ = oneQuestion.getString("img");
-                //String answersQ = oneQuestion.getString("answers");
+                //   String answersQ = oneQuestion.getString("answers");
                 question.id = idQ;
-               //question.name = nameQ;
+                //question.name = nameQ;
                 question.textQuestion = textQuestionQ;
                 question.image = imageQ;
-                //this.CreateListAnswers(question,answersQ);
+
+                if (fromdb) {
+                    answersQ = db.getAnswersFromBD(idQ);
+                } else {
+                    answersQ = getdata("http://tester.handh.ru/api/v1/answer/?format=json&question__id=" + String.valueOf(idQ));
+                    db.setAnswerInBD(idQ,answersQ);
+                }
+                this.CreateListAnswers(question,answersQ);
                 test.questions.add(question);
             }
         } catch (JSONException e) {
@@ -150,25 +162,31 @@ public class RealDataLoader implements DataLoaderInterface {
         return test;
     }
 
+    private void CreateListAnswers(Question question, String answerJSON){
+        question.answers = new ArrayList();
+        try {
+            JSONObject json = new JSONObject(answerJSON);
+            JSONArray jsonTextAnswer = json.getJSONArray("objects");
+            for (int i = 0; i < jsonTextAnswer.length(); i++){
+                JSONObject oneAnswer = jsonTextAnswer.getJSONObject(i);
+                int idA = oneAnswer.getInt("id");
+                String textA = oneAnswer.getString("text");
+                boolean isRightA = oneAnswer.getBoolean("isRight");
+                Answer answer = new Answer();
+                answer.ID = idA;
+                answer.isRight = isRightA;
+                answer.text = textA;
+                question.answers.add(answer);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     String getdata(String par){
         String str = "";
         try {
-        /*    //DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(par);
-            HttpResponse httpResponse = null;
-           // httpGet.setEntity(new UrlEncodedFormEntity(nameValuePairs,"utf-8"));
-            httpResponse = httpClient.execute(httpGet);
-            HttpEntity httpEntity = httpResponse.getEntity();
-         //   str = httpEntity.getContent().toString();
-            str = httpClient.execute(httpGet).toString();
-*/
-          /*  final HttpClient httpclient = new DefaultHttpClient();
-            final HttpGet httpget = new HttpGet();
-            HttpResponse response = httpclient.execute(httpget);
-            HttpEntity entity = response.getEntity();
-            String str = EntityUtils.toString(entity, "UTF-8");
-           */
 
             HttpClient hc = new DefaultHttpClient();
             ResponseHandler<String> res = new BasicResponseHandler();
@@ -177,8 +195,6 @@ public class RealDataLoader implements DataLoaderInterface {
             HttpEntity entity = response.getEntity();
             str = EntityUtils.toString(entity, "UTF-8");
 //получаем ответ от сервера
-           // str = hc.execute(http, res);
-
         } catch (IOException e) {
             e.printStackTrace();
         }

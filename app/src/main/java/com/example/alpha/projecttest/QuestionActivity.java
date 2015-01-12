@@ -47,9 +47,9 @@ public class QuestionActivity extends Activity {
         for (i = 1; i<=4; i++){
 
             answertest.ID = i;
-            answertest.IdQuestion = 122;
+            //answertest.IdQuestion = 122;
             answertest.text = "blablabla" + i;
-            answertest.IsRight = true;
+            answertest.isRight = true;
             Answerlist.add(answertest);
             questtext.add(answertest.text);
         }
