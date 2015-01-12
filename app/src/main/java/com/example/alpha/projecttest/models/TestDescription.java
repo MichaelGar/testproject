@@ -7,4 +7,5 @@ public class TestDescription {
     public String name;
     public int id;
     public String description;
+    public String last_modified;
 }

@@ -3,7 +3,9 @@ package com.example.alpha.projecttest;
 import android.app.Activity;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.example.alpha.projecttest.models.Test;
 import com.example.alpha.projecttest.models.Answer;
+import com.example.alpha.projecttest.models.TestDescription;
 
 import java.util.ArrayList;
 
@@ -28,6 +31,7 @@ public class QuestionActivity extends Activity {
     Integer idn;//Текущий вопрос
     TextView idnView;//поле для вывода
     ListView lvAnswer;
+    public MyTask thread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,15 +77,16 @@ public class QuestionActivity extends Activity {
             QuView.setText(b.get("ID").toString());
         }
         answer=(Button) findViewById(R.id.otvet_button);
-        Intent intent2 = getIntent();
+       /* Intent intent2 = getIntent();
         ID = intent2.getIntExtra("ID",0);
         String date = intent2.getStringExtra("date");
-        FakeDataLoader f = new FakeDataLoader();
-        test = f.loadTest(ID,date,this);
 
+        RealDataLoader f = new RealDataLoader();
+        test = f.loadTest(ID,date,this);*/
+        createRequest();
         QuView = (TextView) findViewById(R.id.questiontextView);
-        QuView.setText(ID.toString());
-        answer.setOnClickListener(new View.OnClickListener() {
+       // QuView.setText(ID.toString());
+      /*  answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (1==1){//здесь будет проверка выбран ли вариант ответа
@@ -100,10 +105,30 @@ public class QuestionActivity extends Activity {
             }
         });
 
-
+*/
 
     }
+    void createRequest() {
+       // progressBar.setVisibility(View.VISIBLE);
+        thread = (MyTask) getLastNonConfigurationInstance();
+        if (thread == null) {
+            Intent intent = getIntent();
+            int id = intent.getIntExtra("ID",0);
+            String date = intent.getStringExtra("date");
+            String name = intent.getStringExtra("name");
+            thread = new MyTask();
+            thread.execute();
+            thread.setIdDateContextName(id,date,this,name);
+        }
+        thread.link(this);
+    }
+    void readyTest(Test test){
+       if (1 == 1){
+           test = null;
 
+       }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,5 +150,41 @@ public class QuestionActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class MyTask extends AsyncTask<Void, Void, Integer> {
+        QuestionActivity activity;
+        int id;
+        String date;
+        Context context;
+        String name;
+       // ArrayList<TestDescription> testAsync;
+        Test testAsync;
+        void unLink() {
+            activity = null;
+        }
+
+        void link(QuestionActivity act){
+            activity = act;
+        }
+        void setIdDateContextName(int idX, String dateX, Context contextX,String nameX){
+          id = idX;
+          date = dateX;
+          context = contextX;
+            name = nameX;
+        }
+        @Override
+        protected Integer doInBackground(Void... params) {
+            //FakeDataLoader l = new FakeDataLoader();
+            RealDataLoader l = new RealDataLoader();
+            testAsync = l.loadTest(id,date,context,name);
+            return 100500;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            activity.readyTest(testAsync);
+        }
     }
 }

@@ -53,6 +53,8 @@ public class TestList extends Activity {
                 //Формируем диалог(начало)
                 context = TestList.this;
                 final int idX = obj.id;
+                final String nameX = obj.name;
+                final String date = obj.last_modified;
                 String title = Integer.toString(idX);
                 String message = "Желаете начать тест?";
                 String button1String = "Да, начать";
@@ -64,7 +66,8 @@ public class TestList extends Activity {
                     public void onClick(DialogInterface dialog, int arg1) {
                         Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
                         intent2.putExtra("ID",idX);
-                        intent2.putExtra("date","21313123");
+                        intent2.putExtra("date",date);
+                        intent2.putExtra("name",nameX);
                         startActivity(intent2);
                     }
                 });
@@ -151,7 +154,8 @@ public class TestList extends Activity {
         }
         @Override
         protected Integer doInBackground(Void... params) {
-            FakeDataLoader l = new FakeDataLoader();
+            //FakeDataLoader l = new FakeDataLoader();
+            RealDataLoader l = new RealDataLoader();
             testAsync = l.loadListTests(login,password);
             return 100500;
         }

@@ -45,10 +45,10 @@ public class DBHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             bdDate = c.getString(2);
         }
-        if (bdDate == "") {
-            return false;
-        } else {
+        if (bdDate.equals(date)) {
             return true;
+        } else {
+            return false;
         }
     }
 
