@@ -16,6 +16,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.alpha.projecttest.models.ContainerForQuestionActivity;
+import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.TestDescription;
@@ -33,14 +36,36 @@ public class QuestionActivity extends Activity {
     Integer idn;//Текущий вопрос
     TextView idnView;//поле для вывода
     ListView lvAnswer;
+    int count;
+    int rez;
     public MyTask thread;
+    ProcessTest prT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+        QuView = (TextView) findViewById(R.id.questiontextView);
+        maxView=(TextView)findViewById(R.id.maxView);
+        idnView=(TextView)findViewById(R.id.idnView);
+        lvAnswer = (ListView) findViewById(R.id.lvAnswer);
+        lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);//??
 
+
+        count = 0;
+        rez = 0;
+        ContainerForQuestionActivity container = (ContainerForQuestionActivity) getLastNonConfigurationInstance();
+        if (container != null) {
+            test = container.test;
+            count = container.count;
+            rez = container.rez;
+            if ( test != null){
+                readyTest(test);
+
+            }
+        }
+        prT = new ProcessTest();
         //-->Sozdaem massiv
-        final ArrayList<Answer> Answerlist = new ArrayList<Answer>();
+   /*     final ArrayList<Answer> Answerlist = new ArrayList<Answer>();
         ArrayList<String> questtext = new ArrayList<String>();
         final Answer answertest = new Answer();
         int i;
@@ -53,23 +78,22 @@ public class QuestionActivity extends Activity {
             Answerlist.add(answertest);
             questtext.add(answertest.text);
         }
+*/
 
 
 
-        lvAnswer = (ListView) findViewById(R.id.lvAnswer);
         // устанавливаем режим выбора пунктов списка
-        if (1==1) {
+    /*    if (1==1) {
             lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        }
+        }*/
         // Создаем адаптер, используя массив из файла ресурсов
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,questtext);
-        lvAnswer.setAdapter(adapter);
+       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,questtext);
+       // lvAnswer.setAdapter(adapter);
 
-        maxView=(TextView)findViewById(R.id.maxView);
-        idnView=(TextView)findViewById(R.id.idnView);
-        max=5;//при переходе мы будем знать сколько ему присвоить;
-        idn=Integer.valueOf(idnView.getText().toString());
-        maxView.setText(""+max);
+
+       // max=9;//при переходе мы будем знать сколько ему присвоить;
+       // idn=Integer.valueOf(idnView.getText().toString());
+       // maxView.setText(""+max);
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
@@ -91,6 +115,7 @@ public class QuestionActivity extends Activity {
         answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Log.d("MyLog", "checked: ");
                 SparseBooleanArray sbArray = lvAnswer.getCheckedItemPositions();
                 for (int i = 0; i < sbArray.size(); i++) {
@@ -117,7 +142,9 @@ public class QuestionActivity extends Activity {
     }
     void createRequest() {
        // progressBar.setVisibility(View.VISIBLE);
-        thread = (MyTask) getLastNonConfigurationInstance();
+        ContainerForQuestionActivity container = (ContainerForQuestionActivity) getLastNonConfigurationInstance();
+        if (container != null){
+        thread = (MyTask) container.myTask;}
         if (thread == null) {
             Intent intent = getIntent();
             int id = intent.getIntExtra("ID",0);
@@ -129,11 +156,20 @@ public class QuestionActivity extends Activity {
         }
         thread.link(this);
     }
-    void readyTest(Test test){
-       if (1 == 1){
-           test = null;
+    void readyTest(Test testX){
+        test = testX;
+        showQuestion();
 
-       }
+    }
+
+    void showQuestion(){
+        Question question = prT.getQuestion(test,count,rez);
+        QuView.setText(question.textQuestion);
+        ArrayList<String> answersText = prT.getAnswers(question);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,answersText);
+        lvAnswer.setAdapter(adapter);
+        idnView.setText(""+count);
+        maxView.setText(""+test.questions.size());
 
     }
 
@@ -157,6 +193,16 @@ public class QuestionActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public Object onRetainNonConfigurationInstance() {
+        ContainerForQuestionActivity container = new ContainerForQuestionActivity();
+        container.myTask = thread;
+        container.test = test;
+        container.count = count;
+        container.rez = rez;
+        thread.unLink();
+        return container;
     }
 
     class MyTask extends AsyncTask<Void, Void, Integer> {
