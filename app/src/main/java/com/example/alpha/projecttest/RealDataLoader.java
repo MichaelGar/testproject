@@ -49,13 +49,17 @@ public class RealDataLoader implements DataLoaderInterface {
                 JSONObject oneTest = jsonList.getJSONObject(i);
                 String nameX = oneTest.getString("name");
                 String last_modifiedX = oneTest.getString("last_modified");
-                String descriptionX = oneTest.getString("resource_uri");
+                String descriptionX = oneTest.getString("description");
+                int timeX = oneTest.getInt("time");
+                int attempt_countX = oneTest.getInt("attempt_count");
                 int idX = oneTest.getInt("id");
                 TestDescription testDescription = new TestDescription();
                 testDescription.name = nameX;
                 testDescription.id = idX;
                 testDescription.last_modified = last_modifiedX;
                 testDescription.description = descriptionX;
+                testDescription.time = timeX;
+                testDescription.attempt_count = attempt_countX;
                 listTests.add(testDescription);
             }
         } catch (JSONException e) {
@@ -73,63 +77,20 @@ public class RealDataLoader implements DataLoaderInterface {
             questionJSON = db.getTest(id);
             fromdb = true;
         }else {
-
-            /*questionJSON = "{" +
-                    "\"name\":\"Название теста\"," +
-                    "\"id\":121," +
-                    "\"TextQuestion\":[" +
-                    "{" +
-                    "\"id\":0," +
-                    "\"name\":\"Test1\"," +
-                    "\"textQuestion\":\"Textвопроса\"," +
-                    "\"image\":\"Link\"," +
-                    "\"answers\":" +
-                    "{" +
-                    "\"answers\":" +
-                    "[" +
-                    "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
-                    "]" +
-                    "}" +
-                    "}," +
-                    "{" +
-                    "\"id\":0," +
-                    "\"name\":\"Test1\"," +
-                    "\"textQuestion\":\"Textвопроса2\"," +
-                    "\"image\":\"Ссылка2\"," +
-                    "\"answers\":" +
-                    "{" +
-                    "\"answers\":" +
-                    "[" +
-                    "{\"text\":\"Ответ1\"},{\"text\":\"Ответ2\"}" +
-                    "]" +
-                    "}" +
-                    "}" +
-                    "]" +
-                    "}";*/
             String par = "http://tester.handh.ru/api/v1/question/?format=json&test__id=" + String.valueOf(id);
             questionJSON = getdata(par);
             fromdb = false;
-
-
-             db.setTest(id,date,questionJSON);
-           /* try { //типа грузит 10 секунд
-                Thread.sleep(3000, 1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
+            db.setTest(id,date,questionJSON);
         }
         return CreateTest(id, name, questionJSON,fromdb,context);
-        //return null;
-
     }
+
     private Test CreateTest(int idX,String nameX,String questionJSON,boolean fromdb,Context context){
         DBHelper db = new DBHelper(context);
         Test test = new Test();
         test.questions = new ArrayList();
         try {
             JSONObject json = new JSONObject(questionJSON);
-            //String nameX = json.getString("name");
-            //int idX = json.getInt("id");
             test.name = nameX;
             test.id = idX;
             String answersQ;
@@ -141,7 +102,6 @@ public class RealDataLoader implements DataLoaderInterface {
                 // String nameQ = oneQuestion.getString("name");
                 String textQuestionQ = oneQuestion.getString("text");
                 String imageQ = oneQuestion.getString("img");
-                //   String answersQ = oneQuestion.getString("answers");
                 question.id = idQ;
                 //question.name = nameQ;
                 question.textQuestion = textQuestionQ;

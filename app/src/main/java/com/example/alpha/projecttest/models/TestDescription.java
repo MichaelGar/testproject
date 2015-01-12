@@ -8,4 +8,6 @@ public class TestDescription {
     public int id;
     public String description;
     public String last_modified;
+    public int attempt_count;
+    public int time;
 }

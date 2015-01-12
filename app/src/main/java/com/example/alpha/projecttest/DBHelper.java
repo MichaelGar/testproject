@@ -70,6 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void setTest(int id, String date, String JSON){
         //delete по id надо добавить
+        dbs.delete("tableTests", "id = " + Integer.toString(id), null);
         ContentValues cv=new ContentValues();
         cv.put("nameID", Integer.toString(id));
         cv.put("date", date);
@@ -80,6 +81,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void setAnswerInBD(int id, String json){
         //delete по id надо добавить
+        dbs.delete("tableAnswers", "id = " + Integer.toString(id), null);
         ContentValues cv=new ContentValues();
         cv.put("nameID", Integer.toString(id));
         cv.put("JSON", json);
