@@ -162,8 +162,12 @@ public class QuestionActivity extends Activity {
     }
     void readyTest(Test testX){
         test = testX;
-        showQuestion();
-
+        if (test == null){
+            thread = null;
+            createRequest();//по идее нужно выдавать сообщение что загрузка не удалась, а не повторять как щас
+        } else {
+            showQuestion();
+        }
     }
 
     void showQuestion(){
@@ -180,7 +184,7 @@ public class QuestionActivity extends Activity {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, answersText);
             lvAnswer.setAdapter(adapter);
         }
-        maxView.setText(""+test.questions.size());
+        maxView.setText("" + test.questions.size());
         max=test.questions.size();
     }
 

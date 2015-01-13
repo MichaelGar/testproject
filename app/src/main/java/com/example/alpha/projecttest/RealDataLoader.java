@@ -73,27 +73,27 @@ public class RealDataLoader implements DataLoaderInterface {
         Boolean fromdb;
         DBHelper db = new DBHelper(context);
         String questionJSON;
-        if (db.findTest(id,date)){
+        if (db.findTest(id,date)){//
             questionJSON = db.getTest(id);
             fromdb = true;
         }else {
             String par = "http://tester.handh.ru/api/v1/question/?format=json&test__id=" + String.valueOf(id);
             questionJSON = getdata(par);
             fromdb = false;
-            db.setTest(id,date,questionJSON);
         }
-        return CreateTest(id, name, questionJSON,fromdb,context);
+        return CreateTest(id, name, questionJSON,fromdb,context,date);
     }
 
-    private Test CreateTest(int idX,String nameX,String questionJSON,boolean fromdb,Context context){
+    private Test CreateTest(int idX,String nameX,String questionJSON,boolean fromdb,Context context,String date){
         DBHelper db = new DBHelper(context);
         Test test = new Test();
         test.questions = new ArrayList();
+        boolean goodAnswer = true;
         try {
             JSONObject json = new JSONObject(questionJSON);
             test.name = nameX;
             test.id = idX;
-            String answersQ;
+            String answersQ = "";
             JSONArray jsonTextQuestion = json.getJSONArray("objects");
             for (int i = 0; i < jsonTextQuestion.length(); i++){
                 JSONObject oneQuestion = jsonTextQuestion.getJSONObject(i);
@@ -111,14 +111,30 @@ public class RealDataLoader implements DataLoaderInterface {
                 if (fromdb) {
                     answersQ = db.getAnswersFromBD(idQ);
                 } else {
-                    answersQ = getdata("http://tester.handh.ru/api/v1/answer/?format=json&question__id=" + String.valueOf(idQ));
-                    db.setAnswerInBD(idQ,answersQ);
+                    if (goodAnswer){
+                        answersQ = getdata("http://tester.handh.ru/api/v1/answer/?format=json&question__id=" + String.valueOf(idQ));
+                        //int pos = answersQ.indexOf("objects");
+                        if (answersQ.indexOf("objects") > -1){
+                            db.setAnswerInBD(idQ,answersQ);
+                        } else {
+                            goodAnswer = false;
+                        }
+                    }
                 }
-                this.CreateListAnswers(question,answersQ);
+                if (goodAnswer){
+                    this.CreateListAnswers(question,answersQ);
+                }
                 test.questions.add(question);
+            }
+            if (!fromdb && goodAnswer ){
+                db.setTest(idX,date,questionJSON);
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+        //int pos = questionJSON.indexOf("objects");
+        if (!goodAnswer || (questionJSON.indexOf("objects") == -1)){
+            test = null;
         }
         return test;
     }
