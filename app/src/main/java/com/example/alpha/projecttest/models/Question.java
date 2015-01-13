@@ -16,5 +16,6 @@ public class Question {
     public String name;
     public String textQuestion;
     public String image;
+    public int qtype;
     public ArrayList<Answer> answers;
 }

@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alpha.projecttest.models.ContainerForQuestionActivity;
 import com.example.alpha.projecttest.models.Question;
@@ -36,7 +37,7 @@ public class QuestionActivity extends Activity {
     Integer idn;//Текущий вопрос
     TextView idnView;//поле для вывода
     ListView lvAnswer;
-    int count;
+    int count, zero; //zero для проверки выбора ответа
     int rez;
     public MyTask thread;
     ProcessTest prT;
@@ -48,7 +49,7 @@ public class QuestionActivity extends Activity {
         maxView=(TextView)findViewById(R.id.maxView);
         idnView=(TextView)findViewById(R.id.idnView);
         lvAnswer = (ListView) findViewById(R.id.lvAnswer);
-        lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);//??
+        //lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);//??
 
 
         count = 0;
@@ -60,7 +61,6 @@ public class QuestionActivity extends Activity {
             rez = container.rez;
             if ( test != null){
                 readyTest(test);
-
             }
         }
         prT = new ProcessTest();
@@ -91,9 +91,9 @@ public class QuestionActivity extends Activity {
        // lvAnswer.setAdapter(adapter);
 
 
-       // max=9;//при переходе мы будем знать сколько ему присвоить;
-       // idn=Integer.valueOf(idnView.getText().toString());
-       // maxView.setText(""+max);
+       //max=test.questions.size(); //при переходе мы будем знать сколько ему присвоить;
+       //idn=Integer.valueOf(idnView.getText().toString());
+       //maxView.setText(""+max);
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
@@ -115,26 +115,30 @@ public class QuestionActivity extends Activity {
         answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.d("MyLog", "checked: ");
+                zero=0;
                 SparseBooleanArray sbArray = lvAnswer.getCheckedItemPositions();
                 for (int i = 0; i < sbArray.size(); i++) {
                     int key = sbArray.keyAt(i);
                     if (sbArray.get(key))
-                        Log.d("MyLog",""+key);
+                    zero=zero+1;
                 }
-                if (1==1){//здесь будет проверка выбран ли вариант ответа
+                if (zero!=0){//проверка выбран ли вариант ответа
                     //запись в базу результатов
-                    if (idn==max){//Здесь проверка последний ли это вопрос
+                    if (count==(max-1)){//Здесь проверка последний ли это вопрос
                         Intent intent3 = new Intent(QuestionActivity.this, ResultActivity.class);
                         //intent3.putExtra("key",values);
                         startActivity(intent3);
                     }
                     else{
-                        idn=idn+1;
-                        idnView.setText(""+idn);
+                        count=count+1;
+                        idnView.setText(""+(count+1));
+                        readyTest(test);
                         //обновление данного активити,загрузка нового вопроса
                     }
+                }
+                else{
+                    Toast toast = Toast.makeText(getApplicationContext(),"Не выбран вариант ответа", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }
         });
@@ -166,11 +170,18 @@ public class QuestionActivity extends Activity {
         Question question = prT.getQuestion(test,count,rez);
         QuView.setText(question.textQuestion);
         ArrayList<String> answersText = prT.getAnswers(question);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,answersText);
-        lvAnswer.setAdapter(adapter);
-        idnView.setText(""+count);
+        if (prT.getType(test,count)==0){
+            lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,answersText);
+            lvAnswer.setAdapter(adapter);
+        }
+        else {
+            lvAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, answersText);
+            lvAnswer.setAdapter(adapter);
+        }
         maxView.setText(""+test.questions.size());
-
+        max=test.questions.size();
     }
 
     @Override
@@ -224,7 +235,7 @@ public class QuestionActivity extends Activity {
           id = idX;
           date = dateX;
           context = contextX;
-            name = nameX;
+          name = nameX;
         }
         @Override
         protected Integer doInBackground(Void... params) {

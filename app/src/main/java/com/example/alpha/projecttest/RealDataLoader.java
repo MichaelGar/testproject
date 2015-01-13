@@ -99,6 +99,7 @@ public class RealDataLoader implements DataLoaderInterface {
                 JSONObject oneQuestion = jsonTextQuestion.getJSONObject(i);
                 Question question = new Question();
                 int idQ = oneQuestion.getInt("id");
+                int qtypeQ = oneQuestion.getInt("qtype");
                 // String nameQ = oneQuestion.getString("name");
                 String textQuestionQ = oneQuestion.getString("text");
                 String imageQ = oneQuestion.getString("img");
@@ -106,7 +107,7 @@ public class RealDataLoader implements DataLoaderInterface {
                 //question.name = nameQ;
                 question.textQuestion = textQuestionQ;
                 question.image = imageQ;
-
+                question.qtype = qtypeQ;
                 if (fromdb) {
                     answersQ = db.getAnswersFromBD(idQ);
                 } else {

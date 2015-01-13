@@ -19,6 +19,11 @@ public class ProcessTest {
        return questions.get(count);}
    }
 
+    public Integer getType(Test test, int count){
+        ArrayList<Question> questions = test.questions;
+            return questions.get(count).qtype;
+    }
+
     public ArrayList<String> getAnswers(Question question){
         ArrayList<Answer> answersList= question.answers;
         ArrayList<String> answers = new ArrayList<>();
