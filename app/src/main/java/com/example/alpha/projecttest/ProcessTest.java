@@ -9,6 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by 1 on 12.01.2015.
  */
+//TODO:Сделать ФИНИШ NAHOOY
 public class ProcessTest {
    public Question getQuestion(Test test, int count, int rez){
        ArrayList<Question> questions = test.questions;
