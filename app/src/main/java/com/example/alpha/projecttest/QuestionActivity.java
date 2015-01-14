@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import com.example.alpha.projecttest.models.Test;
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.TestDescription;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,17 +37,16 @@ public class QuestionActivity extends Activity {
     private static final int MILLIS_PER_SECOND = 1000;
     TextView QuView;
     Button answer;
-    Integer ID;
     Test test;
     Integer max;//Будет отвечать за количество вопросов в тесте
     TextView maxView;//поле для вывода
-    Integer idn;//Текущий вопрос
     TextView idnView;//поле для вывода
     ListView lvAnswer;
     TextView tvtime;
+    CountDownTimer timer;
     int count, zero, time; //zero для проверки выбора ответа
     int rez;
-    public MyTask thread, thread2;
+    public MyTask thread;
     ProcessTest prT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,13 +103,12 @@ public class QuestionActivity extends Activity {
        //idn=Integer.valueOf(idnView.getText().toString());
        //maxView.setText(""+max);
 
-        Intent iin= getIntent();
-        Bundle b = iin.getExtras();
+        //Intent iin= getIntent();
+        //Bundle b = iin.getExtras();
 
-        if(b!=null) {
-            QuView = (TextView) findViewById(R.id.questiontextView);
-            QuView.setText(b.get("ID").toString());
-        }
+        //if(b!=null) {
+        //    QuView.setText(b.get("ID").toString());
+        //}
         answer=(Button) findViewById(R.id.otvet_button);
        /* Intent intent2 = getIntent();
         ID = intent2.getIntExtra("ID",0);
@@ -178,7 +178,34 @@ public class QuestionActivity extends Activity {
             Log.d("MyLogs", ""+time);
             tvtime.setText(""+time);
             showQuestion();
+            try {
+                showTimer(time*MILLIS_PER_SECOND*60);
+            } catch (NumberFormatException e){
+                Log.d("TimerLog", "Облом");
+            }
         }
+    }
+
+    private void showTimer(int countdownMillis) {
+        if(timer != null) { timer.cancel(); }
+        timer = new CountDownTimer(countdownMillis, MILLIS_PER_SECOND) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long min, sec;
+                min = (millisUntilFinished-(millisUntilFinished % 60000))/60000;
+                sec = (millisUntilFinished-60000*min);
+                tvtime.setText(""+min+" мин. "+sec+" сек."/*""+millisUntilFinished / MILLIS_PER_SECOND8*/);
+            }
+            @Override
+            public void onFinish() {
+                tvtime.setText("KABOOM!");
+            }
+        }.start();
+    }
+
+    //Округление
+    public BigDecimal roundUp(long value, int digits) {
+        return new BigDecimal("" + value).setScale(digits, BigDecimal.ROUND_HALF_UP);
     }
 
     void showQuestion(){

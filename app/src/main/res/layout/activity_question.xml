@@ -33,10 +33,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="1"
                     android:id="@+id/idnView"
                     android:layout_margin="6dp"
-                    android:textColor="#a7000000" />
+                    android:textColor="#a7000000"
+                    android:text="1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -76,7 +76,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="6:22"
                 android:id="@+id/timecounttext"
                 android:layout_margin="6dp"
                 android:textColor="#a7000000" />
@@ -104,7 +103,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Text voprosa"
                     android:id="@+id/questiontextView"
                     android:layout_gravity="start|top"
                     android:textSize="28dp"
