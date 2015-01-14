@@ -23,6 +23,7 @@ import java.io.IOException;
 
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static android.net.Uri.encode;
 
@@ -136,6 +137,8 @@ public class RealDataLoader implements DataLoaderInterface {
         //int pos = questionJSON.indexOf("objects");
         if (!goodAnswer || (questionJSON.indexOf("objects") == -1)){
             test = null;
+        }else{
+            test = randomTest(test);
         }
         return test;
     }
@@ -175,12 +178,47 @@ public class RealDataLoader implements DataLoaderInterface {
 //получаем ответ от сервера
         } catch (IOException e) {
             e.printStackTrace();
+
         }
 
         return str;
     }
 
+    Test randomTest(Test test){
+        ArrayList<Question> questions = test.questions;
+        Random rnd = new Random();
+        for (int i = questions.size() - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            Question question = questions.get(index);
+            question = randomQuestion(question);
+            questions.set(index, questions.get(i));
+            // ar[index] = ar[i];
+            questions.set(i, question);
 
+            // ar[i] = a;
+        }
+        test.questions = questions;
+        return test;
+    }
+
+    Question randomQuestion(Question question){
+        ArrayList<Answer> answers = question.answers;
+        Random rnd = new Random();
+        for (int i = answers.size() - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            Answer answer = answers.get(index);
+            //answer = randomQuestion(question);
+            answers.set(index, answers.get(i));
+            // ar[index] = ar[i];
+            answers.set(i, answer);
+
+            // ar[i] = a;
+        }
+        question.answers = answers;
+        return question;
+    }
 
 
 
