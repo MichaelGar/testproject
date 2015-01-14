@@ -24,10 +24,15 @@ import com.example.alpha.projecttest.models.Test;
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.TestDescription;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class QuestionActivity extends Activity {
+    private static final int MILLIS_PER_SECOND = 1000;
     TextView QuView;
     Button answer;
     Integer ID;
@@ -37,9 +42,10 @@ public class QuestionActivity extends Activity {
     Integer idn;//Текущий вопрос
     TextView idnView;//поле для вывода
     ListView lvAnswer;
-    int count, zero; //zero для проверки выбора ответа
+    TextView tvtime;
+    int count, zero, time; //zero для проверки выбора ответа
     int rez;
-    public MyTask thread;
+    public MyTask thread, thread2;
     ProcessTest prT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,7 @@ public class QuestionActivity extends Activity {
         maxView=(TextView)findViewById(R.id.maxView);
         idnView=(TextView)findViewById(R.id.idnView);
         lvAnswer = (ListView) findViewById(R.id.lvAnswer);
+        tvtime = (TextView) findViewById(R.id.timecounttext);
         //lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);//??
 
 
@@ -132,7 +139,7 @@ public class QuestionActivity extends Activity {
                     else{
                         count=count+1;
                         idnView.setText(""+(count+1));
-                        readyTest(test);
+                        showQuestion();
                         //обновление данного активити,загрузка нового вопроса
                     }
                 }
@@ -154,9 +161,10 @@ public class QuestionActivity extends Activity {
             int id = intent.getIntExtra("ID",0);
             String date = intent.getStringExtra("date");
             String name = intent.getStringExtra("name");
+            int minutes = intent.getIntExtra("time", 0);
             thread = new MyTask();
             thread.execute();
-            thread.setIdDateContextName(id,date,this,name);
+            thread.setIdDateContextName(id,date,this,name,minutes);
         }
         thread.link(this);
     }
@@ -166,6 +174,9 @@ public class QuestionActivity extends Activity {
             thread = null;
             createRequest();//по идее нужно выдавать сообщение что загрузка не удалась, а не повторять как щас
         } else {
+            time = prT.getTime(test);
+            Log.d("MyLogs", ""+time);
+            tvtime.setText(""+time);
             showQuestion();
         }
     }
@@ -222,7 +233,7 @@ public class QuestionActivity extends Activity {
 
     class MyTask extends AsyncTask<Void, Void, Integer> {
         QuestionActivity activity;
-        int id;
+        int id, time;
         String date;
         Context context;
         String name;
@@ -235,17 +246,18 @@ public class QuestionActivity extends Activity {
         void link(QuestionActivity act){
             activity = act;
         }
-        void setIdDateContextName(int idX, String dateX, Context contextX,String nameX){
+        void setIdDateContextName(int idX, String dateX, Context contextX,String nameX,int timeX){
           id = idX;
           date = dateX;
           context = contextX;
           name = nameX;
+          time = timeX;
         }
         @Override
         protected Integer doInBackground(Void... params) {
             //FakeDataLoader l = new FakeDataLoader();
             RealDataLoader l = new RealDataLoader();
-            testAsync = l.loadTest(id,date,context,name);
+            testAsync = l.loadTest(id,date,context,name,time);
             return 100500;
         }
 

@@ -69,7 +69,7 @@ public class RealDataLoader implements DataLoaderInterface {
         return listTests;
     }
 
-    public Test loadTest(int id, String date, Context context, String name){
+    public Test loadTest(int id, String date, Context context, String name,int time){
         Boolean fromdb;
         DBHelper db = new DBHelper(context);
         String questionJSON;
@@ -81,10 +81,10 @@ public class RealDataLoader implements DataLoaderInterface {
             questionJSON = getdata(par);
             fromdb = false;
         }
-        return CreateTest(id, name, questionJSON,fromdb,context,date);
+        return CreateTest(id, name, questionJSON,fromdb,context,date,time);
     }
 
-    private Test CreateTest(int idX,String nameX,String questionJSON,boolean fromdb,Context context,String date){
+    private Test CreateTest(int idX,String nameX,String questionJSON,boolean fromdb,Context context,String date,int timeX){
         DBHelper db = new DBHelper(context);
         Test test = new Test();
         test.questions = new ArrayList();
@@ -93,6 +93,7 @@ public class RealDataLoader implements DataLoaderInterface {
             JSONObject json = new JSONObject(questionJSON);
             test.name = nameX;
             test.id = idX;
+            test.time = timeX;
             String answersQ = "";
             JSONArray jsonTextQuestion = json.getJSONArray("objects");
             for (int i = 0; i < jsonTextQuestion.length(); i++){

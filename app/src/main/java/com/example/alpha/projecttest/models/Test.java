@@ -13,6 +13,7 @@ public class Test {
     public int id;
     public String name;
     public ArrayList<Question> questions = null;
+    public int time;
 
 
 }

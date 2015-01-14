@@ -55,6 +55,7 @@ public class TestList extends Activity {
                 final int idX = obj.id;
                 final String nameX = obj.name;
                 final String date = obj.last_modified;
+                final int timeX = obj.time;
                 String title = nameX;
                 String message = "Желаете начать тест?";
                 String button1String = "Да, начать";
@@ -68,6 +69,7 @@ public class TestList extends Activity {
                         intent2.putExtra("ID",idX);
                         intent2.putExtra("date",date);
                         intent2.putExtra("name",nameX);
+                        intent2.putExtra("time",timeX);
                         startActivity(intent2);
                     }
                 });

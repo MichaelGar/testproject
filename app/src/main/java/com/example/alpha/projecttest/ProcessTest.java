@@ -24,6 +24,10 @@ public class ProcessTest {
             return questions.get(count).qtype;
     }
 
+    public Integer getTime(Test test){
+        return test.time;
+    }
+
     public ArrayList<String> getAnswers(Question question){
         ArrayList<Answer> answersList= question.answers;
         ArrayList<String> answers = new ArrayList<>();
