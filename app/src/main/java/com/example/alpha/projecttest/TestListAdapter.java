@@ -56,7 +56,7 @@ public class TestListAdapter extends BaseAdapter {
             ((TextView) view.findViewById(R.id.test_time)).setText("Время неограничено");
         }
         else {
-            ((TextView) view.findViewById(R.id.test_time)).setText(p.time + " минут");
+            ((TextView) view.findViewById(R.id.test_time)).setText(p.time + " мин.");
         }
         //TODO:переделать attempt count в колво вопросов
         ((TextView) view.findViewById(R.id.test_qcount)).setText("Вопросов: "+p.attempt_count);

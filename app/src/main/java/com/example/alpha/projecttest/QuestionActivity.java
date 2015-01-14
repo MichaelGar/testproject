@@ -127,13 +127,15 @@ public class QuestionActivity extends Activity {
                 for (int i = 0; i < sbArray.size(); i++) {
                     int key = sbArray.keyAt(i);
                     if (sbArray.get(key))
+                        //TODO:правильный неправильный
                     zero=zero+1;
                 }
                 if (zero!=0){//проверка выбран ли вариант ответа
-                    //запись в базу результатов
+                        //TODO:считает ответы,
                     if (count==(max-1)){//Здесь проверка последний ли это вопрос
                         Intent intent3 = new Intent(QuestionActivity.this, ResultActivity.class);
                         //intent3.putExtra("key",values);
+                        //TODO: передать результаты, количество вопросов, и время
                         startActivity(intent3);
                     }
                     else{
@@ -144,13 +146,14 @@ public class QuestionActivity extends Activity {
                     }
                 }
                 else{
-                    Toast toast = Toast.makeText(getApplicationContext(),"Не выбран вариант ответа", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "Не выбран вариант ответа", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
         });
 
     }
+
     void createRequest() {
        // progressBar.setVisibility(View.VISIBLE);
         ContainerForQuestionActivity container = (ContainerForQuestionActivity) getLastNonConfigurationInstance();
@@ -193,12 +196,12 @@ public class QuestionActivity extends Activity {
             public void onTick(long millisUntilFinished) {
                 long min, sec;
                 min = (millisUntilFinished-(millisUntilFinished % 60000))/60000;
-                sec = (millisUntilFinished-60000*min);
+                sec = (millisUntilFinished-60000*min)/1000;
                 tvtime.setText(""+min+" мин. "+sec+" сек."/*""+millisUntilFinished / MILLIS_PER_SECOND8*/);
             }
             @Override
             public void onFinish() {
-                tvtime.setText("KABOOM!");
+                //TODO:окончание времени
             }
         }.start();
     }
