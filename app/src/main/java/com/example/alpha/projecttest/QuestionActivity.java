@@ -193,7 +193,7 @@ public class QuestionActivity extends Activity {
             public void onTick(long millisUntilFinished) {
                 long min, sec;
                 min = (millisUntilFinished-(millisUntilFinished % 60000))/60000;
-                sec = (millisUntilFinished-60000*min);
+                sec = (millisUntilFinished-60000*min)/1000;
                 tvtime.setText(""+min+" мин. "+sec+" сек."/*""+millisUntilFinished / MILLIS_PER_SECOND8*/);
             }
             @Override
