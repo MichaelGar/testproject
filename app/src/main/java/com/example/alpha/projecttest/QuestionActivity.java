@@ -12,6 +12,7 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -42,7 +43,7 @@ public class QuestionActivity extends Activity {
     TextView maxView;//поле для вывода
     TextView idnView;//поле для вывода
     ListView lvAnswer;
-    TextView tvtime;
+    TextView tvtime, tvopis;
     CountDownTimer timer;
     int zero, time; //zero для проверки выбора ответа
     int rez;
@@ -58,8 +59,31 @@ public class QuestionActivity extends Activity {
         idnView=(TextView)findViewById(R.id.idnView);
         lvAnswer = (ListView) findViewById(R.id.lvAnswer);
         tvtime = (TextView) findViewById(R.id.timecounttext);
+        tvopis = (TextView) findViewById(R.id.tvOpistime);
         //lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);//??
+      /*
+        lvAnswer.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
 
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
+*/
 
         //count = 0;
         rez = 0;
@@ -179,14 +203,18 @@ public class QuestionActivity extends Activity {
             createRequest();//по идее нужно выдавать сообщение что загрузка не удалась, а не повторять как щас
         } else {
             time = prT.getTime(test);
-            Log.d("MyLogs", ""+time);
-            tvtime.setText(""+time);
-            showQuestion();
-            try {
-                showTimer(time*MILLIS_PER_SECOND*60);
-            } catch (NumberFormatException e){
-                Log.d("TimerLog", "Облом");
+            if (time == 0) {//запускать или не запускать таймер если не ограничено время
+                tvtime.setText("");
+                tvopis.setText("Время не ограничено");
+            } else {
+                tvtime.setText(""+time);
+                try {
+                    showTimer(time*MILLIS_PER_SECOND*60);
+                } catch (NumberFormatException e){
+                    Log.d("TimerLog", "Облом");
+                }
             }
+            showQuestion();
         }
     }
 

@@ -53,7 +53,7 @@ public class TestListAdapter extends BaseAdapter {
 
         TestDescription p = objects.get(position);
         if (p.time==0){
-            ((TextView) view.findViewById(R.id.test_time)).setText("Время неограничено");
+            ((TextView) view.findViewById(R.id.test_time)).setText("Время не ограничено");
         }
         else {
             ((TextView) view.findViewById(R.id.test_time)).setText(p.time + " мин.");

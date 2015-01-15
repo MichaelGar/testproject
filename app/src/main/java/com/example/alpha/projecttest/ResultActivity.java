@@ -14,13 +14,25 @@ import android.widget.TextView;
 //TODO: продумать сохранение при повороте и подшаманить экран
 public class ResultActivity extends Activity {
 Button repeat, back;
-    TextView indreztv,maxreztv,timetv,testname;
+    TextView indreztv,maxreztv,timetv,testname,zatrachoptv;
     int indrez,maxrez,id;
     long time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+        indreztv = (TextView) findViewById(R.id.idnrezView);
+        maxreztv = (TextView) findViewById(R.id.maxrezView);
+        timetv = (TextView) findViewById(R.id.textView7);
+        testname = (TextView) findViewById(R.id.testName);
+        zatrachoptv = (TextView) findViewById(R.id.tvZatrachopis);
+
+        if (time == 0){//убирает текствьюхи если время 0
+            timetv.setVisibility(View.GONE);
+            zatrachoptv.setVisibility(View.GONE);
+        }
+
         repeat=(Button)findViewById(R.id.repeat);
         back=(Button)findViewById(R.id.back);
         Intent rez = getIntent();
@@ -31,10 +43,6 @@ Button repeat, back;
         long min = time / 60;
         long sec = time % 60;
         String timestr = String.valueOf(min) + ":" + String.valueOf(sec);
-        indreztv = (TextView) findViewById(R.id.idnrezView);
-        maxreztv = (TextView) findViewById(R.id.maxrezView);
-        timetv = (TextView) findViewById(R.id.textView7);
-        testname = (TextView) findViewById(R.id.testName);
         indreztv.setText("" + indrez);
         maxreztv.setText("" + maxrez);
         timetv.setText(timestr);
