@@ -14,6 +14,8 @@ public class Test {
     public String name;
     public ArrayList<Question> questions = null;
     public int time;
-
+    public int grades;
+    public int count;
+    public int max;
 
 }

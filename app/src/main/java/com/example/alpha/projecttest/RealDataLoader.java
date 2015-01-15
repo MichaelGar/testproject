@@ -88,6 +88,7 @@ public class RealDataLoader implements DataLoaderInterface {
     private Test CreateTest(int idX,String nameX,String questionJSON,boolean fromdb,Context context,String date,int timeX){
         DBHelper db = new DBHelper(context);
         Test test = new Test();
+        test.grades = 0;
         test.questions = new ArrayList();
         boolean goodAnswer = true;
         try {

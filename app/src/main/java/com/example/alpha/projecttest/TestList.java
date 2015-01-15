@@ -43,7 +43,7 @@ public class TestList extends Activity {
                 Log.d("MyLogs","123");
             }
         };*/
-        createRequest();
+        createRequest(true);
         lv = (ListView) findViewById(R.id.lvMain);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -92,9 +92,11 @@ public class TestList extends Activity {
 
     }
 
-    void createRequest() {
+    void createRequest(boolean first) {
         progressBar.setVisibility(View.VISIBLE);
-        thread = (MyTask) getLastNonConfigurationInstance();
+        if (first) {
+            thread = (MyTask) getLastNonConfigurationInstance();
+        }
         if (thread == null) {
             Intent intent = getIntent();
             String login = intent.getStringExtra("login");
@@ -108,9 +110,14 @@ public class TestList extends Activity {
 
     public void readyList(ArrayList<TestDescription> testsAsync){
         tests = testsAsync;
-        testListAdapter = new TestListAdapter(this, tests);
-        lv.setAdapter(testListAdapter);
-        progressBar.setVisibility(View.INVISIBLE);
+        if (tests.size() == 0){
+            thread = null;
+            createRequest(false);
+        } else{
+            testListAdapter = new TestListAdapter(this, tests);
+            lv.setAdapter(testListAdapter);
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
 

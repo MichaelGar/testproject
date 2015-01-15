@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
-
+//TODO: проверить сохранение при поворотах
 public class MainActivity extends Activity {
 
     @Override

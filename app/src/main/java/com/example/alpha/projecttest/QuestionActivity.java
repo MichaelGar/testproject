@@ -32,7 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-
+//TODO: сделать програссбар пока грузится
 public class QuestionActivity extends Activity {
     private static final int MILLIS_PER_SECOND = 1000;
     TextView QuView;
@@ -44,10 +44,11 @@ public class QuestionActivity extends Activity {
     ListView lvAnswer;
     TextView tvtime;
     CountDownTimer timer;
-    int count, zero, time; //zero для проверки выбора ответа
+    int zero, time; //zero для проверки выбора ответа
     int rez;
     public MyTask thread;
     ProcessTest prT;
+    long min, sec;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +61,12 @@ public class QuestionActivity extends Activity {
         //lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);//??
 
 
-        count = 0;
+        //count = 0;
         rez = 0;
         ContainerForQuestionActivity container = (ContainerForQuestionActivity) getLastNonConfigurationInstance();
         if (container != null) {
             test = container.test;
-            count = container.count;
+            //count = container.count;
             rez = container.rez;
             if ( test != null){
                 readyTest(test);
@@ -131,16 +132,16 @@ public class QuestionActivity extends Activity {
                     zero=zero+1;
                 }
                 if (zero!=0){//проверка выбран ли вариант ответа
-                        //TODO:считает ответы,
-                    if (count==(max-1)){//Здесь проверка последний ли это вопрос
-                        Intent intent3 = new Intent(QuestionActivity.this, ResultActivity.class);
-                        //intent3.putExtra("key",values);
-                        //TODO: передать результаты, количество вопросов, и время
-                        startActivity(intent3);
+                    Question question = test.questions.get(test.count);
+                    test.grades = test.grades + prT.getGrade(question,sbArray);
+
+                    if (test.count==(max-1)) {//Здесь проверка последний ли это вопрос
+                        finishTest();
                     }
+
                     else{
-                        count=count+1;
-                        idnView.setText(""+(count+1));
+                        test.count=test.count+1;
+                        idnView.setText("" + (test.count + 1));
                         showQuestion();
                         //обновление данного активити,загрузка нового вопроса
                     }
@@ -194,7 +195,7 @@ public class QuestionActivity extends Activity {
         timer = new CountDownTimer(countdownMillis, MILLIS_PER_SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
-                long min, sec;
+
                 min = (millisUntilFinished-(millisUntilFinished % 60000))/60000;
                 sec = (millisUntilFinished-60000*min)/1000;
                 tvtime.setText(""+min+" мин. "+sec+" сек."/*""+millisUntilFinished / MILLIS_PER_SECOND8*/);
@@ -202,20 +203,19 @@ public class QuestionActivity extends Activity {
             @Override
             public void onFinish() {
                 //TODO:окончание времени
+                finishTest();
             }
         }.start();
     }
 
     //Округление
-    public BigDecimal roundUp(long value, int digits) {
-        return new BigDecimal("" + value).setScale(digits, BigDecimal.ROUND_HALF_UP);
-    }
+
 
     void showQuestion(){
-        Question question = prT.getQuestion(test,count,rez);
+        Question question = prT.getQuestion(test,rez);
         QuView.setText(question.textQuestion);
         ArrayList<String> answersText = prT.getAnswers(question);
-        if (prT.getType(test,count)==0){
+        if (prT.getType(test)==0){
             lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,answersText);
             lvAnswer.setAdapter(adapter);
@@ -255,11 +255,24 @@ public class QuestionActivity extends Activity {
         ContainerForQuestionActivity container = new ContainerForQuestionActivity();
         container.myTask = thread;
         container.test = test;
-        container.count = count;
+        //container.count = count;
         container.rez = rez;
         thread.unLink();
         return container;
     }
+    void finishTest() {
+        //TODO: уничтожить таймер а то два раза срабатывает
+        test = prT.finishTest(test);
+        Intent intent3 = new Intent(QuestionActivity.this, ResultActivity.class);
+        intent3.putExtra("grades", test.grades);
+        intent3.putExtra("max", test.max);
+        intent3.putExtra("id", test.id);
+        long facttime = min * 60 + sec;
+        facttime = time * 60 - facttime;
+        intent3.putExtra("time", facttime);
+        startActivity(intent3);
+    }
+
 
     class MyTask extends AsyncTask<Void, Void, Integer> {
         QuestionActivity activity;

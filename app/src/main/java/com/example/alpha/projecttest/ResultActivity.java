@@ -9,16 +9,36 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
-
+//TODO: продумать сохранение при повороте и подшаманить экран
 public class ResultActivity extends Activity {
 Button repeat, back;
+    TextView indreztv,maxreztv,timetv,testname;
+    int indrez,maxrez,id;
+    long time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         repeat=(Button)findViewById(R.id.repeat);
         back=(Button)findViewById(R.id.back);
+        Intent rez = getIntent();
+        id = rez.getIntExtra("id",0);
+        indrez = rez.getIntExtra("grades",0);
+        maxrez = rez.getIntExtra("max",0);
+        time = rez.getLongExtra("time",0);
+        long min = time / 60;
+        long sec = time % 60;
+        String timestr = String.valueOf(min) + ":" + String.valueOf(sec);
+        indreztv = (TextView) findViewById(R.id.idnrezView);
+        maxreztv = (TextView) findViewById(R.id.maxrezView);
+        timetv = (TextView) findViewById(R.id.textView7);
+        testname = (TextView) findViewById(R.id.testName);
+        indreztv.setText("" + indrez);
+        maxreztv.setText("" + maxrez);
+        timetv.setText(timestr);
+        testname.setText("Teст №"+id);
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
