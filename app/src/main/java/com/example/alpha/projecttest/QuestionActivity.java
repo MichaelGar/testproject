@@ -165,7 +165,7 @@ public class QuestionActivity extends Activity {
 
                     else{
                         test.count=test.count+1;
-                        idnView.setText("" + (test.count + 1));
+                        idnView.setText("" + test.count);
                         showQuestion();
                         //обновление данного активити,загрузка нового вопроса
                     }
