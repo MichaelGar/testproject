@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,21 +14,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.example.alpha.projecttest.models.Test;
 import com.example.alpha.projecttest.models.TestDescription;
+
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class TestList extends Activity {
     private ArrayList<TestDescription> tests;
     private TestListAdapter testListAdapter;
-    public Handler h;
     public MyTask thread;
     ListView lv;
     ProgressBar progressBar;
     AlertDialog.Builder ad;
     Context context;
-    Intent intent2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +41,7 @@ public class TestList extends Activity {
         };*/
         createRequest(true);
         lv = (ListView) findViewById(R.id.lvMain);
+        // TODO: Вынести в отдельный метод
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -92,6 +89,7 @@ public class TestList extends Activity {
 
     }
 
+    // TODO: Убрать внутрь Prcesstest'а
     void createRequest(boolean first) {
         progressBar.setVisibility(View.VISIBLE);
         if (first) {
@@ -146,6 +144,7 @@ public class TestList extends Activity {
         return thread;
     }
 
+    // TODO: Убрать внутрь DataLoader'а
     class MyTask extends AsyncTask<Void, Void, Integer> {
         TestList activity;
         String login, password;

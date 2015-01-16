@@ -2,6 +2,7 @@ package com.example.alpha.projecttest;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,9 +15,10 @@ import android.widget.TextView;
 //TODO: продумать сохранение при повороте и подшаманить экран
 public class ResultActivity extends Activity {
 Button repeat, back;
-    TextView indreztv,maxreztv,timetv,testname,zatrachoptv;
-    int indrez,maxrez,id;
+    TextView indreztv,maxreztv,timetv,testname,zatrachoptv,reztv;
+    int indrez,maxrez,id, alltime;
     long time;
+    String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +29,15 @@ Button repeat, back;
         timetv = (TextView) findViewById(R.id.textView7);
         testname = (TextView) findViewById(R.id.testName);
         zatrachoptv = (TextView) findViewById(R.id.tvZatrachopis);
+        reztv = (TextView) findViewById(R.id.resultViev);
 
         if (time == 0){//убирает текствьюхи если время 0
             timetv.setVisibility(View.GONE);
             zatrachoptv.setVisibility(View.GONE);
+        }
+        else{
+            timetv.setVisibility(View.VISIBLE);
+            zatrachoptv.setVisibility(View.VISIBLE);
         }
 
         repeat=(Button)findViewById(R.id.repeat);
@@ -38,20 +45,35 @@ Button repeat, back;
         Intent rez = getIntent();
         id = rez.getIntExtra("id",0);
         indrez = rez.getIntExtra("grades",0);
+        alltime = rez.getIntExtra("alltime",0);
         maxrez = rez.getIntExtra("max",0);
         time = rez.getLongExtra("time",0);
+        name = rez.getStringExtra("name");
         long min = time / 60;
         long sec = time % 60;
         String timestr = String.valueOf(min) + ":" + String.valueOf(sec);
         indreztv.setText("" + indrez);
         maxreztv.setText("" + maxrez);
+        if(indrez/maxrez>0.66) {
+            reztv.setText("ТЕСТ СДАН!!!");
+            reztv.setTextColor(Color.GREEN);
+        }
+        else{
+            reztv.setText("Тест НЕ сдан!!!");
+            reztv.setTextColor(Color.RED);
+        }
         timetv.setText(timestr);
-        testname.setText("Teст №"+id);
+
+        testname.setText("Teст "+name);
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentrepeat = new Intent(ResultActivity.this, QuestionActivity.class);
                 //intentrepeat.putExtra("ID",lng);
+                intentrepeat.putExtra("ID",id);
+                intentrepeat.putExtra("date", 0);
+                intentrepeat.putExtra("name",name);
+                intentrepeat.putExtra("time",alltime);
                 startActivity(intentrepeat);
             }
         });

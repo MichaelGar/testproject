@@ -295,6 +295,9 @@ public class QuestionActivity extends Activity {
         intent3.putExtra("grades", test.grades);
         intent3.putExtra("max", test.max);
         intent3.putExtra("id", test.id);
+        intent3.putExtra("name", test.name);
+        intent3.putExtra("alltime",test.time);
+
         long facttime = min * 60 + sec;
         facttime = time * 60 - facttime;
         intent3.putExtra("time", facttime);
