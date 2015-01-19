@@ -46,55 +46,12 @@ public class TestList extends Activity {
         };*/
      //   createRequest(true);
         lv = (ListView) findViewById(R.id.lvMain);
-        // TODO: Вынести в отдельный метод
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                TestHeader obj;
-                obj = tests.get(position);
-                //Формируем диалог(начало)
-                context = TestList.this;
-               // final int idX = obj.id;
-                final String nameX = obj.name;
-              //  final String date = obj.last_modified;
-              //  final int timeX = obj.time;
-                String title = nameX;
-                String message = "Желаете начать тест?";
-                String button1String = "Да, начать";
-                String button2String = "Нет, вернуться";
-                ad = new AlertDialog.Builder(context);
-                ad.setTitle(title);  // заголовок
-                ad.setMessage(message); // сообщение
-                ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int arg1) {
-                        Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
-
-                       // intent2.putExtra("ID",idX);
-                       // intent2.putExtra("date",date);
-                       // intent2.putExtra("name",nameX);
-                       // intent2.putExtra("time",timeX);
-                        prc.position = position;
-                        startActivity(intent2);
-
-                    }
-                });
-                ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int arg1) {
-                    }
-                });
-                ad.setCancelable(true);
-                ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    public void onCancel(DialogInterface dialog) {
-                    }
-                });
-                //(конец)
-
-                ad.show();//Вызов диалога
+                selected(position);
             }
         });
-
-        
-
     }
     void setListTests(ArrayList<TestHeader> testsX){//сюда вернулся список тестов
         tests = testsX;
@@ -109,7 +66,39 @@ public class TestList extends Activity {
 
     }
 
-
+    void selected(int pos) {
+        final int position = pos;
+        TestHeader obj;
+        obj = tests.get(position);
+        context = TestList.this;
+        final String nameX = obj.name;
+        String title = nameX;
+        String message = "Желаете начать тест?";
+        String button1String = "Да, начать";
+        String button2String = "Нет, вернуться";
+        ad = new AlertDialog.Builder(context);
+        ad.setTitle(title);  // заголовок
+        ad.setMessage(message); // сообщение
+        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
+                // intent2.putExtra("ID",idX);
+                // intent2.putExtra("date",date);
+                // intent2.putExtra("name",nameX);
+                // intent2.putExtra("time",timeX);
+                prc.position = position;
+                startActivity(intent2);
+            }
+        });
+        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1){}
+        });
+        ad.setCancelable(true);
+        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {}
+        });
+        ad.show();//Вызов диалога
+    }
 
     // TODO: Убрать внутрь Prcesstest'а
   /* void createRequest(boolean first) {

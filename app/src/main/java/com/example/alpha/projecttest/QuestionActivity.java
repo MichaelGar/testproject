@@ -150,7 +150,6 @@ public class QuestionActivity extends Activity {
                 for (int i = 0; i < sbArray.size(); i++) {
                     int key = sbArray.keyAt(i);
                     if (sbArray.get(key))
-                        //TODO:правильный неправильный
                     zero=zero+1;
                 }
                 if (zero!=0){//проверка выбран ли вариант ответа
