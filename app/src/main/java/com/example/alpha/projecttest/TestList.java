@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,24 +13,30 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.example.alpha.projecttest.models.TestDescription;
+import com.example.alpha.projecttest.models.TestHeader;
 
 import java.util.ArrayList;
 
 public class TestList extends Activity {
-    private ArrayList<TestDescription> tests;
+    private ArrayList<TestHeader> tests;
     private TestListAdapter testListAdapter;
-    public MyTask thread;
+   // public MyTask thread;
     ListView lv;
+   // ArrayList<TestHeader> tests;
     ProgressBar progressBar;
     AlertDialog.Builder ad;
     Context context;
-
+    ProcessTest prc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list);
-           progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        MyApp app = ((MyApp) getApplicationContext());
+        prc = app.prc;
+        prc.getListTests(this);// сделали запрос на список тестов
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
          /*FakeDataLoader l = new FakeDataLoader() {
             @Override
             void onLoad(Test test){
@@ -39,20 +44,20 @@ public class TestList extends Activity {
                 Log.d("MyLogs","123");
             }
         };*/
-        createRequest(true);
+     //   createRequest(true);
         lv = (ListView) findViewById(R.id.lvMain);
         // TODO: Вынести в отдельный метод
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TestDescription obj;
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                TestHeader obj;
                 obj = tests.get(position);
                 //Формируем диалог(начало)
                 context = TestList.this;
-                final int idX = obj.id;
+               // final int idX = obj.id;
                 final String nameX = obj.name;
-                final String date = obj.last_modified;
-                final int timeX = obj.time;
+              //  final String date = obj.last_modified;
+              //  final int timeX = obj.time;
                 String title = nameX;
                 String message = "Желаете начать тест?";
                 String button1String = "Да, начать";
@@ -63,11 +68,14 @@ public class TestList extends Activity {
                 ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int arg1) {
                         Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
-                        intent2.putExtra("ID",idX);
-                        intent2.putExtra("date",date);
-                        intent2.putExtra("name",nameX);
-                        intent2.putExtra("time",timeX);
+
+                       // intent2.putExtra("ID",idX);
+                       // intent2.putExtra("date",date);
+                       // intent2.putExtra("name",nameX);
+                       // intent2.putExtra("time",timeX);
+                        prc.position = position;
                         startActivity(intent2);
+
                     }
                 });
                 ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
@@ -88,9 +96,23 @@ public class TestList extends Activity {
         
 
     }
+    void setListTests(ArrayList<TestHeader> testsX){//сюда вернулся список тестов
+        tests = testsX;
+       // if (tests.size() == 0){
+         //   thread = null;
+         //   createRequest(false);
+       // } else{
+            testListAdapter = new TestListAdapter(this, tests);
+            lv.setAdapter(testListAdapter);
+            progressBar.setVisibility(View.INVISIBLE);
+       // }
+
+    }
+
+
 
     // TODO: Убрать внутрь Prcesstest'а
-    void createRequest(boolean first) {
+  /* void createRequest(boolean first) {
         progressBar.setVisibility(View.VISIBLE);
         if (first) {
             thread = (MyTask) getLastNonConfigurationInstance();
@@ -104,9 +126,9 @@ public class TestList extends Activity {
             thread.setLoginPassword(login,password);
         }
         thread.link(this);
-    }
+    }*/
 
-    public void readyList(ArrayList<TestDescription> testsAsync){
+ /*   public void readyList(ArrayList<TestDescription> testsAsync){
         tests = testsAsync;
         if (tests.size() == 0){
             thread = null;
@@ -118,7 +140,7 @@ public class TestList extends Activity {
         }
     }
 
-
+*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -139,12 +161,12 @@ public class TestList extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public Object onRetainNonConfigurationInstance() {
+   /* public Object onRetainNonConfigurationInstance() {
         thread.unLink();
         return thread;
     }
-
-    // TODO: Убрать внутрь DataLoader'а
+*/
+  /*  // TODO: Убрать внутрь DataLoader'а
     class MyTask extends AsyncTask<Void, Void, Integer> {
         TestList activity;
         String login, password;
@@ -173,5 +195,5 @@ public class TestList extends Activity {
             super.onPostExecute(result);
             activity.readyList(testAsync);
         }
-    }
+    }*/
 }

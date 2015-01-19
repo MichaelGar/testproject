@@ -3,14 +3,140 @@ package com.example.alpha.projecttest;
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
+import com.example.alpha.projecttest.models.TestHeader;
+
 import android.util.SparseBooleanArray;
+import android.widget.Toast;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by 1 on 12.01.2015.
  */
 //TODO:Сделать ФИНИШ NAHOOY
 public class ProcessTest {
+    RealDataLoader rdl;
+    ArrayList<TestHeader> listTestsHeader;
+    Test test;
+    TestList testList;
+    QuestionActivity questionActivity;
+    Thread thread1,thread2;
+    public int position;
+
+    public void getListTests(TestList testListX) {
+        testList = testListX;
+        if (thread1 == null) {
+            thread1 = new Thread(new Runnable() {
+                public void run() {
+                    if (listTestsHeader == null) {
+                        //загрузка
+                        listTestsHeader = rdl.loadListTests("","");
+                    }
+                    testList.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //тут делаем какие то взаимодействия с интерфейсом
+                            testList.setListTests(listTestsHeader);
+                        }
+                    });
+                }
+            });
+            thread1.start();
+        }
+    }
+
+    private void getTest(){
+        if (test == null) {
+            TestHeader testHeader = listTestsHeader.get(position);
+            int id = testHeader.id;
+            String last_modified = testHeader.last_modified;
+            //  String name = testHeader.name;
+          //  int minutes = testHeader.time;
+            test = rdl.loadTest(id,last_modified,questionActivity);
+            test.name = testHeader.name;
+            test.max = testHeader.max;
+            test.count = 0;
+            test.grades = 0;
+            test = randomTest(test);
+
+        }
+    }
+
+    public void getQuestion(QuestionActivity questionActivityX){
+        questionActivity = questionActivityX;
+        if (thread2 == null) {
+            thread2 = new Thread(new Runnable() {
+                public void run() {
+                    getTest();
+                    final Question question = test.questions.get(test.count);
+                    questionActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //тут делаем какие то взаимодействия с интерфейсом
+                            questionActivity.showQuestion(question,test.count, test.max);
+                        }
+                    });
+                }
+            });
+            thread2.start();
+        }
+    }
+
+    private Test randomTest(Test test){
+        ArrayList<Question> questions = test.questions;
+        Random rnd = new Random();
+        for (int i = questions.size() - 1; i >= 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            Question question = questions.get(index);
+            question = randomQuestion(question);
+            questions.set(index, questions.get(i));
+            // ar[index] = ar[i];
+            questions.set(i, question);
+
+            // ar[i] = a;
+        }
+        test.questions = questions;
+        return test;
+    }
+
+    public void setAnswer(SparseBooleanArray sbArray){
+        thread2 = null;
+        int zero = 0;
+        for (int i = 0; i < sbArray.size(); i++) {
+            int key = sbArray.keyAt(i);
+            if (sbArray.get(key))
+                zero=zero+1;
+        }
+        if (zero > 0) {
+            test.grades = test.grades + getGrade(sbArray);
+            test.count = test.count + 1;
+            getQuestion(questionActivity);
+        }
+        else{
+            questionActivity.showError();
+        }
+    }
+
+    private Question randomQuestion(Question question){
+        ArrayList<Answer> answers = question.answers;
+        Random rnd = new Random();
+        for (int i = answers.size() - 1; i >= 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            Answer answer = answers.get(index);
+            //answer = randomQuestion(question);
+            answers.set(index, answers.get(i));
+            // ar[index] = ar[i];
+            answers.set(i, answer);
+
+            // ar[i] = a;
+        }
+        question.answers = answers;
+        return question;
+    }
+
     public Question getQuestion(Test test, int rez){
        ArrayList<Question> questions = test.questions;
        int all = questions.size();
@@ -25,10 +151,6 @@ public class ProcessTest {
         return questions.get(test.count).qtype;
     }
 
-    public Integer getTime(Test test){
-        return test.time;
-    }
-        //ребят че за херня? подругому нельзя чтоль время вытащить?
     public ArrayList<String> getAnswers(Question question){
         ArrayList<Answer> answersList= question.answers;
         ArrayList<String> answers = new ArrayList<>();
@@ -39,9 +161,9 @@ public class ProcessTest {
         return answers;
     }
 
-   public int getGrade(Question question, SparseBooleanArray sbArray){
+        private int getGrade(SparseBooleanArray sbArray){
         int grades = 0;
-        ArrayList<Answer> answers = question.answers;
+        ArrayList<Answer> answers = test.questions.get(test.count).answers;
         for (int i = 0; i < sbArray.size(); i++) {
             int key = sbArray.keyAt(i);
             if (sbArray.get(key)){

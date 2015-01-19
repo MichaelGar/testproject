@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Created by user on 15.01.15.
- */
+
 
 interface TestListActivityInterface{
     public showTestList(ArrayList<Test> testList);
@@ -34,7 +34,7 @@ interface DataLoaderDelegateInterface {
 }
 
 
-class ProcessTest implements  DataLoaderDelegateInterface{
+class ProcessTestt implements  DataLoaderDelegateInterface{
     DataLoaderInterface loader;
     TestListActivityInterface testListActivity;
 
@@ -47,4 +47,4 @@ class ProcessTest implements  DataLoaderDelegateInterface{
     {
         self.testListActivity.showTestList(testList);
     }
-}
+}*/

@@ -2,7 +2,6 @@ package com.example.alpha.projecttest;
 
 import android.app.Activity;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,15 +21,8 @@ import android.widget.Toast;
 import com.example.alpha.projecttest.models.ContainerForQuestionActivity;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
-import com.example.alpha.projecttest.models.Answer;
-import com.example.alpha.projecttest.models.TestDescription;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 //TODO: сделать програссбар пока грузится
 public class QuestionActivity extends Activity {
@@ -39,7 +30,7 @@ public class QuestionActivity extends Activity {
     TextView QuView;
     Button answer;
     Test test;
-    Integer max;//Будет отвечать за количество вопросов в тесте
+   // Integer max;//Будет отвечать за количество вопросов в тесте
     TextView maxView;//поле для вывода
     TextView idnView;//поле для вывода
     ListView lvAnswer;
@@ -47,8 +38,8 @@ public class QuestionActivity extends Activity {
     CountDownTimer timer;
     int zero, time; //zero для проверки выбора ответа
     int rez;
-    public MyTask thread;
-    ProcessTest prT;
+   // public MyTask thread;
+    ProcessTest prc;
     long min, sec;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +78,12 @@ public class QuestionActivity extends Activity {
 
         //count = 0;
         rez = 0;
-        ContainerForQuestionActivity container = (ContainerForQuestionActivity) getLastNonConfigurationInstance();
+
+        MyApp app = ((MyApp) getApplicationContext());
+        prc = app.prc;
+        prc.getQuestion(this);
+
+/*        ContainerForQuestionActivity container = (ContainerForQuestionActivity) getLastNonConfigurationInstance();
         if (container != null) {
             test = container.test;
             //count = container.count;
@@ -96,7 +92,7 @@ public class QuestionActivity extends Activity {
                 readyTest(test);
             }
         }
-        prT = new ProcessTest();
+        prT = new ProcessTest();*/
         //-->Sozdaem massiv
    /*     final ArrayList<Answer> Answerlist = new ArrayList<Answer>();
         ArrayList<String> questtext = new ArrayList<String>();
@@ -141,13 +137,15 @@ public class QuestionActivity extends Activity {
 
         RealDataLoader f = new RealDataLoader();
         test = f.loadTest(ID,date,this);*/
-        createRequest();
+       // createRequest();
         QuView = (TextView) findViewById(R.id.questiontextView);
+        Context context = this;
        // QuView.setText(ID.toString());
         answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                zero=0;
+                prc.setAnswer(lvAnswer.getCheckedItemPositions());
+              /*  zero=0;
                 SparseBooleanArray sbArray = lvAnswer.getCheckedItemPositions();
                 for (int i = 0; i < sbArray.size(); i++) {
                     int key = sbArray.keyAt(i);
@@ -157,29 +155,53 @@ public class QuestionActivity extends Activity {
                 }
                 if (zero!=0){//проверка выбран ли вариант ответа
                     Question question = test.questions.get(test.count);
-                    test.grades = test.grades + prT.getGrade(question,sbArray);
+                    test.grades = test.grades + prc.getGrade(question,sbArray);
 
-                    if (test.count==(max-1)) {//Здесь проверка последний ли это вопрос
+                    if (test.count==(4-1)) {//Здесь проверка последний ли это вопрос
                         finishTest();
                     }
 
                     else{
                         test.count=test.count+1;
                         idnView.setText("" + test.count);
-                        showQuestion();
+                        //showQuestion();
                         //обновление данного активити,загрузка нового вопроса
                     }
                 }
                 else{
                     Toast toast = Toast.makeText(getApplicationContext(), "Не выбран вариант ответа", Toast.LENGTH_SHORT);
                     toast.show();
-                }
+                }*/
             }
         });
 
     }
 
-    void createRequest() {
+    public void showError(){
+        Toast toast = Toast.makeText(getApplicationContext(), "Не выбран вариант ответа", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void showQuestion(Question question,int count,int max){
+        QuView.setText(question.textQuestion);
+        ArrayList<String> answersText = prc.getAnswers(question);
+        if (question.qtype == 0){
+            lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,answersText);
+            lvAnswer.setAdapter(adapter);
+        }
+        else {
+            lvAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, answersText);
+            lvAnswer.setAdapter(adapter);
+        }
+        maxView.setText("" + max);
+        idnView.setText("" + count);
+       // max=test.questions.size();
+
+    }
+
+  /* void createRequest() {
        // progressBar.setVisibility(View.VISIBLE);
         ContainerForQuestionActivity container = (ContainerForQuestionActivity) getLastNonConfigurationInstance();
         if (container != null){
@@ -195,8 +217,8 @@ public class QuestionActivity extends Activity {
             thread.setIdDateContextName(id,date,this,name,minutes);
         }
         thread.link(this);
-    }
-    void readyTest(Test testX){
+    }*/
+ /*   void readyTest(Test testX){
         test = testX;
         if (test == null){
             thread = null;
@@ -217,7 +239,7 @@ public class QuestionActivity extends Activity {
             showQuestion();
         }
     }
-
+*/
     private void showTimer(int countdownMillis) {
         if(timer != null) { timer.cancel(); }
         timer = new CountDownTimer(countdownMillis, MILLIS_PER_SECOND) {
@@ -238,9 +260,9 @@ public class QuestionActivity extends Activity {
 
     //Округление
 
-
-    void showQuestion(){
-        Question question = prT.getQuestion(test,rez);
+/*
+    void showQuestionn(Question question){
+        //Question question = prT.getQuestion(test,rez);
         QuView.setText(question.textQuestion);
         ArrayList<String> answersText = prT.getAnswers(question);
         if (prT.getType(test)==0){
@@ -256,7 +278,7 @@ public class QuestionActivity extends Activity {
         maxView.setText("" + test.questions.size());
         max=test.questions.size();
     }
-
+*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -278,7 +300,7 @@ public class QuestionActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
+/*
     public Object onRetainNonConfigurationInstance() {
         ContainerForQuestionActivity container = new ContainerForQuestionActivity();
         container.myTask = thread;
@@ -287,10 +309,10 @@ public class QuestionActivity extends Activity {
         container.rez = rez;
         thread.unLink();
         return container;
-    }
+    }*/
     void finishTest() {
         //TODO: уничтожить таймер а то два раза срабатывает
-        test = prT.finishTest(test);
+        test = prc.finishTest(test);
         Intent intent3 = new Intent(QuestionActivity.this, ResultActivity.class);
         intent3.putExtra("grades", test.grades);
         intent3.putExtra("max", test.max);
@@ -303,7 +325,7 @@ public class QuestionActivity extends Activity {
         intent3.putExtra("time", facttime);
         startActivity(intent3);
     }
-
+/*
 
     class MyTask extends AsyncTask<Void, Void, Integer> {
         QuestionActivity activity;
@@ -340,5 +362,5 @@ public class QuestionActivity extends Activity {
             super.onPostExecute(result);
             activity.readyTest(testAsync);
         }
-    }
+    }*/
 }

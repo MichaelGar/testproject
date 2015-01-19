@@ -5,7 +5,7 @@ import android.content.Context;
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
-import com.example.alpha.projecttest.models.TestDescription;
+import com.example.alpha.projecttest.models.TestHeader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,14 +65,14 @@ public class FakeDataLoader implements DataLoaderInterface {
       return CreateTest(questionJSON);
     }
 
-    public ArrayList<TestDescription> loadListTests(String user, String password){
+    public ArrayList<TestHeader> loadListTests(String user, String password){
         try { //типа грузит 10 секунд
             Thread.sleep(3000,1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         String JSONListTests = "{list:[{name:\"Test1\",id:\"122\",description:\"Описание\"},{name:\"Test2\",id:\"121\",description:\"Описани2е\"}]}";
-        ArrayList<TestDescription> listTests = new ArrayList<>();
+        ArrayList<TestHeader> listTests = new ArrayList<>();
         try {
             JSONObject json = new JSONObject(JSONListTests);
             JSONArray jsonList = json.getJSONArray("list");
@@ -81,11 +81,11 @@ public class FakeDataLoader implements DataLoaderInterface {
                 String nameX = oneTest.getString("name");
                 String descriptionX = oneTest.getString("description");
                 int idX = oneTest.getInt("id");
-                TestDescription testDescription = new TestDescription();
-                testDescription.name = nameX;
-                testDescription.id = idX;
-                testDescription.description = descriptionX;
-                listTests.add(testDescription);
+                TestHeader testHeader = new TestHeader();
+                testHeader.name = nameX;
+                testHeader.id = idX;
+                testHeader.description = descriptionX;
+                listTests.add(testHeader);
             }
         } catch (JSONException e) {
             e.printStackTrace();
