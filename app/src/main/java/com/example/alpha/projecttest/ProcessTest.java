@@ -27,6 +27,7 @@ public class ProcessTest {
     public int position;
     CountDownTimer timer;
     long min,sec;
+    Boolean mode;
 
     public void getListTests(TestList testListX) {
         testList = testListX;
@@ -51,19 +52,29 @@ public class ProcessTest {
     }
 
     private void startTimer(int countdownMillis) {
-        if(timer != null) { timer.cancel(); }
-        timer = new CountDownTimer(countdownMillis, MILLIS_PER_SECOND) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                min = (millisUntilFinished-(millisUntilFinished % 60000))/60000;
-                sec = (millisUntilFinished-60000*min)/1000;
-                questionActivity.showTimer(min, sec);
+        if (countdownMillis!=0) {
+            mode = true;
+            if (timer != null) {
+                timer.cancel();
             }
-            @Override
-            public void onFinish() {
-                //finishTest();
-            }
-        }.start();
+            timer = new CountDownTimer(countdownMillis, MILLIS_PER_SECOND) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    min = (millisUntilFinished - (millisUntilFinished % 60000)) / 60000;
+                    sec = (millisUntilFinished - 60000 * min) / 1000;
+                    questionActivity.showTimer(mode,min,sec);
+                }
+
+                @Override
+                public void onFinish() {
+                    //finishTest();
+                }
+            }.start();
+        }
+        else{
+            mode=false;
+            questionActivity.showTimer(mode,0,0);
+        }
     }
 
     private void getTest(){
@@ -76,6 +87,7 @@ public class ProcessTest {
             test = rdl.loadTest(id,last_modified,questionActivity);
             test.name = testHeader.name;
             test.max = testHeader.max;
+            test.time = testHeader.time;
             test.count = 0;
             test.grades = 0;
             test = randomTest(test);
@@ -94,6 +106,9 @@ public class ProcessTest {
                         @Override
                         public void run() {
                             //тут делаем какие то взаимодействия с интерфейсом
+                            if (test.count==0){
+                                startTimer(test.time*MILLIS_PER_SECOND*60);
+                            }
                             questionActivity.showQuestion(question,test.count, test.max);
                         }
                     });
@@ -101,6 +116,7 @@ public class ProcessTest {
             });
             thread2.start();
         }
+
     }
 
     private Test randomTest(Test test){

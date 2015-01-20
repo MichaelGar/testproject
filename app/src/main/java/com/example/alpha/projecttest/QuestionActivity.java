@@ -173,8 +173,13 @@ public class QuestionActivity extends Activity {
 
     }
 
-    public void showTimer(long min, long sec) {
-         tvtime.setText(""+min+" мин. "+sec+" сек.");
+    public void showTimer(boolean mode, long min, long sec) {
+        if (mode==true) {
+            tvtime.setText("" + min + " мин. " + sec + " сек.");
+        }
+        else{
+            tvopis.setText("Время неограничено");
+        }
     }
 
     public void showError(){
