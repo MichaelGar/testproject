@@ -111,7 +111,7 @@ public class ProcessTest {
                             if (test.count==0){
                                 startTimer(test.time*MILLIS_PER_SECOND*60);
                             }
-                            questionActivity.showQuestion(question,test.count, test.max);
+                            questionActivity.showQuestion(question,test.count, test.questions_count);
                         }
                     });
                 }
