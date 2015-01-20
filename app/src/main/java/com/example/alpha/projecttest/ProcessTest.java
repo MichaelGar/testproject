@@ -68,6 +68,7 @@ public class ProcessTest {
                 @Override
                 public void onFinish() {
                     //finishTest();
+                    questionActivity.showError("ТЕСТ ЗАКОНЧЕН!!!");
                 }
             }.start();
         }
@@ -90,6 +91,7 @@ public class ProcessTest {
             test.time = testHeader.time;
             test.count = 0;
             test.grades = 0;
+            test.questions_count=testHeader.questions_count;
             test = randomTest(test);
 
         }
@@ -146,12 +148,18 @@ public class ProcessTest {
                 zero=zero+1;
         }
         if (zero > 0) {
-            test.grades = test.grades + getGrade(sbArray);
-            test.count = test.count + 1;
-            getQuestion(questionActivity);
+            if (test.count<test.questions_count-1) {
+                test.grades = test.grades + getGrade(sbArray);
+                test.count = test.count + 1;
+                getQuestion(questionActivity);
+            }
+            else{
+                //finishTest();
+                questionActivity.showError("ТЕСТ ЗАКОНЧЕН!!!");
+            }
         }
         else{
-            questionActivity.showError();
+            questionActivity.showError("Не выбрано ни одного варианта ответа");
         }
     }
 

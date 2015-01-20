@@ -17,5 +17,6 @@ public class Test {
     public int grades;
     public int count;
     public int max;
+    public int questions_count;
 
 }

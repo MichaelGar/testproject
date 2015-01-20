@@ -182,8 +182,8 @@ public class QuestionActivity extends Activity {
         }
     }
 
-    public void showError(){
-        Toast toast = Toast.makeText(getApplicationContext(), "Не выбран вариант ответа", Toast.LENGTH_SHORT);
+    public void showError(String str){
+        Toast toast = Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT);
         toast.show();
     }
 
