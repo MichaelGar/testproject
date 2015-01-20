@@ -49,7 +49,7 @@ public class TestList extends Activity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                selected(position);
+                onSelected(position);
             }
         });
     }
@@ -66,7 +66,7 @@ public class TestList extends Activity {
 
     }
 
-    void selected(int pos) {
+    void onSelected(int pos) {
         final int position = pos;
         TestHeader obj;
         obj = tests.get(position);

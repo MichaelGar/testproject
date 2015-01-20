@@ -11,4 +11,5 @@ public class TestHeader {
     public int attempt_count;
     public int time;
     public int max;
+    public int questions_count;
 }

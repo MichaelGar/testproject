@@ -5,6 +5,7 @@ import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
 import com.example.alpha.projecttest.models.TestHeader;
 
+import android.os.CountDownTimer;
 import android.util.SparseBooleanArray;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import java.util.Random;
  */
 //TODO:Сделать ФИНИШ NAHOOY
 public class ProcessTest {
+    private static final int MILLIS_PER_SECOND = 1000;
     RealDataLoader rdl;
     ArrayList<TestHeader> listTestsHeader;
     Test test;
@@ -23,6 +25,8 @@ public class ProcessTest {
     QuestionActivity questionActivity;
     Thread thread1,thread2;
     public int position;
+    CountDownTimer timer;
+    long min,sec;
 
     public void getListTests(TestList testListX) {
         testList = testListX;
@@ -44,6 +48,22 @@ public class ProcessTest {
             });
             thread1.start();
         }
+    }
+
+    private void startTimer(int countdownMillis) {
+        if(timer != null) { timer.cancel(); }
+        timer = new CountDownTimer(countdownMillis, MILLIS_PER_SECOND) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                min = (millisUntilFinished-(millisUntilFinished % 60000))/60000;
+                sec = (millisUntilFinished-60000*min)/1000;
+                questionActivity.showTimer(min, sec);
+            }
+            @Override
+            public void onFinish() {
+                //finishTest();
+            }
+        }.start();
     }
 
     private void getTest(){

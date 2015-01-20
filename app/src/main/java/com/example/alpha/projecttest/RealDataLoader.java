@@ -58,6 +58,7 @@ public class RealDataLoader implements DataLoaderInterface {
                     int max = oneTest.getInt("questions_count");
                     int attempt_countX = oneTest.getInt("attempt_count");
                     int idX = oneTest.getInt("id");
+                    int questions_countX = oneTest.getInt("questions_count");
                     TestHeader testHeader = new TestHeader();
                     testHeader.name = nameX;
                     testHeader.id = idX;
@@ -65,6 +66,7 @@ public class RealDataLoader implements DataLoaderInterface {
                     testHeader.description = descriptionX;
                     testHeader.time = timeX;
                     testHeader.max = max;
+                    testHeader.questions_count = questions_countX;
                     testHeader.attempt_count = attempt_countX;
                     listTests.add(testHeader);
                 }

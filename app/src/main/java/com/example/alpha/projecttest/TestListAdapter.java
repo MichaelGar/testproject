@@ -57,9 +57,7 @@ public class TestListAdapter extends BaseAdapter {
         else {
             ((TextView) view.findViewById(R.id.test_time)).setText(p.time + " мин.");
         }
-        //TODO:переделать attempt count в колво вопросов
-        ((TextView) view.findViewById(R.id.test_qcount)).setText("Вопросов: "+p.attempt_count);
-
+        ((TextView) view.findViewById(R.id.test_qcount)).setText("Вопросов: "+p.questions_count);
         ((TextView) view.findViewById(R.id.test_name)).setText(p.name);
         ((TextView) view.findViewById(R.id.test_descr)).setText(p.description);
         return view;

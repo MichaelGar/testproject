@@ -26,16 +26,13 @@ import java.util.ArrayList;
 
 //TODO: сделать програссбар пока грузится
 public class QuestionActivity extends Activity {
-    private static final int MILLIS_PER_SECOND = 1000;
     TextView QuView;
     Button answer;
     Test test;
-   // Integer max;//Будет отвечать за количество вопросов в тесте
     TextView maxView;//поле для вывода
     TextView idnView;//поле для вывода
     ListView lvAnswer;
     TextView tvtime, tvopis;
-    CountDownTimer timer;
     int zero, time; //zero для проверки выбора ответа
     int rez;
    // public MyTask thread;
@@ -176,6 +173,10 @@ public class QuestionActivity extends Activity {
 
     }
 
+    public void showTimer(long min, long sec) {
+         tvtime.setText(""+min+" мин. "+sec+" сек.");
+    }
+
     public void showError(){
         Toast toast = Toast.makeText(getApplicationContext(), "Не выбран вариант ответа", Toast.LENGTH_SHORT);
         toast.show();
@@ -196,8 +197,6 @@ public class QuestionActivity extends Activity {
         }
         maxView.setText("" + max);
         idnView.setText("" + count);
-       // max=test.questions.size();
-
     }
 
   /* void createRequest() {
@@ -239,23 +238,7 @@ public class QuestionActivity extends Activity {
         }
     }
 */
-    private void showTimer(int countdownMillis) {
-        if(timer != null) { timer.cancel(); }
-        timer = new CountDownTimer(countdownMillis, MILLIS_PER_SECOND) {
-            @Override
-            public void onTick(long millisUntilFinished) {
 
-                min = (millisUntilFinished-(millisUntilFinished % 60000))/60000;
-                sec = (millisUntilFinished-60000*min)/1000;
-                tvtime.setText(""+min+" мин. "+sec+" сек."/*""+millisUntilFinished / MILLIS_PER_SECOND8*/);
-            }
-            @Override
-            public void onFinish() {
-                //TODO:окончание времени
-                finishTest();
-            }
-        }.start();
-    }
 
     //Округление
 
@@ -324,6 +307,7 @@ public class QuestionActivity extends Activity {
         intent3.putExtra("time", facttime);
         startActivity(intent3);
     }
+
 /*
 
     class MyTask extends AsyncTask<Void, Void, Integer> {
