@@ -3,36 +3,29 @@ package com.example.alpha.projecttest;
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
-import com.example.alpha.projecttest.models.TestHeader;
-
 import android.os.CountDownTimer;
 import android.util.SparseBooleanArray;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by 1 on 12.01.2015.
- */
-//TODO:Сделать ФИНИШ NAHOOY
 public class ProcessTest {
     private static final int MILLIS_PER_SECOND = 1000;
     RealDataLoader rdl;
-    ArrayList<TestHeader> listTestsHeader;
+    ArrayList<Test> listTestsHeader;
     Test test;
     TestList testList;
     QuestionActivity questionActivity;
-    Thread thread1,thread2;
+    Thread threadListtest, threadGetquestion;
     public int position;
     CountDownTimer timer;
     long min,sec;
     Boolean mode;
 
     public void getListTests(TestList testListX) {
+        threadListtest =null;
         testList = testListX;
-        if (thread1 == null) {
-            thread1 = new Thread(new Runnable() {
+        if (threadListtest == null) {
+            threadListtest = new Thread(new Runnable() {
                 public void run() {
                     if (listTestsHeader == null) {
                         //загрузка
@@ -47,8 +40,18 @@ public class ProcessTest {
                     });
                 }
             });
-            thread1.start();
+            threadListtest.start();
         }
+    }
+
+    public void getResult(ResultActivity resultActivity){
+        Boolean mark = (((test.grades/test.max)*100) >= 60);
+        min = test.time - min - 1;
+        if (sec != 0) {
+            sec = 60 - sec;
+        }
+        resultActivity.showResult(test.name, test.max, test.grades, mode, min, sec, mark);
+        test = null;
     }
 
     private void startTimer(int countdownMillis) {
@@ -67,8 +70,8 @@ public class ProcessTest {
 
                 @Override
                 public void onFinish() {
-                    //finishTest();
-                    questionActivity.showError("ТЕСТ ЗАКОНЧЕН!!!");
+                    finishTest(test);
+                    questionActivity.goResult();
                 }
             }.start();
         }
@@ -80,27 +83,26 @@ public class ProcessTest {
 
     private void getTest(){
         if (test == null) {
-            TestHeader testHeader = listTestsHeader.get(position);
-            int id = testHeader.id;
-            String last_modified = testHeader.last_modified;
-            //  String name = testHeader.name;
-          //  int minutes = testHeader.time;
-            test = rdl.loadTest(id,last_modified,questionActivity);
-            test.name = testHeader.name;
-            test.max = testHeader.max;
-            test.time = testHeader.time;
-            test.count = 0;
-            test.grades = 0;
-            test.questions_count=testHeader.questions_count;
-            test = randomTest(test);
+            Test test = listTestsHeader.get(position);
+            int id = test.id;
+            String last_modified = test.last_modified;
+            this.test = rdl.loadTest(id,last_modified,questionActivity);
+            this.test.name = test.name;
+            this.test.max = test.max;
+            this.test.time = test.time;
+            this.test.count = 0;
+            this.test.grades = 0;
+            this.test.questions_count= test.questions_count;
+            this.test = randomTest(this.test);
 
         }
     }
 
     public void getQuestion(QuestionActivity questionActivityX){
         questionActivity = questionActivityX;
-        if (thread2 == null) {
-            thread2 = new Thread(new Runnable() {
+        threadGetquestion = null;
+        if (threadGetquestion == null) {
+            threadGetquestion = new Thread(new Runnable() {
                 public void run() {
                     getTest();
                     final Question question = test.questions.get(test.count);
@@ -116,7 +118,7 @@ public class ProcessTest {
                     });
                 }
             });
-            thread2.start();
+            threadGetquestion.start();
         }
 
     }
@@ -126,21 +128,17 @@ public class ProcessTest {
         Random rnd = new Random();
         for (int i = questions.size() - 1; i >= 0; i--) {
             int index = rnd.nextInt(i + 1);
-            // Simple swap
             Question question = questions.get(index);
             question = randomQuestion(question);
             questions.set(index, questions.get(i));
-            // ar[index] = ar[i];
             questions.set(i, question);
-
-            // ar[i] = a;
         }
         test.questions = questions;
         return test;
     }
 
     public void setAnswer(SparseBooleanArray sbArray){
-        thread2 = null;
+        threadGetquestion = null;
         int zero = 0;
         for (int i = 0; i < sbArray.size(); i++) {
             int key = sbArray.keyAt(i);
@@ -148,18 +146,19 @@ public class ProcessTest {
                 zero=zero+1;
         }
         if (zero > 0) {
+            test.grades = test.grades + getGrade(sbArray);
             if (test.count<test.questions_count-1) {
-                test.grades = test.grades + getGrade(sbArray);
                 test.count = test.count + 1;
                 getQuestion(questionActivity);
             }
             else{
-                //finishTest();
-                questionActivity.showError("ТЕСТ ЗАКОНЧЕН!!!");
+                timer.cancel();
+                finishTest(test);
+                questionActivity.goResult();
             }
         }
         else{
-            questionActivity.showError("Не выбрано ни одного варианта ответа");
+            questionActivity.showMSG("Не выбрано ни одного варианта ответа");
         }
     }
 
@@ -168,32 +167,14 @@ public class ProcessTest {
         Random rnd = new Random();
         for (int i = answers.size() - 1; i >= 0; i--) {
             int index = rnd.nextInt(i + 1);
-            // Simple swap
             Answer answer = answers.get(index);
-            //answer = randomQuestion(question);
             answers.set(index, answers.get(i));
-            // ar[index] = ar[i];
             answers.set(i, answer);
-
-            // ar[i] = a;
         }
         question.answers = answers;
         return question;
     }
 
-    public Question getQuestion(Test test, int rez){
-       ArrayList<Question> questions = test.questions;
-       int all = questions.size();
-       if (test.count == all) {
-           return null;
-       } else {
-       return questions.get(test.count);}
-   }
-
-    public Integer getType(Test test){
-        ArrayList<Question> questions = test.questions;
-        return questions.get(test.count).qtype;
-    }
 
     public ArrayList<String> getAnswers(Question question){
         ArrayList<Answer> answersList= question.answers;

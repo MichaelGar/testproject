@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.alpha.projecttest.models.TestHeader;
+import com.example.alpha.projecttest.models.Test;
 
 import java.util.ArrayList;
 
@@ -17,9 +17,9 @@ import java.util.ArrayList;
 public class TestListAdapter extends BaseAdapter {
     private Context ctx;
     private LayoutInflater lInflater;
-    public ArrayList <TestHeader> objects;
+    public ArrayList <Test> objects;
 
-    TestListAdapter(Context context, ArrayList<TestHeader> tests){
+    TestListAdapter(Context context, ArrayList<Test> tests){
         ctx = context;
         objects = tests;
         lInflater = (LayoutInflater) ctx
@@ -38,7 +38,7 @@ public class TestListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        TestHeader TestD;
+        Test TestD;
         TestD = objects.get (position);
         return TestD.id;
     }
@@ -50,7 +50,7 @@ public class TestListAdapter extends BaseAdapter {
             view = lInflater.inflate(R.layout.small_test_card, parent, false);
         }
 
-        TestHeader p = objects.get(position);
+        Test p = objects.get(position);
         if (p.time==0){
             ((TextView) view.findViewById(R.id.test_time)).setText("Время не ограничено");
         }

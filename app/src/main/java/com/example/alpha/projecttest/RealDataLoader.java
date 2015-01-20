@@ -5,7 +5,6 @@ import android.content.Context;
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
-import com.example.alpha.projecttest.models.TestHeader;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -23,7 +22,6 @@ import java.io.IOException;
 
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static android.net.Uri.encode;
 
@@ -33,14 +31,14 @@ import static android.net.Uri.encode;
  */
 public class RealDataLoader implements DataLoaderInterface {
 
-    public ArrayList<TestHeader> loadListTests(String user, String password){
+    public ArrayList<Test> loadListTests(String user, String password){
        /* try { //типа грузит 10 секунд
             Thread.sleep(3000,1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
         //load list test
-        ArrayList<TestHeader> listTests = new ArrayList<>();
+        ArrayList<Test> listTests = new ArrayList<>();
         while (listTests.size() == 0) {
             String JSONListTests = getdata("http://tester.handh.ru/api/v1/test/?format=json");
             //String JSONListTests = "{list:[{name:\"Test1\",id:\"122\",description:\"Описание\"},{name:\"Test2\",id:\"121\",description:\"Описани2е\"}]}";
@@ -59,16 +57,16 @@ public class RealDataLoader implements DataLoaderInterface {
                     int attempt_countX = oneTest.getInt("attempt_count");
                     int idX = oneTest.getInt("id");
                     int questions_countX = oneTest.getInt("questions_count");
-                    TestHeader testHeader = new TestHeader();
-                    testHeader.name = nameX;
-                    testHeader.id = idX;
-                    testHeader.last_modified = last_modifiedX;
-                    testHeader.description = descriptionX;
-                    testHeader.time = timeX;
-                    testHeader.max = max;
-                    testHeader.questions_count = questions_countX;
-                    testHeader.attempt_count = attempt_countX;
-                    listTests.add(testHeader);
+                    Test test = new Test();
+                    test.name = nameX;
+                    test.id = idX;
+                    test.last_modified = last_modifiedX;
+                    test.description = descriptionX;
+                    test.time = timeX;
+                    test.max = max;
+                    test.questions_count = questions_countX;
+                    test.attempt_count = attempt_countX;
+                    listTests.add(test);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
