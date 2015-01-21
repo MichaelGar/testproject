@@ -81,6 +81,12 @@ public class ResultActivity extends Activity {
             zatrachoptv.setText("");
         }
     }
+    @Override
+    public void onBackPressed(){
+        Intent intentontestlist = new Intent(ResultActivity.this, TestList.class);
+        startActivity(intentontestlist);
+        finish();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

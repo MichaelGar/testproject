@@ -103,6 +103,7 @@ public class QuestionActivity extends Activity {
         ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                 prc.finishTest(prc.test);
+                goResult();
             }
         });
         ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
