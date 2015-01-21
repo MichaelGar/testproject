@@ -234,7 +234,9 @@ public class ProcessTest {
     }
 
    public Test finishTest(Test test){
-        timer.cancel();
+       if (test.onTimer) {
+           timer.cancel();
+       }
         int max = 0;
         for (int i = 0; i < test.questions.size(); i++){
             Question question = test.questions.get(i);
