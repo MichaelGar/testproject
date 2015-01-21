@@ -49,7 +49,8 @@ public class ProcessTest {
     }
 
     public void getResult(ResultActivity resultActivity){
-       double markdouble = (((double) test.grades)/( (double) test.max));
+        double markdouble = (((double) test.grades)/( (double) test.max));
+        mark = null;
         if (markdouble >= 0.6){
             mark = "bronze";
         }
