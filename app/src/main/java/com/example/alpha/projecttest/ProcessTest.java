@@ -98,6 +98,16 @@ public class ProcessTest {
         else{
             mode=false;
             questionActivity.showTimer(mode,0,0);
+            if (timer != null) {
+                timer.cancel();
+            }
+            timer = new CountDownTimer(countdownMillis, MILLIS_PER_SECOND) {
+                @Override
+                public void onTick(long millisUntilFinished) {}
+
+                @Override
+                public void onFinish() {}
+            }.start();
         }
     }
 
@@ -234,9 +244,7 @@ public class ProcessTest {
     }
 
    public Test finishTest(Test test){
-       if (test.onTimer) {
-           timer.cancel();
-       }
+        timer.cancel();
         int max = 0;
         for (int i = 0; i < test.questions.size(); i++){
             Question question = test.questions.get(i);
