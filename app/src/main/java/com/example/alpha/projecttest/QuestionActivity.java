@@ -1,6 +1,8 @@
 package com.example.alpha.projecttest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,7 +24,7 @@ public class QuestionActivity extends Activity {
     Button answer;
     ListView lvAnswer;
     ImageView qimage;
-    int rez;
+    AlertDialog.Builder ad;
     ProcessTest prc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,29 @@ public class QuestionActivity extends Activity {
         }
         maxView.setText("" + max);
         idnView.setText("" + count);
+    }
+    @Override
+    public void onBackPressed(){
+        String title = prc.test.name;
+        String message = "Желаете закончить тест?";
+        String button1String = "Да, закончить";
+        String button2String = "Нет, вернуться";
+        ad = new AlertDialog.Builder(QuestionActivity.this);
+        ad.setTitle(title);  // заголовок
+        ad.setMessage(message); // сообщение
+        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                prc.finishTest(prc.test);
+            }
+        });
+        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1){}
+        });
+        ad.setCancelable(true);
+        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {}
+        });
+        ad.show();
     }
 
     @Override

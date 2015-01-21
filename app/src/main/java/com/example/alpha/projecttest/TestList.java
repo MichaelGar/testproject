@@ -53,8 +53,7 @@ public class TestList extends Activity {
         final int position = pos;
         Test obj;
         obj = tests.get(position);
-        final String nameX = obj.name;
-        String title = nameX;
+        String title = obj.name;
         String message = "Желаете начать тест?";
         String button1String = "Да, начать";
         String button2String = "Нет, вернуться";
