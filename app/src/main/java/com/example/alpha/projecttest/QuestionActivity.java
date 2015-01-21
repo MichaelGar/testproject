@@ -48,6 +48,8 @@ public class QuestionActivity extends Activity {
 
         answer=(Button) findViewById(R.id.otvet_button);
         QuView = (TextView) findViewById(R.id.questiontextView);
+
+
         answer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,16 +93,17 @@ public class QuestionActivity extends Activity {
             il.displayImage(imagelink, qimage, options);
         }
         QuView.setText(question.textQuestion);
-        //:TODO картинка (qimage)
         ArrayList<String> answersText = prc.getAnswers(question);
+        //TODO: допилить адаптер
         if (question.qtype == 0){
             lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,answersText);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.answer_list_element, answersText);
             lvAnswer.setAdapter(adapter);
         }
         else {
             lvAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, answersText);
+            //AnswerListAdapter adapter = new AnswerListAdapter(this,answersText);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.answer_list_element, answersText);
             lvAnswer.setAdapter(adapter);
         }
         maxView.setText("" + max);

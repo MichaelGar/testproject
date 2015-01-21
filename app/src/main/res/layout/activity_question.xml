@@ -133,9 +133,10 @@
 
             <ListView
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
+                    android:layout_height="260dp"
                     android:id="@+id/lvAnswer"
-                    android:padding="8dp"/>
+                    android:padding="8dp"
+                    android:listSelector="#039BE5"/>
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -151,15 +152,4 @@
                     android:layout_gravity="center_horizontal|bottom" />
             </LinearLayout>
     </ScrollView>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView4"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="441dp"
-        android:layout_marginStart="441dp" />
-
 </RelativeLayout>
