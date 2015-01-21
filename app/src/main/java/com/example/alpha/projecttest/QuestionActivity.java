@@ -8,19 +8,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.alpha.projecttest.models.Question;
+
+import java.net.URI;
 import java.util.ArrayList;
 
 public class QuestionActivity extends Activity {
-    TextView QuView;
+    TextView QuView, tvtime, tvopis, maxView, idnView;
     Button answer;
-    TextView maxView;
-    TextView idnView;
     ListView lvAnswer;
-    TextView tvtime, tvopis;
+    ImageView qimage;
     int rez;
     ProcessTest prc;
     @Override
@@ -33,7 +34,8 @@ public class QuestionActivity extends Activity {
         lvAnswer = (ListView) findViewById(R.id.lvAnswer);
         tvtime = (TextView) findViewById(R.id.timecounttext);
         tvopis = (TextView) findViewById(R.id.tvOpistime);
-        rez = 0;
+        qimage = (ImageView) findViewById(R.id.imageView2);
+        //rez = 0;
 
         MyApp app = ((MyApp) getApplicationContext());
         prc = app.prc;
@@ -72,6 +74,7 @@ public class QuestionActivity extends Activity {
 
     public void showQuestion(Question question,int count,int max){
         QuView.setText(question.textQuestion);
+        //:TODO картинка (qimage)
         ArrayList<String> answersText = prc.getAnswers(question);
         if (question.qtype == 0){
             lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);

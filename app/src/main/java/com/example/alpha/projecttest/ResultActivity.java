@@ -8,12 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ResultActivity extends Activity {
     Button repeat, back;
     ProcessTest prc;
     TextView indreztv,maxreztv,timetv,testname,zatrachoptv,reztv;
+    ImageView medalImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class ResultActivity extends Activity {
         reztv = (TextView) findViewById(R.id.resultViev);
         repeat=(Button)findViewById(R.id.repeat);
         back=(Button)findViewById(R.id.back);
+        medalImage = (ImageView) findViewById(R.id.imageView3);
 
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +53,7 @@ public class ResultActivity extends Activity {
     }
 
     public void showResult(String name, int maxrez, int rez, Boolean mode, long min, long sec, Boolean mark){
+        //TODO: картинка медальки (medalImage);
         if (mode) {
             timetv.setText("" + min + " мин. " + sec + " сек.");
         }
