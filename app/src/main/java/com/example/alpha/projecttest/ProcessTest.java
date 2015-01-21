@@ -170,7 +170,6 @@ public class ProcessTest {
                 getQuestion(questionActivity);
             }
             else{
-                timer.cancel();
                 finishTest(test);
                 questionActivity.goResult();
             }
@@ -225,6 +224,7 @@ public class ProcessTest {
     }
 
    public Test finishTest(Test test){
+        timer.cancel();
         int max = 0;
         for (int i = 0; i < test.questions.size(); i++){
             Question question = test.questions.get(i);
