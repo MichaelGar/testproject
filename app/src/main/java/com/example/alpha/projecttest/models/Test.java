@@ -17,4 +17,5 @@ public class Test {
     public ArrayList<Question> questions = null;
     public int grades;
     public int count;
+    public Boolean onTimer = false;
 }

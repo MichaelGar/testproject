@@ -48,8 +48,7 @@ public class ProcessTest {
 
     public void getResult(ResultActivity resultActivity){
        Boolean mark = ((((double) test.grades)/( (double) test.max)) > limit);
-       if (sec == 1) {
-            sec = 0;
+       if (sec == 0) {
             min = test.time - min;
         }
         else {
@@ -76,6 +75,7 @@ public class ProcessTest {
 
                 @Override
                 public void onFinish() {
+                    sec = 0;
                     finishTest(test);
                     questionActivity.goResult();
                 }
@@ -116,7 +116,8 @@ public class ProcessTest {
                         @Override
                         public void run() {
                             //тут делаем какие то взаимодействия с интерфейсом
-                            if (test.count==0){
+                            if (test.onTimer == false){
+                                test.onTimer = true;
                                 startTimer(test.time*MILLIS_PER_SECOND*60);
                             }
                             questionActivity.showQuestion(question,test.count, test.questions_count);
