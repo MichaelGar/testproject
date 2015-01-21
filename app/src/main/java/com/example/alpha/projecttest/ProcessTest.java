@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class ProcessTest {
     private static final int MILLIS_PER_SECOND = 1000;
-    private static final double limit = 0.6;
+    private static final double bronze = 0.6, silver = 0.8, gold = 90;
     RealDataLoader rdl;
     ArrayList<Test> listTestsHeader;
     Test test;
@@ -21,6 +21,7 @@ public class ProcessTest {
     CountDownTimer timer;
     long min,sec;
     Boolean mode;
+    String mark;
 
 
     public void getListTests(TestList testListX) {
@@ -47,8 +48,18 @@ public class ProcessTest {
     }
 
     public void getResult(ResultActivity resultActivity){
-       Boolean mark = ((((double) test.grades)/( (double) test.max)) > limit);
-       if (sec == 0) {
+       double markdouble = (((double) test.grades)/( (double) test.max));
+        if (markdouble >= 0.6){
+            mark = "bronze";
+        }
+        if (markdouble >= 0.8) {
+            mark = "silver";
+        }
+        if (markdouble >= 0.9) {
+            mark = "gold";
+        }
+
+        if (sec == 0) {
             min = test.time - min;
         }
         else {

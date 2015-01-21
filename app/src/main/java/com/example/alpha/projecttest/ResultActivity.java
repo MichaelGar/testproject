@@ -2,6 +2,7 @@ package com.example.alpha.projecttest;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -52,25 +53,33 @@ public class ResultActivity extends Activity {
         prc.getResult(this);
     }
 
-    public void showResult(String name, int maxrez, int rez, Boolean mode, long min, long sec, Boolean mark){
-        //TODO: картинка медальки (medalImage);
+    public void showResult(String name, int maxrez, int rez, Boolean mode, long min, long sec, String mark){
+        indreztv.setText("" + rez);
+        maxreztv.setText("" + maxrez);
+        testname.setText(name);
+        reztv.setText("Тест НЕ сдан");
+        reztv.setTextColor(Color.RED);
+
+        if (mark != null){
+            reztv.setText("ТЕСТ СДАН!!!");
+            reztv.setTextColor(Color.GREEN);
+            if (mark == "bronze") {
+                medalImage.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.bronze));
+            }
+            if (mark == "silver") {
+                medalImage.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.silver));
+            }
+            if (mark == "gold") {
+                medalImage.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.gold));
+            }
+        }
+
         if (mode) {
             timetv.setText("" + min + " мин. " + sec + " сек.");
         }
         else {
             zatrachoptv.setText("");
         }
-        if (mark) {
-            reztv.setText("ТЕСТ СДАН!!!");
-            reztv.setTextColor(Color.GREEN);
-        }
-        else {
-            reztv.setText("Тест НЕ сдан");
-            reztv.setTextColor(Color.RED);
-        }
-        indreztv.setText("" + rez);
-        maxreztv.setText("" + maxrez);
-        testname.setText(name);
     }
 
     @Override
