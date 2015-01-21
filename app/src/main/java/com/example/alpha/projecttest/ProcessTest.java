@@ -62,14 +62,11 @@ public class ProcessTest {
         }
 
         if (sec == 0) {
-            min = test.time - min;
-        }
+            resultActivity.showResult(test.name, test.max, test.grades, mode, test.time - min, 0, mark);
+    }
         else {
-            min = test.time - min-1;
-            sec = 60 - sec;
+            resultActivity.showResult(test.name, test.max, test.grades, mode, test.time - min-1, 60 - sec, mark);
         }
-        resultActivity.showResult(test.name, test.max, test.grades, mode, min, sec, mark);
-        //test = null;
     }
 
     public void clean() {
