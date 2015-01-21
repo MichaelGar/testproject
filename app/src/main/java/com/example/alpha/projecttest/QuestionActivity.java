@@ -78,6 +78,7 @@ public class QuestionActivity extends Activity {
     }
 
     public void showQuestion(Question question,int count,int max, String imagelink){
+        qimage.setImageBitmap(null);
         if (imagelink != "null") {
             ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
             ImageLoader il = ImageLoader.getInstance();
