@@ -22,6 +22,7 @@ public class ProcessTest {
     long min,sec;
     Boolean mode;
     String mark;
+    String imagelink;
 
 
     public void getListTests(TestList testListX) {
@@ -118,6 +119,7 @@ public class ProcessTest {
     public void getQuestion(QuestionActivity questionActivityX){
         questionActivity = questionActivityX;
         threadGetquestion = null;
+        imagelink = "null";
         if (threadGetquestion == null) {
             threadGetquestion = new Thread(new Runnable() {
                 public void run() {
@@ -131,7 +133,13 @@ public class ProcessTest {
                                 test.onTimer = true;
                                 startTimer(test.time*MILLIS_PER_SECOND*60);
                             }
-                            questionActivity.showQuestion(question,test.count, test.questions_count);
+                            //TODO: заменить blablabla
+                            if (question.image != "null") {
+                                imagelink = "blablabla" + question.image;
+                                imagelink = "http://www.setevic1.ru/chipset.jpg";
+                            }
+                            //убрать когда будет готово
+                            questionActivity.showQuestion(question,test.count, test.questions_count, imagelink);
                         }
                     });
                 }

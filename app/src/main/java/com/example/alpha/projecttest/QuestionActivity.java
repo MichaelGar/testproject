@@ -15,6 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.alpha.projecttest.models.Question;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -74,7 +77,18 @@ public class QuestionActivity extends Activity {
         finish();
     }
 
-    public void showQuestion(Question question,int count,int max){
+    public void showQuestion(Question question,int count,int max, String imagelink){
+        if (imagelink != "null") {
+            ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+            ImageLoader il = ImageLoader.getInstance();
+            il.init(config);
+            DisplayImageOptions options = new DisplayImageOptions.Builder()
+                    .cacheInMemory(true)
+                    .resetViewBeforeLoading(true)
+                    .cacheOnDisk(true)
+                    .build();
+            il.displayImage(imagelink, qimage, options);
+        }
         QuView.setText(question.textQuestion);
         //:TODO картинка (qimage)
         ArrayList<String> answersText = prc.getAnswers(question);
