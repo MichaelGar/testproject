@@ -69,6 +69,10 @@ public class ProcessTest {
             sec = 60 - sec;
         }
         resultActivity.showResult(test.name, test.max, test.grades, mode, min, sec, mark);
+        //test = null;
+    }
+
+    public void clean() {
         test = null;
     }
 

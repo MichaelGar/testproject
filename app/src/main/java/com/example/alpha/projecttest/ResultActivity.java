@@ -37,6 +37,7 @@ public class ResultActivity extends Activity {
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                prc.clean();
                 Intent intentrepeat = new Intent(ResultActivity.this, QuestionActivity.class);
                 startActivity(intentrepeat);
                 finish();
@@ -45,6 +46,7 @@ public class ResultActivity extends Activity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                prc.clean();
                 Intent intentback = new Intent(ResultActivity.this, TestList.class);
                 startActivity(intentback);
                 finish();
@@ -83,6 +85,7 @@ public class ResultActivity extends Activity {
     }
     @Override
     public void onBackPressed(){
+        prc.clean();
         Intent intentontestlist = new Intent(ResultActivity.this, TestList.class);
         startActivity(intentontestlist);
         finish();
