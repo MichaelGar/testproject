@@ -19,10 +19,8 @@ public class ResultActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-
         MyApp app = ((MyApp) getApplicationContext());
         prc = app.prc;
-
         indreztv = (TextView) findViewById(R.id.idnrezView);
         maxreztv = (TextView) findViewById(R.id.maxrezView);
         timetv = (TextView) findViewById(R.id.textView7);
@@ -48,7 +46,6 @@ public class ResultActivity extends Activity {
                 finish();
             }
         });
-
         prc.getResult(this);
     }
 
@@ -85,12 +82,10 @@ public class ResultActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

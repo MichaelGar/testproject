@@ -6,19 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.example.alpha.projecttest.models.Test;
-
 import java.util.ArrayList;
 
-/**
- * Created by user on 11.12.14.
- */
 public class TestListAdapter extends BaseAdapter {
     private Context ctx;
     private LayoutInflater lInflater;
     public ArrayList <Test> objects;
-
     TestListAdapter(Context context, ArrayList<Test> tests){
         ctx = context;
         objects = tests;

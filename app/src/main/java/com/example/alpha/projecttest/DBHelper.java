@@ -5,18 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-/**
- * Created by 1 on 24.12.2014.
- */
 public class DBHelper extends SQLiteOpenHelper {
     SQLiteDatabase dbs;
     public DBHelper(Context context) {
         // конструктор суперкласса
         super(context, "myDB", null, 1);
             dbs = this.getWritableDatabase();
-
     }
 
 
@@ -44,7 +39,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     public boolean findTest(int id, String date){
@@ -81,7 +75,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("date", date);
         cv.put("JSON", JSON);
         dbs.insert("tableTests", null, cv);
-
     }
 
     public void setAnswerInBD(int id, String json){
@@ -92,7 +85,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put("JSON", json);
         dbs.insert("tableAnswers", null, cv);
        // Log.d("MyLogs","Добавлен");
-
     }
 
     public String getAnswersFromBD(int id){
@@ -104,6 +96,5 @@ public class DBHelper extends SQLiteOpenHelper {
        // Log.d("MyLogs","Взят");
         return json;
     }
-
 }
 
