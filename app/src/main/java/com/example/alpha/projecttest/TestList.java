@@ -17,7 +17,7 @@ import com.example.alpha.projecttest.models.Test;
 
 import java.util.ArrayList;
 
-public class TestList extends Activity {
+public class TestList extends Activity implements TestListInterface {
     private ArrayList<Test> tests;
     private TestListAdapter testListAdapter;
     ListView lv;
@@ -42,7 +42,7 @@ public class TestList extends Activity {
             }
         });
     }
-    void setListTests(ArrayList<Test> testsX){//сюда вернулся список тестов
+    public void setListTests(ArrayList<Test> testsX){//сюда вернулся список тестов
         tests = testsX;
             testListAdapter = new TestListAdapter(this, tests);
             lv.setAdapter(testListAdapter);

@@ -8,7 +8,7 @@ import android.util.SparseBooleanArray;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ProcessTest {
+public class ProcessTest implements ProcessTestInterface {
     private static final int MILLIS_PER_SECOND = 1000;
     private static final double bronze = 0.6, silver = 0.8, gold = 90;
     RealDataLoader rdl;

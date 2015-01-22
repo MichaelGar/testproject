@@ -22,7 +22,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.net.URI;
 import java.util.ArrayList;
 
-public class QuestionActivity extends Activity {
+public class QuestionActivity extends Activity implements QuestionActivityInterface {
     TextView QuView, tvtime, tvopis, maxView, idnView;
     Button answer;
     ListView lvAnswer;

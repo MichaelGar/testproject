@@ -174,7 +174,7 @@ public class RealDataLoader implements DataLoaderInterface {
     }
 
 
-    String getdata(String par){
+    private String getdata(String par){
         String str = "";
         try {
 
@@ -194,9 +194,9 @@ public class RealDataLoader implements DataLoaderInterface {
     }
 
 
-    public Integer getTime(Test test){
-        return test.time;
-    }
+   // public Integer getTime(Test test){
+    //    return test.time;
+   // }
     //ребят че за херня? подругому нельзя чтоль время вытащить?
 
   /*  class MyTask extends AsyncTask<Void, Void, Integer> {

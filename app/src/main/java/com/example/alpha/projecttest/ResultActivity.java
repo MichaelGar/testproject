@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ResultActivity extends Activity {
+public class ResultActivity extends Activity implements ResultActivityInterface{
     Button repeat, back;
     ProcessTest prc;
     TextView indreztv,maxreztv,timetv,testname,zatrachoptv,reztv;
