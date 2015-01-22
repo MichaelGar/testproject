@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class FakeDataLoader implements DataLoaderInterface {
 
-    public ArrayList<Test> loadListTests(String user, String password){
+    public ArrayList<Test> loadListTests(String user, String password,String serverURL){
        /* try { //типа грузит 10 секунд
             Thread.sleep(3000,1);
         } catch (InterruptedException e) {
@@ -90,7 +90,7 @@ public class FakeDataLoader implements DataLoaderInterface {
         return listTests;
     }
 
-    public Test loadTest(int id, String date,QuestionActivity context){
+    public Test loadTest(int id, String date,QuestionActivity context,String serverURL){
         Boolean fromdb;
         DBHelper db = new DBHelper(context);
         String questionJSON;

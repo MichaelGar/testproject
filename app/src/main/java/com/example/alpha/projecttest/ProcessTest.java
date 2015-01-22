@@ -11,6 +11,7 @@ import java.util.Random;
 public class ProcessTest implements ProcessTestInterface {
     private static final int MILLIS_PER_SECOND = 1000;
     private static final double bronze = 0.6, silver = 0.8, gold = 90;
+    private static final String serverURL = "http://tester.handh.ru";
     RealDataLoader rdl;
     ArrayList<Test> listTestsHeader;
     Test test;
@@ -26,20 +27,20 @@ public class ProcessTest implements ProcessTestInterface {
 
 
     public void getListTests(TestList testListX) {
-        threadListtest =null;
         testList = testListX;
         if (threadListtest == null) {
             threadListtest = new Thread(new Runnable() {
                 public void run() {
                     if (listTestsHeader == null) {
                         //загрузка
-                        listTestsHeader = rdl.loadListTests("","");
+                        listTestsHeader = rdl.loadListTests("","",serverURL);
                     }
                     testList.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             //тут делаем какие то взаимодействия с интерфейсом
                             testList.setListTests(listTestsHeader);
+                            threadListtest = null;
                         }
                     });
                 }
@@ -116,7 +117,7 @@ public class ProcessTest implements ProcessTestInterface {
             Test test = listTestsHeader.get(position);
             int id = test.id;
             String last_modified = test.last_modified;
-            this.test = rdl.loadTest(id,last_modified,questionActivity);
+            this.test = rdl.loadTest(id,last_modified,questionActivity,serverURL);
             this.test.name = test.name;
             this.test.max = test.max;
             this.test.time = test.time;
@@ -130,7 +131,7 @@ public class ProcessTest implements ProcessTestInterface {
 
     public void getQuestion(QuestionActivity questionActivityX){
         questionActivity = questionActivityX;
-        threadGetquestion = null;
+        //threadGetquestion = null;
         imagelink = "null";
         if (threadGetquestion == null) {
             threadGetquestion = new Thread(new Runnable() {
@@ -152,6 +153,7 @@ public class ProcessTest implements ProcessTestInterface {
                             }
                             //убрать когда будет готово
                             questionActivity.showQuestion(question,test.count, test.questions_count, imagelink);
+                            threadGetquestion = null;
                         }
                     });
                 }

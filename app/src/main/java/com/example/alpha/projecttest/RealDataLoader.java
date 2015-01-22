@@ -1,11 +1,9 @@
 package com.example.alpha.projecttest;
 
 import android.content.Context;
-
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -17,32 +15,17 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
-
-
 import java.util.ArrayList;
 
-import static android.net.Uri.encode;
 
 
-/**
- * Created by 1 on 07.01.2015.
- */
 public class RealDataLoader implements DataLoaderInterface {
 
-    public ArrayList<Test> loadListTests(String user, String password){
-       /* try { //типа грузит 10 секунд
-            Thread.sleep(3000,1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        //load list test
+    public ArrayList<Test> loadListTests(String user, String password, String serverURL){
         ArrayList<Test> listTests = new ArrayList<>();
         while (listTests.size() == 0) {
-            String JSONListTests = getdata("http://tester.handh.ru/api/v1/test/?format=json");
-            //String JSONListTests = "{list:[{name:\"Test1\",id:\"122\",description:\"Описание\"},{name:\"Test2\",id:\"121\",description:\"Описани2е\"}]}";
-
+            String JSONListTests = getdata(serverURL + "/api/v1/test/?format=json");
             listTests = new ArrayList<>();
             try {
                 JSONObject json = new JSONObject(JSONListTests);
@@ -75,7 +58,7 @@ public class RealDataLoader implements DataLoaderInterface {
         return listTests;
     }
 
-    public Test loadTest(int id, String date,QuestionActivity context){
+    public Test loadTest(int id, String date,QuestionActivity context,String serverURL){
         Boolean fromdb;
         DBHelper db = new DBHelper(context);
         String questionJSON;
@@ -83,7 +66,7 @@ public class RealDataLoader implements DataLoaderInterface {
             questionJSON = db.getTest(id);
             fromdb = true;
         }else {
-            String par = "http://tester.handh.ru/api/v1/question/?format=json&test__id=" + String.valueOf(id);
+            String par = serverURL + "/api/v1/question/?format=json&test__id=" + String.valueOf(id);
             questionJSON = getdata(par);
             fromdb = false;
         }
@@ -100,9 +83,7 @@ public class RealDataLoader implements DataLoaderInterface {
         boolean goodAnswer = true;
         try {
             JSONObject json = new JSONObject(questionJSON);
-            //   test.name = nameX;
             test.id = idX;
-            //  test.time = timeX;
             String answersQ = "";
             JSONArray jsonTextQuestion = json.getJSONArray("objects");
             for (int i = 0; i < jsonTextQuestion.length(); i++) {
@@ -110,11 +91,9 @@ public class RealDataLoader implements DataLoaderInterface {
                 Question question = new Question();
                 int idQ = oneQuestion.getInt("id");
                 int qtypeQ = oneQuestion.getInt("qtype");
-                // String nameQ = oneQuestion.getString("name");
                 String textQuestionQ = oneQuestion.getString("text");
                 String imageQ = oneQuestion.getString("img");
                 question.id = idQ;
-                //question.name = nameQ;
                 question.textQuestion = textQuestionQ;
                 question.image = imageQ;
                 question.qtype = qtypeQ;
@@ -123,7 +102,6 @@ public class RealDataLoader implements DataLoaderInterface {
                 } else {
                     if (goodAnswer) {
                         answersQ = getdata("http://tester.handh.ru/api/v1/answer/?format=json&question__id=" + String.valueOf(idQ));
-                        //int pos = answersQ.indexOf("objects");
                         if (answersQ.indexOf("objects") > -1) {
                             db.setAnswerInBD(idQ, answersQ);
                         } else {
@@ -142,12 +120,9 @@ public class RealDataLoader implements DataLoaderInterface {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //int pos = questionJSON.indexOf("objects");
         if (!goodAnswer || (questionJSON.indexOf("objects") == -1)) {
             test = null;
-        }// else {
-       //     test = randomTest(test);
-       // }
+        }
     }
         return test;
     }
@@ -192,42 +167,4 @@ public class RealDataLoader implements DataLoaderInterface {
 
         return str;
     }
-
-
-   // public Integer getTime(Test test){
-    //    return test.time;
-   // }
-    //ребят че за херня? подругому нельзя чтоль время вытащить?
-
-  /*  class MyTask extends AsyncTask<Void, Void, Integer> {
-        RealDataLoader l;
-        String login, password;
-        ArrayList<TestDescription> listTests;
-        //void unLink() {
-       //     activity = null;
-       // }
-
-      //  void link(TestList act){
-      //      activity = act;
-       // }
-        void setLoginPassword(String log, String pas){
-            login = log;
-            password = pas;
-        }
-        @Override
-        protected Integer doInBackground(Void... params) {
-            //FakeDataLoader l = new FakeDataLoader();
-          //  RealDataLoader l = new RealDataLoader();
-            MyApp app = ((MyApp) getApplicationContext());
-            testAsync = l.loadListTests(login,password);
-            return 100500;
-        }
-
-        @Override
-        protected void onPostExecute(Integer result) {
-            super.onPostExecute(result);
-            l.readyList(listTests);
-        }
-    }
-*/
 }
