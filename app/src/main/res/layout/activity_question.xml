@@ -135,14 +135,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="260dp"
                     android:id="@+id/lvAnswer"
-                    android:padding="8dp"
-                    android:listSelector="#039BE5"/>
+                    android:padding="8dp"/>
+
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/razdelitel"></LinearLayout>
+                    android:background="@color/razdelitel"/>
 
                 <Button
                     android:layout_width="wrap_content"
