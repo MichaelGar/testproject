@@ -2,7 +2,6 @@ package com.example.alpha.projecttest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +23,7 @@ public class TestList extends Activity implements TestListInterface {
     ProgressBar progressBar;
     AlertDialog.Builder ad;
     ProcessTest prc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

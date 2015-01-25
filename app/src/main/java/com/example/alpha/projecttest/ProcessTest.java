@@ -1,5 +1,10 @@
 package com.example.alpha.projecttest;
 
+import com.example.alpha.projecttest.DataLoaderInterface;
+import com.example.alpha.projecttest.ProcessTestInterface;
+import com.example.alpha.projecttest.QuestionActivity;
+import com.example.alpha.projecttest.ResultActivity;
+import com.example.alpha.projecttest.TestList;
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
@@ -12,7 +17,7 @@ public class ProcessTest implements ProcessTestInterface {
     private static final int MILLIS_PER_SECOND = 1000;
     private static final double bronze = 0.6, silver = 0.8, gold = 90;
     private static final String serverURL = "http://tester.handh.ru";
-    RealDataLoader rdl;
+    DataLoaderInterface rdl;
     ArrayList<Test> listTestsHeader;
     Test test;
     TestList testList;

@@ -14,12 +14,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.alpha.projecttest.models.Question;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.net.URI;
 import java.util.ArrayList;
 
 public class QuestionActivity extends Activity implements QuestionActivityInterface {
@@ -29,6 +29,7 @@ public class QuestionActivity extends Activity implements QuestionActivityInterf
     ImageView qimage;
     AlertDialog.Builder ad;
     ProcessTest prc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +80,7 @@ public class QuestionActivity extends Activity implements QuestionActivityInterf
         finish();
     }
 
-    public void showQuestion(Question question,int count,int max, String imagelink){
+    public void showQuestion(Question question, int count, int max, String imagelink){
         qimage.setImageBitmap(null);
         if (imagelink != "null") {
             ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
