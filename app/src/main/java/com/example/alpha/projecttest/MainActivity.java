@@ -9,25 +9,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+@EActivity
 public class MainActivity extends Activity {
+    @ViewById Button buttonLogin;
+    @ViewById EditText editTextName, editTextPswd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
-        Button btnLogin = (Button) findViewById(R.id.buttonLogin);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onLogintap();
-            }
-        });
     }
 
-    void onLogintap() {
+    @Click
+    void buttonLogin() {
         Intent intent = new Intent(this, TestList.class);
-        intent.putExtra("login",((EditText) findViewById(R.id.editTextName)).getText().toString());
-        intent.putExtra("password",((EditText) findViewById(R.id.editTextPswd)).getText().toString());
+        intent.putExtra("login",editTextName.getText().toString());
+        intent.putExtra("password",editTextPswd.getText().toString());
         startActivity(intent);
     }
 
