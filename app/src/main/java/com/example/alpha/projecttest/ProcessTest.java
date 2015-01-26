@@ -16,7 +16,7 @@ import java.util.Random;
 public class ProcessTest implements ProcessTestInterface {
     private static final int MILLIS_PER_SECOND = 1000;
     private static final double bronze = 0.6, silver = 0.8, gold = 90;
-    private static final String serverURL = "http://tester.handh.ru";
+    public static final String serverURL = "http://tester.handh.ru";
     DataLoaderInterface rdl;
     ArrayList<Test> listTestsHeader;
     Test test;

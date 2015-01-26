@@ -20,8 +20,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.util.ArrayList;
+import org.androidannotations.annotations.EActivity;
 
+import java.util.ArrayList;
+@EActivity
 public class QuestionActivity extends Activity implements QuestionActivityInterface {
     TextView QuView, tvtime, tvopis, maxView, idnView;
     Button answer;

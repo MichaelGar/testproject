@@ -12,11 +12,29 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+@EActivity
 public class ResultActivity extends Activity implements ResultActivityInterface{
-    Button repeat, back;
     ProcessTest prc;
-    TextView indreztv,maxreztv,timetv,testname,zatrachoptv,reztv;
-    ImageView medalImage;
+    @ViewById Button repeat, back;
+    @ViewById TextView idnrezView, maxrezView, timeView, testName, tvZatrachopis,
+                       resultView;
+    @ViewById ImageView medalIView;
+    @Click
+    void repeat() {
+        prc.clean();
+        QuestionActivity_.intent(this).start();
+        finish();
+    }
+    @Click
+    void back() {
+        prc.clean();
+        TestList_.intent(this).start();
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,70 +42,41 @@ public class ResultActivity extends Activity implements ResultActivityInterface{
         setContentView(R.layout.activity_result);
         MyApp app = ((MyApp) getApplicationContext());
         prc = app.prc;
-        indreztv = (TextView) findViewById(R.id.idnrezView);
-        maxreztv = (TextView) findViewById(R.id.maxrezView);
-        timetv = (TextView) findViewById(R.id.textView7);
-        testname = (TextView) findViewById(R.id.testName);
-        zatrachoptv = (TextView) findViewById(R.id.tvZatrachopis);
-        reztv = (TextView) findViewById(R.id.resultViev);
-        repeat=(Button)findViewById(R.id.repeat);
-        back=(Button)findViewById(R.id.back);
-        medalImage = (ImageView) findViewById(R.id.imageView3);
-
-        repeat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prc.clean();
-                Intent intentrepeat = new Intent(ResultActivity.this, QuestionActivity.class);
-                startActivity(intentrepeat);
-                finish();
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prc.clean();
-                Intent intentback = new Intent(ResultActivity.this, TestList.class);
-                startActivity(intentback);
-                finish();
-            }
-        });
         prc.getResult(this);
     }
 
     public void showResult(String name, int maxrez, int rez, Boolean mode, long min, long sec, String mark){
-        indreztv.setText("" + rez);
-        maxreztv.setText("" + maxrez);
-        testname.setText(name);
-        reztv.setText("Тест НЕ сдан");
-        reztv.setTextColor(Color.RED);
+        idnrezView.setText("" + rez);
+        maxrezView.setText("" + maxrez);
+        testName.setText(name);
+        resultView.setText("Тест НЕ сдан");
+        resultView.setTextColor(Color.RED);
 
         if (mark != null){
-            reztv.setText("ТЕСТ СДАН!!!");
-            reztv.setTextColor(Color.GREEN);
+            resultView.setText("ТЕСТ СДАН!!!");
+            resultView.setTextColor(Color.GREEN);
             if (mark == "bronze") {
-                medalImage.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.bronze));
+                medalIView.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.bronze));
             }
             if (mark == "silver") {
-                medalImage.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.silver));
+                medalIView.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.silver));
             }
             if (mark == "gold") {
-                medalImage.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.gold));
+                medalIView.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.gold));
             }
         }
 
         if (mode) {
-            timetv.setText("" + min + " мин. " + sec + " сек.");
+            timeView.setText("" + min + " мин. " + sec + " сек.");
         }
         else {
-            zatrachoptv.setText("");
+            tvZatrachopis.setText("");
         }
     }
     @Override
     public void onBackPressed(){
         prc.clean();
-        Intent intentontestlist = new Intent(ResultActivity.this, TestList.class);
-        startActivity(intentontestlist);
+        TestList_.intent(this).start();
         finish();
     }
 

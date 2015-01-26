@@ -14,15 +14,31 @@ import android.widget.ProgressBar;
 
 import com.example.alpha.projecttest.models.Test;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.ViewById;
+
 import java.util.ArrayList;
 
+@EActivity
 public class TestList extends Activity implements TestListInterface {
     private ArrayList<Test> tests;
-    private TestListAdapter testListAdapter;
-    ListView lv;
+    //TestListAdapter testListAdapter;
+    @ViewById ListView lvMain;
     ProgressBar progressBar;
     AlertDialog.Builder ad;
     ProcessTest prc;
+
+    @Bean
+    TestListAdapter testListAdapter;
+    @AfterViews
+    void bindTestListAdapter() {
+        //testListAdapter = new TestListAdapter(this);
+        lvMain.setAdapter(testListAdapter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,26 +50,24 @@ public class TestList extends Activity implements TestListInterface {
         prc.getListTests(this);// сделали запрос на список тестов
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        lv = (ListView) findViewById(R.id.lvMain);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 onSelected(position);
             }
-        });
+        });*/
     }
     public void setListTests(ArrayList<Test> testsX){//сюда вернулся список тестов
-        tests = testsX;
-            testListAdapter = new TestListAdapter(this, tests);
-            lv.setAdapter(testListAdapter);
+        //tests = testsX;
+            //testListAdapter = new TestListAdapter(this, tests);
+            //lvMain.setAdapter(testListAdapter);
             progressBar.setVisibility(View.INVISIBLE);
     }
 
-    void onSelected(int pos) {
-        final int position = pos;
-        Test obj;
-        obj = tests.get(position);
-        String title = obj.name;
+    @ItemClick
+    void lvMainItemClicked(Test selectedTest) {
+        final int position = selectedTest.id-1;
+        String title = selectedTest.name;
         String message = "Желаете начать тест?";
         String button1String = "Да, начать";
         String button2String = "Нет, вернуться";

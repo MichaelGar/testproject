@@ -5,18 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity
 public class MainActivity extends Activity {
     @ViewById Button buttonLogin;
     @ViewById EditText editTextName, editTextPswd;
+    //@Extra
+    //String login, password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,8 @@ public class MainActivity extends Activity {
 
     @Click
     void buttonLogin() {
-        Intent intent = new Intent(this, TestList.class);
+        Intent intent = new Intent(this, TestList_.class);
+        //TestList_.intent(this).login(editTextName.getText().toString()).start();
         intent.putExtra("login",editTextName.getText().toString());
         intent.putExtra("password",editTextPswd.getText().toString());
         startActivity(intent);

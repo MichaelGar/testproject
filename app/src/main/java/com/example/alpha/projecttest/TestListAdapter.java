@@ -7,18 +7,32 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.example.alpha.projecttest.models.Test;
-import java.util.ArrayList;
 
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
+
+import java.util.ArrayList;
+@EBean
 public class TestListAdapter extends BaseAdapter {
-    private Context ctx;
-    private LayoutInflater lInflater;
+    ProcessTest prc;
+    //private Context ctx;
+    //private LayoutInflater lInflater;
     public ArrayList <Test> objects;
-    TestListAdapter(Context context, ArrayList<Test> tests){
-        ctx = context;
-        objects = tests;
-        lInflater = (LayoutInflater) ctx
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+    @RootContext
+    Context ctx;
+
+    @AfterInject
+    void initTestListAdapter() {
+        objects = prc.rdl.loadListTests("","",prc.serverURL);
     }
+    //TestListAdapter(Context ctx){
+        //ctx = context;
+        //objects = prc.rdl.loadListTests("","",prc.serverURL);
+        //lInflater = (LayoutInflater) ctx
+                //.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    //}
 
     @Override
     public int getCount() {
