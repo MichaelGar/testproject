@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,18 +15,21 @@ import android.widget.ProgressBar;
 
 import com.example.alpha.projecttest.models.Test;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_test_list)
 public class TestList extends Activity implements TestListInterface {
-    //private ArrayList<Test> tests;
+    private ArrayList<Test> tests;
     //TestListAdapter testListAdapter;
     ProgressBar progressBar;
     AlertDialog.Builder ad;
@@ -34,12 +38,30 @@ public class TestList extends Activity implements TestListInterface {
     @ViewById ListView lvMain;
 
     @Bean
-    TestListAdapter testListAdapter;
+    TestListAdapter adapter;
 
     @AfterViews
     void bindAdapter() {
+        searchTests();
         //testListAdapter = new TestListAdapter(this);
-        lvMain.setAdapter(testListAdapter);
+        lvMain.setAdapter(adapter);
+    }
+    @Background
+    void searchTests() {
+        try {
+            tests = prc.rdl.loadListTests("", "", "http://tester.handh.ru");
+            initAdapter();
+            Log.d("test", "the size is " + tests.size());
+        } catch (Exception e) {
+            Log.d("test", e.getMessage());
+        }
+    }
+    @UiThread
+    void initAdapter() {
+
+        adapter = new TestListAdapter(tests);
+        //tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
+        //tests = realDataLoader.loadListTests("","",prc.serverURL);
     }
 
     @ItemClick

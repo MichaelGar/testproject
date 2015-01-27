@@ -1,6 +1,7 @@
 package com.example.alpha.projecttest;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.example.alpha.projecttest.models.Test;
 import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -28,9 +30,20 @@ public class TestListAdapter extends BaseAdapter {
     @RootContext
     Context context;
 
+    @Background
+    void searchTests() {
+        try {
+            tests = dataLoaderInterface.loadListTests("", "", "http://tester.handh.ru");
+            initTestListAdapter();
+            Log.d("test", "the size is " + tests.size());
+        } catch (Exception e) {
+            Log.d("test", e.getMessage());
+        }
+    }
+
     @AfterInject
     void initTestListAdapter() {
-        tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
+        //tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
         //tests = realDataLoader.loadListTests("","",prc.serverURL);
     }
     //TestListAdapter(Context ctx){

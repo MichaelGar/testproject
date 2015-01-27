@@ -1,10 +1,13 @@
 package com.example.alpha.projecttest;
 
 import android.content.Context;
+import android.util.Log;
+
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
 
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -22,16 +25,18 @@ import java.util.ArrayList;
 
 @EBean
 public class RealDataLoader implements DataLoaderInterface {
+    private String JSONListTests;
 
     public ArrayList<Test> loadListTests(String user, String password, String serverURL){
         ArrayList<Test> listTests = new ArrayList<>();
         while (listTests.size() == 0) {
-            String JSONListTests = getdata(serverURL + "/api/v1/test/?format=json");
-            listTests = new ArrayList<>();
             try {
-                JSONObject json = new JSONObject(JSONListTests);
-                JSONArray jsonList = json.getJSONArray("objects");
-                for (int i = 0; i < jsonList.length(); i++) {
+                JSONListTests = getdata(serverURL + "/api/v1/test/?format=json");
+                listTests = new ArrayList<>();
+                try {
+                    JSONObject json = new JSONObject(JSONListTests);
+                    JSONArray jsonList = json.getJSONArray("objects");
+                    for (int i = 0; i < jsonList.length(); i++) {
                     JSONObject oneTest = jsonList.getJSONObject(i);
                     String nameX = oneTest.getString("name");
                     String last_modifiedX = oneTest.getString("last_modified");
@@ -51,9 +56,12 @@ public class RealDataLoader implements DataLoaderInterface {
                     test.questions_count = questions_countX;
                     test.attempt_count = attempt_countX;
                     listTests.add(test);
+                    }
+                    } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch (Exception e){
+                Log.d("MyLogs", "dd");
             }
         }
         return listTests;

@@ -5,6 +5,8 @@ import android.content.Context;
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
+
+import org.androidannotations.annotations.EBean;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by 1 on 07.12.2014.
  */
+@EBean
 public class FakeDataLoader implements DataLoaderInterface {
 
     public ArrayList<Test> loadListTests(String user, String password,String serverURL){
