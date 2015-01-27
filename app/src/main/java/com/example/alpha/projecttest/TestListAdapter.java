@@ -40,20 +40,31 @@ public class TestListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Test getItem(int position) {
         return objects.get(position);
     }
 
     @Override
     public long getItemId(int position) {
         Test TestD;
-        TestD = objects.get (position);
+        TestD = objects.get(position);
         return TestD.id;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
+        TestListElement testListElement;
+        if (convertView == null) {
+            testListElement = TestListElement_.build(ctx);
+        } else {
+            testListElement = (TestListElement) convertView;
+        }
+
+
+        testListElement.bind(getItem(position));
+
+        return testListElement;
+        /*View view = convertView;
         if (view == null) {
             view = lInflater.inflate(R.layout.small_test_card, parent, false);
         }
@@ -68,6 +79,6 @@ public class TestListAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.test_qcount)).setText("Вопросов: "+p.questions_count);
         ((TextView) view.findViewById(R.id.test_name)).setText(p.name);
         ((TextView) view.findViewById(R.id.test_descr)).setText(p.description);
-        return view;
+        return view;*/
     }
 }

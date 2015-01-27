@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 @EActivity
 public class TestList extends Activity implements TestListInterface {
-    private ArrayList<Test> tests;
+    //private ArrayList<Test> tests;
     //TestListAdapter testListAdapter;
     @ViewById ListView lvMain;
     ProgressBar progressBar;
@@ -34,8 +34,9 @@ public class TestList extends Activity implements TestListInterface {
 
     @Bean
     TestListAdapter testListAdapter;
+
     @AfterViews
-    void bindTestListAdapter() {
+    void bindAdapter() {
         //testListAdapter = new TestListAdapter(this);
         lvMain.setAdapter(testListAdapter);
     }
