@@ -7,25 +7,31 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.example.alpha.projecttest.models.Test;
-
 import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
 import java.util.ArrayList;
+import java.util.List;
+
 @EBean
 public class TestListAdapter extends BaseAdapter {
+    List<Test> tests;
     ProcessTest prc;
     //private Context ctx;
     //private LayoutInflater lInflater;
-    public ArrayList <Test> objects;
+
+    @Bean(RealDataLoader.class)
+    DataLoaderInterface dataLoaderInterface;
 
     @RootContext
-    Context ctx;
+    Context context;
 
     @AfterInject
     void initTestListAdapter() {
-        objects = prc.rdl.loadListTests("","",prc.serverURL);
+        tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
+        //tests = realDataLoader.loadListTests("","",prc.serverURL);
     }
     //TestListAdapter(Context ctx){
         //ctx = context;
@@ -35,27 +41,10 @@ public class TestListAdapter extends BaseAdapter {
     //}
 
     @Override
-    public int getCount() {
-        return objects.size();
-    }
-
-    @Override
-    public Test getItem(int position) {
-        return objects.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        Test TestD;
-        TestD = objects.get(position);
-        return TestD.id;
-    }
-
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TestListElement testListElement;
         if (convertView == null) {
-            testListElement = TestListElement_.build(ctx);
+            testListElement = TestListElement_.build(context);
         } else {
             testListElement = (TestListElement) convertView;
         }
@@ -81,4 +70,23 @@ public class TestListAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.test_descr)).setText(p.description);
         return view;*/
     }
+
+    @Override
+    public int getCount() {
+        return tests.size();
+    }
+
+    @Override
+    public Test getItem(int position) {
+        return tests.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        Test TestD;
+        TestD = tests.get(position);
+        return TestD.id;
+    }
+
+
 }

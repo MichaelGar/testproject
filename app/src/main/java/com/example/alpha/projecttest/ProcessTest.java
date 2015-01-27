@@ -10,8 +10,12 @@ import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
 import android.os.CountDownTimer;
 import android.util.SparseBooleanArray;
+
+import org.androidannotations.annotations.EBean;
+
 import java.util.ArrayList;
 import java.util.Random;
+
 
 public class ProcessTest implements ProcessTestInterface {
     private static final int MILLIS_PER_SECOND = 1000;

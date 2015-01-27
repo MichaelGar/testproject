@@ -28,11 +28,11 @@ public class MainActivity extends Activity {
 
     @Click
     void buttonLogin() {
-        Intent intent = new Intent(this, TestList_.class);
-        //TestList_.intent(this).login(editTextName.getText().toString()).start();
-        intent.putExtra("login",editTextName.getText().toString());
-        intent.putExtra("password",editTextPswd.getText().toString());
-        startActivity(intent);
+        TestList_.intent(this).start();
+        //Intent intent = new Intent(this, TestList_.class);
+        //intent.putExtra("login",editTextName.getText().toString());
+        //intent.putExtra("password",editTextPswd.getText().toString());
+        //startActivity(intent);
     }
 
     @Override

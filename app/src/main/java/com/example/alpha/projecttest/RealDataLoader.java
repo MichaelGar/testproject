@@ -4,6 +4,8 @@ import android.content.Context;
 import com.example.alpha.projecttest.models.Answer;
 import com.example.alpha.projecttest.models.Question;
 import com.example.alpha.projecttest.models.Test;
+
+import org.androidannotations.annotations.EBean;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -18,8 +20,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-
+@EBean
 public class RealDataLoader implements DataLoaderInterface {
 
     public ArrayList<Test> loadListTests(String user, String password, String serverURL){

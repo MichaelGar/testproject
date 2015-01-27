@@ -23,14 +23,15 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
-@EActivity
+@EActivity(R.layout.activity_test_list)
 public class TestList extends Activity implements TestListInterface {
     //private ArrayList<Test> tests;
     //TestListAdapter testListAdapter;
-    @ViewById ListView lvMain;
     ProgressBar progressBar;
     AlertDialog.Builder ad;
     ProcessTest prc;
+
+    @ViewById ListView lvMain;
 
     @Bean
     TestListAdapter testListAdapter;
@@ -39,6 +40,35 @@ public class TestList extends Activity implements TestListInterface {
     void bindAdapter() {
         //testListAdapter = new TestListAdapter(this);
         lvMain.setAdapter(testListAdapter);
+    }
+
+    @ItemClick
+    void lvMainItemClicked(Test selectedTest) {
+        final int position = selectedTest.id-1;
+        String title = selectedTest.name;
+        String message = "Желаете начать тест?";
+        String button1String = "Да, начать";
+        String button2String = "Нет, вернуться";
+        ad = new AlertDialog.Builder(TestList.this);
+        ad.setTitle(title);  // заголовок
+        ad.setMessage(message); // сообщение
+        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+                prc.position = position;
+                QuestionActivity_.intent(TestList.this).start();
+                //Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
+                //startActivity(intent2);
+                finish();
+            }
+        });
+        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1){}
+        });
+        ad.setCancelable(true);
+        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {}
+        });
+        ad.show();//Вызов диалога
     }
 
     @Override
@@ -65,33 +95,7 @@ public class TestList extends Activity implements TestListInterface {
             progressBar.setVisibility(View.INVISIBLE);
     }
 
-    @ItemClick
-    void lvMainItemClicked(Test selectedTest) {
-        final int position = selectedTest.id-1;
-        String title = selectedTest.name;
-        String message = "Желаете начать тест?";
-        String button1String = "Да, начать";
-        String button2String = "Нет, вернуться";
-        ad = new AlertDialog.Builder(TestList.this);
-        ad.setTitle(title);  // заголовок
-        ad.setMessage(message); // сообщение
-        ad.setPositiveButton(button1String, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1) {
-                Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
-                prc.position = position;
-                startActivity(intent2);
-                finish();
-            }
-        });
-        ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int arg1){}
-        });
-        ad.setCancelable(true);
-        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(DialogInterface dialog) {}
-        });
-        ad.show();//Вызов диалога
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

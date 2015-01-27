@@ -9,9 +9,6 @@ import com.example.alpha.projecttest.models.Test;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
-/**
- * Created by user on 27.01.15.
- */
 @EViewGroup(R.layout.small_test_card)
 public class TestListElement extends LinearLayout{
     @ViewById TextView test_time, test_qcount, test_name, test_descr;
@@ -20,7 +17,6 @@ public class TestListElement extends LinearLayout{
         super(context);
     }
     public void bind (Test test){
-
         if (test.time==0){
             test_time.setText("Время не ограничено");
         }
