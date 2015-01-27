@@ -17,35 +17,33 @@ import org.androidannotations.annotations.RootContext;
 import java.util.ArrayList;
 import java.util.List;
 
-@EBean
+
 public class TestListAdapter extends BaseAdapter {
-    List<Test> tests;
-    ProcessTest prc;
+    //List<Test> tests;
+    //ProcessTest prc;
     //private Context ctx;
-    //private LayoutInflater lInflater;
+    private LayoutInflater lInflater;
 
-    @Bean(RealDataLoader.class)
-    DataLoaderInterface dataLoaderInterface;
+    List<Test> tests;
 
-    @RootContext
-    Context context;
 
-    @Background
-    void searchTests() {
-        try {
-            tests = dataLoaderInterface.loadListTests("", "", "http://tester.handh.ru");
-            initTestListAdapter();
-            Log.d("test", "the size is " + tests.size());
-        } catch (Exception e) {
-            Log.d("test", e.getMessage());
-        }
+    public TestListAdapter(List<Test> tests) {
+        this.tests = tests;
     }
 
-    @AfterInject
-    void initTestListAdapter() {
+    //@Bean(RealDataLoader.class)
+    //DataLoaderInterface dataLoaderInterface;
+
+    //@RootContext
+    //Context context;
+
+
+
+    //@AfterInject
+    //void initTestListAdapter() {
         //tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
         //tests = realDataLoader.loadListTests("","",prc.serverURL);
-    }
+    //}
     //TestListAdapter(Context ctx){
         //ctx = context;
         //objects = prc.rdl.loadListTests("","",prc.serverURL);
@@ -55,23 +53,23 @@ public class TestListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TestListElement testListElement;
-        if (convertView == null) {
-            testListElement = TestListElement_.build(context);
-        } else {
-            testListElement = (TestListElement) convertView;
-        }
+        //TestListElement testListElement;
+        //if (convertView == null) {
+        //    testListElement = TestListElement_.build(context);
+        //} else {
+        //    testListElement = (TestListElement) convertView;
+        //}
 
 
-        testListElement.bind(getItem(position));
+        //testListElement.bind(getItem(position));
 
-        return testListElement;
-        /*View view = convertView;
+        //return testListElement;
+        View view = convertView;
         if (view == null) {
             view = lInflater.inflate(R.layout.small_test_card, parent, false);
         }
 
-        Test p = objects.get(position);
+        Test p = tests.get(position);
         if (p.time==0){
             ((TextView) view.findViewById(R.id.test_time)).setText("Время не ограничено");
         }
@@ -81,7 +79,7 @@ public class TestListAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.test_qcount)).setText("Вопросов: "+p.questions_count);
         ((TextView) view.findViewById(R.id.test_name)).setText(p.name);
         ((TextView) view.findViewById(R.id.test_descr)).setText(p.description);
-        return view;*/
+        return view;
     }
 
     @Override

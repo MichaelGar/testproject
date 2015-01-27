@@ -30,15 +30,15 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_test_list)
 public class TestList extends Activity implements TestListInterface {
     private ArrayList<Test> tests;
-    //TestListAdapter testListAdapter;
+    TestListAdapter adapter;
     ProgressBar progressBar;
     AlertDialog.Builder ad;
     ProcessTest prc;
 
     @ViewById ListView lvMain;
 
-    @Bean
-    TestListAdapter adapter;
+    //@Bean
+    //TestListAdapter adapter;
 
     @AfterViews
     void bindAdapter() {
@@ -58,7 +58,6 @@ public class TestList extends Activity implements TestListInterface {
     }
     @UiThread
     void initAdapter() {
-
         adapter = new TestListAdapter(tests);
         //tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
         //tests = realDataLoader.loadListTests("","",prc.serverURL);
