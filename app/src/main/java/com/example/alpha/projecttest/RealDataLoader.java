@@ -1,6 +1,7 @@
 package com.example.alpha.projecttest;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import com.example.alpha.projecttest.models.Answer;
@@ -22,18 +23,33 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 @EBean
 public class RealDataLoader implements DataLoaderInterface {
     private String JSONListTests;
+    private String serverURL = "http://tester.handh.ru";
 
-    public ArrayList<Test> loadListTests(String user, String password, String serverURL){
+
+    /*Handler h = new Handler(){
+        public void handleMessage(android.os.Message msg) {
+            //Log.d("TAG", ""+msg.what);
+            if (msg.what == -111){
+                hndlrbtn.setEnabled(true);
+            }
+            else {
+                tv.setText(""+msg.what);
+            }
+        };
+    };*/
+
+    public ArrayList<Test> loadListTests(){
         ArrayList<Test> listTests = new ArrayList<>();
         while (listTests.size() == 0) {
             try {
                 JSONListTests = getdata(serverURL + "/api/v1/test/?format=json");
                 listTests = new ArrayList<>();
-                try {
+               try {
                     JSONObject json = new JSONObject(JSONListTests);
                     JSONArray jsonList = json.getJSONArray("objects");
                     for (int i = 0; i < jsonList.length(); i++) {
@@ -61,7 +77,7 @@ public class RealDataLoader implements DataLoaderInterface {
                     e.printStackTrace();
                 }
             } catch (Exception e){
-                Log.d("MyLogs", "dd");
+                Log.d("MyLogs", "Ne poluchilos zabrat");
             }
         }
         return listTests;
@@ -158,6 +174,25 @@ public class RealDataLoader implements DataLoaderInterface {
     }
 
 
+    /*public void hndlrtap(){
+
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i <= 999; i++) {
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(1);
+                        h.sendEmptyMessage(i);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                h.sendEmptyMessage(-111);
+            }
+        });
+        th.start();
+    }*/
+
     private String getdata(String par){
         String str = "";
         try {
@@ -171,7 +206,6 @@ public class RealDataLoader implements DataLoaderInterface {
 //получаем ответ от сервера
         } catch (IOException e) {
             e.printStackTrace();
-
         }
 
         return str;

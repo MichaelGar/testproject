@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EBean;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+@EBean
 public class ProcessTest implements ProcessTestInterface {
     private static final int MILLIS_PER_SECOND = 1000;
     private static final double bronze = 0.6, silver = 0.8, gold = 90;
@@ -42,7 +42,7 @@ public class ProcessTest implements ProcessTestInterface {
                 public void run() {
                     if (listTestsHeader == null) {
                         //загрузка
-                        listTestsHeader = rdl.loadListTests("","",serverURL);
+                        listTestsHeader = rdl.loadListTests();
                     }
                     testList.runOnUiThread(new Runnable() {
                         @Override

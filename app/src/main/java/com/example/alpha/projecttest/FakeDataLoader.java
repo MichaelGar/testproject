@@ -18,7 +18,7 @@ import java.util.ArrayList;
 @EBean
 public class FakeDataLoader implements DataLoaderInterface {
 
-    public ArrayList<Test> loadListTests(String user, String password,String serverURL){
+    public ArrayList<Test> loadListTests(){
        /* try { //типа грузит 10 секунд
             Thread.sleep(3000,1);
         } catch (InterruptedException e) {

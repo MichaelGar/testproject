@@ -17,33 +17,34 @@ import org.androidannotations.annotations.RootContext;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@EBean
 public class TestListAdapter extends BaseAdapter {
     //List<Test> tests;
     //ProcessTest prc;
     //private Context ctx;
-    private LayoutInflater lInflater;
+    //private LayoutInflater lInflater;
 
     List<Test> tests;
 
 
-    public TestListAdapter(List<Test> tests) {
-        this.tests = tests;
-    }
-
-    //@Bean(RealDataLoader.class)
-    //DataLoaderInterface dataLoaderInterface;
-
-    //@RootContext
-    //Context context;
-
-
-
-    //@AfterInject
-    //void initTestListAdapter() {
-        //tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
-        //tests = realDataLoader.loadListTests("","",prc.serverURL);
+    //public TestListAdapter() {
+    //    this.tests = tests;
     //}
+
+    @Bean(ProcessTest.class)
+    ProcessTest
+            processTestInterface;
+
+    @RootContext
+    Context context;
+
+
+
+    @AfterInject
+    void initAdapter() {
+        //tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
+        tests = processTestInterface.rdl.loadListTests();
+    }
     //TestListAdapter(Context ctx){
         //ctx = context;
         //objects = prc.rdl.loadListTests("","",prc.serverURL);
@@ -53,17 +54,18 @@ public class TestListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //TestListElement testListElement;
-        //if (convertView == null) {
-        //    testListElement = TestListElement_.build(context);
-        //} else {
-        //    testListElement = (TestListElement) convertView;
-        //}
+        TestListElement testListElement;
+        if (convertView == null) {
+            testListElement = TestListElement_.build(context);
+        } else {
+            testListElement = (TestListElement) convertView;
+        }
 
 
-        //testListElement.bind(getItem(position));
+        testListElement.bind(getItem(position));
 
-        //return testListElement;
+        return testListElement;
+        /*
         View view = convertView;
         if (view == null) {
             view = lInflater.inflate(R.layout.small_test_card, parent, false);
@@ -79,7 +81,7 @@ public class TestListAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.test_qcount)).setText("Вопросов: "+p.questions_count);
         ((TextView) view.findViewById(R.id.test_name)).setText(p.name);
         ((TextView) view.findViewById(R.id.test_descr)).setText(p.description);
-        return view;
+        return view;*/
     }
 
     @Override

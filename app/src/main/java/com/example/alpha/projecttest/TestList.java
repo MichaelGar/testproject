@@ -30,38 +30,38 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_test_list)
 public class TestList extends Activity implements TestListInterface {
     private ArrayList<Test> tests;
-    TestListAdapter adapter;
+    //TestListAdapter adapter;
     ProgressBar progressBar;
     AlertDialog.Builder ad;
     ProcessTest prc;
 
     @ViewById ListView lvMain;
 
-    //@Bean
-    //TestListAdapter adapter;
+    @Bean
+    TestListAdapter adapter;
 
     @AfterViews
     void bindAdapter() {
-        searchTests();
         //testListAdapter = new TestListAdapter(this);
         lvMain.setAdapter(adapter);
     }
-    @Background
+    /*@Background
     void searchTests() {
         try {
-            tests = prc.rdl.loadListTests("", "", "http://tester.handh.ru");
+            tests = prc.rdl.loadListTests();
             initAdapter();
-            Log.d("test", "the size is " + tests.size());
+            Log.d("MyLogs", "the size is " + tests.size());
         } catch (Exception e) {
-            Log.d("test", e.getMessage());
+            Log.d("MyLogs", e.getMessage());
         }
     }
     @UiThread
     void initAdapter() {
         adapter = new TestListAdapter(tests);
+        //lvMain.setAdapter(adapter);
         //tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
         //tests = realDataLoader.loadListTests("","",prc.serverURL);
-    }
+    }*/
 
     @ItemClick
     void lvMainItemClicked(Test selectedTest) {
