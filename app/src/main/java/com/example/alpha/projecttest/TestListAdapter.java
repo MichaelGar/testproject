@@ -31,9 +31,8 @@ public class TestListAdapter extends BaseAdapter {
     //    this.tests = tests;
     //}
 
-    @Bean(ProcessTest.class)
-    ProcessTest
-            processTestInterface;
+    @Bean(RealDataLoader.class)
+    DataLoaderInterface dataLoaderInterface;
 
     @RootContext
     Context context;
@@ -43,7 +42,7 @@ public class TestListAdapter extends BaseAdapter {
     @AfterInject
     void initAdapter() {
         //tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
-        tests = processTestInterface.rdl.loadListTests();
+        tests = dataLoaderInterface.loadListTests();
     }
     //TestListAdapter(Context ctx){
         //ctx = context;

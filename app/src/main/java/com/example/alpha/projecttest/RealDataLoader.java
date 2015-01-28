@@ -10,6 +10,7 @@ import com.example.alpha.projecttest.models.Test;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.UiThread;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -47,7 +48,8 @@ public class RealDataLoader implements DataLoaderInterface {
         ArrayList<Test> listTests = new ArrayList<>();
         while (listTests.size() == 0) {
             try {
-                JSONListTests = getdata(serverURL + "/api/v1/test/?format=json");
+                getData1(serverURL + "/api/v1/test/?format=json");
+                //JSONListTests = getdata(serverURL + "/api/v1/test/?format=json");
                 listTests = new ArrayList<>();
                try {
                     JSONObject json = new JSONObject(JSONListTests);
@@ -92,7 +94,9 @@ public class RealDataLoader implements DataLoaderInterface {
             fromdb = true;
         }else {
             String par = serverURL + "/api/v1/question/?format=json&test__id=" + String.valueOf(id);
-            questionJSON = getdata(par);
+            getData1(par);
+            questionJSON = JSONListTests;
+            //questionJSON = getdata(par);
             fromdb = false;
         }
         return CreateTest(id,date, questionJSON, fromdb, context);
@@ -126,7 +130,9 @@ public class RealDataLoader implements DataLoaderInterface {
                     answersQ = db.getAnswersFromBD(idQ);
                 } else {
                     if (goodAnswer) {
-                        answersQ = getdata("http://tester.handh.ru/api/v1/answer/?format=json&question__id=" + String.valueOf(idQ));
+                        getData1("http://tester.handh.ru/api/v1/answer/?format=json&question__id=" + String.valueOf(idQ));
+                        answersQ = JSONListTests;
+                        //answersQ = getdata("http://tester.handh.ru/api/v1/answer/?format=json&question__id=" + String.valueOf(idQ));
                         if (answersQ.indexOf("objects") > -1) {
                             db.setAnswerInBD(idQ, answersQ);
                         } else {
@@ -193,10 +199,32 @@ public class RealDataLoader implements DataLoaderInterface {
         th.start();
     }*/
 
-    private String getdata(String par){
+    @Background(serial = "test")
+    void getData1(String par) {
         String str = "";
         try {
+            HttpClient hc = new DefaultHttpClient();
+            ResponseHandler<String> res = new BasicResponseHandler();
+            HttpGet http = new HttpGet(par);
+            HttpResponse response = hc.execute(http);
+            HttpEntity entity = response.getEntity();
+            str = EntityUtils.toString(entity, "UTF-8");
+//получаем ответ от сервера
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        getData2(str);
+    }
 
+    @UiThread
+    void getData2(String str) {
+        JSONListTests = str;
+        Log.d("MyLOG", "PFITKKKKKKKK");
+    }
+
+    /*private String getdata(String par){
+        String str = "";
+        try {
             HttpClient hc = new DefaultHttpClient();
             ResponseHandler<String> res = new BasicResponseHandler();
             HttpGet http = new HttpGet(par);
@@ -209,5 +237,5 @@ public class RealDataLoader implements DataLoaderInterface {
         }
 
         return str;
-    }
+    }*/
 }
