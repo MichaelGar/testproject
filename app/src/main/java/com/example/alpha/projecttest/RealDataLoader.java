@@ -31,6 +31,27 @@ public class RealDataLoader implements DataLoaderInterface {
     private String JSONListTests;
     private String serverURL = "http://tester.handh.ru";
 
+    @Background(serial = "test")
+    void getData1(String par) {
+        String str = "";
+        try {
+            HttpClient hc = new DefaultHttpClient();
+            ResponseHandler<String> res = new BasicResponseHandler();
+            HttpGet http = new HttpGet(par);
+            HttpResponse response = hc.execute(http);
+            HttpEntity entity = response.getEntity();
+            JSONListTests = EntityUtils.toString(entity, "UTF-8");
+//получаем ответ от сервера
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        getData2();
+    }
+
+    @UiThread
+    void getData2() {
+        Log.d("MyLOG", ""+JSONListTests);
+    }
 
     /*Handler h = new Handler(){
         public void handleMessage(android.os.Message msg) {
@@ -198,29 +219,6 @@ public class RealDataLoader implements DataLoaderInterface {
         });
         th.start();
     }*/
-
-    @Background(serial = "test")
-    void getData1(String par) {
-        String str = "";
-        try {
-            HttpClient hc = new DefaultHttpClient();
-            ResponseHandler<String> res = new BasicResponseHandler();
-            HttpGet http = new HttpGet(par);
-            HttpResponse response = hc.execute(http);
-            HttpEntity entity = response.getEntity();
-            str = EntityUtils.toString(entity, "UTF-8");
-//получаем ответ от сервера
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        getData2(str);
-    }
-
-    @UiThread
-    void getData2(String str) {
-        JSONListTests = str;
-        Log.d("MyLOG", "PFITKKKKKKKK");
-    }
 
     /*private String getdata(String par){
         String str = "";
