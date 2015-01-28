@@ -97,7 +97,6 @@ public class QuestionActivity extends Activity implements QuestionActivityInterf
         }
         QuView.setText(question.textQuestion);
         ArrayList<String> answersText = prc.getAnswers(question);
-        //TODO: допилить адаптер
         if (question.qtype == 0){
             lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.answer_list_element, answersText);
@@ -105,7 +104,6 @@ public class QuestionActivity extends Activity implements QuestionActivityInterf
         }
         else {
             lvAnswer.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            //AnswerListAdapter adapter = new AnswerListAdapter(this,answersText);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.answer_list_element, answersText);
             lvAnswer.setAdapter(adapter);
         }

@@ -30,7 +30,6 @@ import java.util.ArrayList;
 @EActivity(R.layout.activity_test_list)
 public class TestList extends Activity implements TestListInterface {
     private ArrayList<Test> tests;
-    //TestListAdapter adapter;
     ProgressBar progressBar;
     AlertDialog.Builder ad;
     ProcessTest prc;
@@ -42,26 +41,8 @@ public class TestList extends Activity implements TestListInterface {
 
     @AfterViews
     void bindAdapter() {
-        //testListAdapter = new TestListAdapter(this);
         lvMain.setAdapter(adapter);
     }
-    /*@Background
-    void searchTests() {
-        try {
-            tests = prc.rdl.loadListTests();
-            initAdapter();
-            Log.d("MyLogs", "the size is " + tests.size());
-        } catch (Exception e) {
-            Log.d("MyLogs", e.getMessage());
-        }
-    }
-    @UiThread
-    void initAdapter() {
-        adapter = new TestListAdapter(tests);
-        //lvMain.setAdapter(adapter);
-        //tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
-        //tests = realDataLoader.loadListTests("","",prc.serverURL);
-    }*/
 
     @ItemClick
     void lvMainItemClicked(Test selectedTest) {
@@ -77,8 +58,6 @@ public class TestList extends Activity implements TestListInterface {
             public void onClick(DialogInterface dialog, int arg1) {
                 prc.position = position;
                 QuestionActivity_.intent(TestList.this).start();
-                //Intent intent2 = new Intent(TestList.this, QuestionActivity.class);
-                //startActivity(intent2);
                 finish();
             }
         });
@@ -102,17 +81,8 @@ public class TestList extends Activity implements TestListInterface {
         prc.getListTests(this);// сделали запрос на список тестов
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        /*lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                onSelected(position);
-            }
-        });*/
     }
-    public void setListTests(ArrayList<Test> testsX){//сюда вернулся список тестов
-        //tests = testsX;
-            //testListAdapter = new TestListAdapter(this, tests);
-            //lvMain.setAdapter(testListAdapter);
+    public void setListTests(ArrayList<Test> testsX){
             progressBar.setVisibility(View.INVISIBLE);
     }
 

@@ -11,6 +11,7 @@ import com.example.alpha.projecttest.models.Test;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.UiThread;
+import org.androidannotations.api.BackgroundExecutor;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -31,7 +32,7 @@ public class RealDataLoader implements DataLoaderInterface {
     private String JSONListTests;
     private String serverURL = "http://tester.handh.ru";
 
-    @Background(serial = "test")
+    @Background(id="cancellable_task")
     void getData1(String par) {
         String str = "";
         try {
@@ -45,13 +46,13 @@ public class RealDataLoader implements DataLoaderInterface {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        getData2();
+        //getData2();
     }
 
-    @UiThread
-    void getData2() {
-        Log.d("MyLOG", ""+JSONListTests);
-    }
+    //@UiThread
+    //void getData2() {
+    //    Log.d("MyLOG", ""+JSONListTests);
+    //}
 
     /*Handler h = new Handler(){
         public void handleMessage(android.os.Message msg) {
@@ -75,6 +76,7 @@ public class RealDataLoader implements DataLoaderInterface {
                try {
                     JSONObject json = new JSONObject(JSONListTests);
                     JSONArray jsonList = json.getJSONArray("objects");
+                    BackgroundExecutor.cancelAll("cancellable_task", true);
                     for (int i = 0; i < jsonList.length(); i++) {
                     JSONObject oneTest = jsonList.getJSONObject(i);
                     String nameX = oneTest.getString("name");
@@ -103,6 +105,7 @@ public class RealDataLoader implements DataLoaderInterface {
                 Log.d("MyLogs", "Ne poluchilos zabrat");
             }
         }
+
         return listTests;
     }
 

@@ -19,17 +19,7 @@ import java.util.List;
 
 @EBean
 public class TestListAdapter extends BaseAdapter {
-    //List<Test> tests;
-    //ProcessTest prc;
-    //private Context ctx;
-    //private LayoutInflater lInflater;
-
     List<Test> tests;
-
-
-    //public TestListAdapter() {
-    //    this.tests = tests;
-    //}
 
     @Bean(RealDataLoader.class)
     DataLoaderInterface dataLoaderInterface;
@@ -37,19 +27,10 @@ public class TestListAdapter extends BaseAdapter {
     @RootContext
     Context context;
 
-
-
     @AfterInject
     void initAdapter() {
-        //tests = dataLoaderInterface.loadListTests("","","http://tester.handh.ru");
         tests = dataLoaderInterface.loadListTests();
     }
-    //TestListAdapter(Context ctx){
-        //ctx = context;
-        //objects = prc.rdl.loadListTests("","",prc.serverURL);
-        //lInflater = (LayoutInflater) ctx
-                //.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    //}
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -60,27 +41,9 @@ public class TestListAdapter extends BaseAdapter {
             testListElement = (TestListElement) convertView;
         }
 
-
         testListElement.bind(getItem(position));
-
         return testListElement;
-        /*
-        View view = convertView;
-        if (view == null) {
-            view = lInflater.inflate(R.layout.small_test_card, parent, false);
-        }
 
-        Test p = tests.get(position);
-        if (p.time==0){
-            ((TextView) view.findViewById(R.id.test_time)).setText("Время не ограничено");
-        }
-        else {
-            ((TextView) view.findViewById(R.id.test_time)).setText(p.time + " мин.");
-        }
-        ((TextView) view.findViewById(R.id.test_qcount)).setText("Вопросов: "+p.questions_count);
-        ((TextView) view.findViewById(R.id.test_name)).setText(p.name);
-        ((TextView) view.findViewById(R.id.test_descr)).setText(p.description);
-        return view;*/
     }
 
     @Override
