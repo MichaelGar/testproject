@@ -20,15 +20,18 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 @EActivity
 public class QuestionActivity extends Activity implements QuestionActivityInterface {
-    TextView QuView, tvtime, tvopis, maxView, idnView;
-    Button answer;
-    ListView lvAnswer;
-    ImageView qimage;
+    @ViewById TextView questiontextView, maxView, idnView, timecounttext, tvOpistime;
+    @ViewById Button otvet_button;
+    @ViewById ListView lvAnswer;
+    @ViewById ImageView imageView2;
+
     AlertDialog.Builder ad;
     ProcessTest prc;
 
@@ -36,38 +39,23 @@ public class QuestionActivity extends Activity implements QuestionActivityInterf
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        QuView = (TextView) findViewById(R.id.questiontextView);
-        maxView=(TextView)findViewById(R.id.maxView);
-        idnView=(TextView)findViewById(R.id.idnView);
-        lvAnswer = (ListView) findViewById(R.id.lvAnswer);
-        tvtime = (TextView) findViewById(R.id.timecounttext);
-        tvopis = (TextView) findViewById(R.id.tvOpistime);
-        qimage = (ImageView) findViewById(R.id.imageView2);
-        //rez = 0;
 
         MyApp app = ((MyApp) getApplicationContext());
         prc = app.prc;
         prc.getQuestion(this);
+    }
 
-        answer=(Button) findViewById(R.id.otvet_button);
-        QuView = (TextView) findViewById(R.id.questiontextView);
-
-
-        answer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prc.setAnswer(lvAnswer.getCheckedItemPositions());
-            }
-        });
-
+    @Click
+    void otvet_button() {
+        prc.setAnswer(lvAnswer.getCheckedItemPositions());
     }
 
     public void showTimer(boolean mode, long min, long sec) {
         if (mode==true) {
-            tvtime.setText("" + min + " мин. " + sec + " сек.");
+            timecounttext.setText("" + min + " мин. " + sec + " сек.");
         }
         else{
-            tvopis.setText("Время неограничено");
+            tvOpistime.setText("Время неограничено");
         }
     }
 
@@ -77,13 +65,12 @@ public class QuestionActivity extends Activity implements QuestionActivityInterf
     }
 
     public void goResult() {
-        Intent intent3 = new Intent(QuestionActivity.this, ResultActivity.class);
-        startActivity(intent3);
+        ResultActivity_.intent(this).start();
         finish();
     }
 
     public void showQuestion(Question question, int count, int max, String imagelink){
-        qimage.setImageBitmap(null);
+        imageView2.setImageBitmap(null);
         if (imagelink != "null") {
             ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
             ImageLoader il = ImageLoader.getInstance();
@@ -93,9 +80,9 @@ public class QuestionActivity extends Activity implements QuestionActivityInterf
                     .resetViewBeforeLoading(true)
                     .cacheOnDisk(true)
                     .build();
-            il.displayImage(imagelink, qimage, options);
+            il.displayImage(imagelink, imageView2, options);
         }
-        QuView.setText(question.textQuestion);
+        questiontextView.setText(question.textQuestion);
         ArrayList<String> answersText = prc.getAnswers(question);
         if (question.qtype == 0){
             lvAnswer.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -110,6 +97,7 @@ public class QuestionActivity extends Activity implements QuestionActivityInterf
         maxView.setText("" + max);
         idnView.setText("" + count);
     }
+
     @Override
     public void onBackPressed(){
         String title = prc.test.name;
